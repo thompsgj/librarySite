@@ -1,0 +1,8 @@
+node_modules
+*~
+.DS_Store
+credentials.js
+data
+helloworld.js
+process
+DB Schematics
