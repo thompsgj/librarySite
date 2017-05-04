@@ -1,0 +1,100 @@
+npm init
+• Makes the package.json project management document
+
+
+npm install --save express
+• Install express packages
+• --save tag updates the package.json
+
+
+create book.js
+- require express
+- start server
+- print console message
+• Set up the main file to start the server
+• Ensure the server can handle errors
+
+
+Update package.json with book.js (or main file name)
+• Ensures that the files are tied together
+
+
+Templating Setup
+- npm install --save express3-handlebars
+- edit book.js with handlebars require statement
+• Reduces the amount of repetitive code to write
+• Makes maintenance easier
+
+
+Create Default Template + Views
+- create views/layouts directories
+- create main.handlebars view (default view)
+- create individual page views (these go into the main view)
+- add error handling views
+
+Begin adding routes for pages
+• Route pages as appropriate
+• Add page error handling + views
+
+
+Database
+- navigate to MongoDB folder (c:\Program Files\MongoDB\Server\3.2\bin)
+- run MongoDB project install (mongod --dbpath c:\...) (to the data folder in the actual project)
+- open a second terminal and type mongo in the MongoDB folder (.../bin)
+- create database (> use bookdb)
+- add in MongoDB, Monk, and database requirements
+- add in route for db above all other routes
+- add test entry for collection (insert.usercollection...)
+- apply functions for adding/reading database
+
+
+/* Things to Add */
+- background on all pages (persistent) (https://i.ytimg.com/vi/EizSoy7Ztto/maxresdefault.jpg)DONE
+- stylize menu for readabilityDONE
+- put map on right side
+- erase database and enter in new items with correct json formatDONE
+- make side bar slightly opaqueDONE
+- instead of spicy, oily, creamy, salty- put on menu items or types of ramenDONE
+- add any area
+- redesign front page to be more modern
+   * little box in the middle of the page
+   * cute images of ramen/chopsticks around it
+
+//non-programmer interactive
+- add database entry page
+- add database removal page
+- add signin/signoff page/functionality
+
+/* End Things to Add */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RESOURCES
+http://www.slideshare.net/huseyinbabal/complete-mvc-on-node-js-27877254
+
+CODE NEEDED TO LOOK UP
+function url2div(url, element) {
+alert("2");
+    var iframe = document.createElement('iframe');
+    iframe.setAttribute('src', url);
+    element.appendChild(iframe);
+ alert("3");
+}
+
+http://stackoverflow.com/questions/24825563/javascript-target-div-in-a-href
+
+
+CSS Resources
+https://css-tricks.com/perfect-full-page-background-image/

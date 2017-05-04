@@ -1,0 +1,37 @@
+DB Schematics
+
+bookcollection schema
+{
+	"id": _____
+	"title": "title.bk",
+	"author": "author.bk",
+	"level": [
+		{"level": "level.bk", "type": "old"},
+		{"level": "level.bk", "type": "new"}
+	],
+	"genre": "genre.bk",
+	"headwords": 4444,
+	"stockTotal": stock.bk,
+	"stockAvailable": availStock.bk,
+	"timesCheckedOut": "checkouts.bk
+}
+
+usercollection scheme
+{
+	"name": "studentName",
+	"idnumber": "studentID",
+	"phone": "cellPhoneNumber",
+	"email": "studentEmail",
+	"currentCheckouts": "numberOfCurrentBooksOnLoan",
+	"totalCheckouts": "lifetimeOfBookCheckouts"
+}
+
+checkoutcollection scheme
+{
+	"name":"studentName",
+	"titles": [
+		"bookTitle",
+		"bookTitle",
+		"as necessary....."
+	]
+}

@@ -1,0 +1,41 @@
+<h1>Checkout</h1>
+
+
+<h3>Checkout a Book</h3>
+<form class="form-horizontal" role="form" action="/process-chk?form=checkout" method="POST">
+	<input type="hidden" name="_csrf">
+	{{!Student number}}
+	<div class="form-group">
+		<label>Student number</label>
+		<div>
+			<input type="text" class="form-control" required id="idNumber" name="id">
+		</div>
+	</div>
+	{{!Book code}}
+	<div class="form-group">
+		<label>Book Code</label>
+		<div>
+			<input type="text" class="form-control" required id="bookCode" name="code">
+		</div>
+	</div>
+	{{!Submit}}
+	<div class="form-group">
+		<div>
+			<button type="submit">Submit</button>
+		</div>
+	</div>
+</form>
+
+
+<h3>Return a book</h3>
+
+
+<h3>View List of Current Checkouts</h3>
+{{#each chklist}}
+	<div class="checkouts">
+		<ul>
+			<li><span class="label">Student:</span> {{student}}</li>
+			<li><span class="label">Code:</span> {{code}}</li>
+		</ul>
+	</div>
+{{/each}}

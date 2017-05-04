@@ -1,0 +1,72 @@
+{{#section 'css'}}
+	<style>
+		.book {
+
+		}
+		.label {
+			font-weight: bold;
+		}
+		ul {
+			list-style: none;
+		}
+	</style>
+{{/section}}
+
+
+
+<h1>Inventory</h1>
+
+<form class="form-horizontal" role="form" action="/process-inv?form=inventory" method="POST">
+	<input type="hidden" name="_csrf">
+		{{! Book Title }}
+		<div class="form-group">
+			<label for="fieldTitle" class="control-label">Book Title</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldTitle" name="title">
+			</div>
+		</div>
+		{{! Author }}
+		<div class="form-group">
+			<label for="fieldAuthor" class="control-label">Author</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldAuthor" name="author">
+			</div>
+		</div>
+		{{! Code }}
+		<div class="form-group">
+			<label for="fieldCode" class="control-label">Book Code</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldCode" name="code">
+			</div>
+		</div>
+		{{! Genre }}
+		<div class="form-group">
+			<label for="fieldGenre" class="control-label">Genre</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldGenre" name="genre">
+			</div>
+		</div>
+		{{! Submission Button }}
+		<div class="form-group">
+			<div>
+				<button type="submit">Register</button>
+			</div>
+		</div>
+</form>
+
+
+
+<div id="inventoryList">
+<p>List of Books</p>
+
+{{#each invlist}}
+	<div class="book">
+		<ul>
+			<li><span class="label">Title:</span> {{title}}</li>
+			<li><span class="label">Author:</span> {{author}}</li>
+			<li><span class="label">Code:</span> {{code}}</li>
+			<li><span class="label">Genre:</span> {{genre}}</li>
+		</ul>
+	</div>
+{{/each}}
+</div>

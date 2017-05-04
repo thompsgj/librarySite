@@ -1,0 +1,66 @@
+{{#section 'css'}}
+	<style>
+		ul {
+			list-style: none;
+		}
+		.label {
+			font-weight: bold;
+		}
+	</style>
+{{/section}}
+
+<h1>Users</h1>
+
+<form class="form-horizontal" role="form" action="/process-user?form=users" method="POST">
+	<input type="hidden" name="_csrf" value="{{csrf}}">
+		{{! Name Entry }}
+		<div class="form-group">
+			<label for="fieldName" class="control-label">Name</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldName" name="name">
+			</div>
+		</div>
+		{{! ID Entry }}
+		<div class="form-group">
+			<label for="fieldID" class="control-label">Student ID</label>
+			<div>
+				<input type="id" class="form-control" required id="fieldID" name="id">
+			</div>
+		</div>
+		{{! E-mail Entry }}
+		<div class="form-group">
+			<label for="fieldEmail" class="control-label">Email</label>
+			<div>
+				<input type="email" class="form-control" required id="fieldEmail" name="email">
+			</div>
+		</div>
+		{{! Phone Entry }}
+		<div class="form-group">
+			<label for="fieldPhone" class="control-label">Phone Number</label>
+			<div>
+				<input type="phone" class="form-control" required id="fieldPhone" name="phone">
+			</div>
+		</div>
+		{{! Submission Button }}
+		<div class="form-group">
+			<div>
+				<button type="submit">Register</button>
+			</div>
+		</div>
+</form>
+
+
+
+<br><br><br><br>
+
+{{#each userlist}}
+	<div class="users">
+		<ul>
+			<li><span class="label">Name:</span> {{name}}</li>
+			<li><span class="label">Id Number:</span> {{idnumber}}</li>
+			<li><span class="label">Phone:</span> {{phone}}</li>
+			<li><span class="label">Email:</span> {{email}}</li>
+		</ul>
+
+	</div>
+{{/each}}
