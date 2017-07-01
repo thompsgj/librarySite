@@ -110,20 +110,37 @@ app.post('/process-inv', function(req,res) {
 	var db = req.db;
 
 	//Instantiate variables for DB keys
-	var bookTitle = req.body.title;
-	var bookAuthor = req.body.author;
-	var bookCode = req.body.code;
-	var bookGenre = req.body.genre;
+	var bkTitle = req.body.title;
+	var bkAuthor = req.body.author;
+	var bkPublisher = req.body.pub;
+	var bkSeries = req.body.pubSeries;
+	var bkHeadwords = req.body.head;
+	var bkType = req.body.type;
+	var bkGenre = req.body.genre;
+	var bkCD = req.body.cd;
+	var bkNumber = req.body.number; //convert to multiple numbers
+		var bkNumArr = [];
+		bkNumArr = bkNumber.split(',').map(Number);
+	var bkISBN = req.body.isbn; //Convert to multiple numbers
+		var bkISBNArr = [];
+		bkISBNArr = bkISBN.split(',').map(Number);
+	var ILERLevel = req.body.level;
+	var oldLevel = req.body.old;
+	var totalBks = req.body.total;
 
 	//Set Collection
 	var collection = db.get('bookcollection');
 
 	//
 	collection.insert({
-		"title" : bookTitle,
-		"author" : bookAuthor,
-		"code" : bookCode,
-		"genre" : bookGenre,
+		"title" : bkTitle,
+		"author" : bkAuthor,
+		"publisher" : bkPublisher,
+		"series" : bkSeries,
+		"level": {"ILER": ILERLevel, "Former": oldLevel},
+		"numbers": {"book":bkNumArr, "ISBN":bkISBNArr},
+		"attributes": {"headwords":bkHeadwords, "type":bkType, "genre":bkGenre, "CD": bkCD},
+		"availability": {"total": totalBks, "checkouts":0},
 	}, function (err, doc) {
 		if (err) {
 			res.send("There was a problem adding the information to the database.")
@@ -135,10 +152,19 @@ app.post('/process-inv', function(req,res) {
 
 app.get('/checkouts', function(req,res) {
 	var db = req.db;
-	var collection = db.get('checkoutcollection');
-	collection.find({},{},function(e,docs) {
+	var collection = db.get('bookcollection');
+	collection.find({title:{$exists:true}},{fields:{_id:0,url:0, author:0,publisher:0,series:0,level:0,numbers:0, attributes:0,availability:0}}, function(e,docs) {
+		//Convert JSON to Array
+		arr = []
+		for(i = 0; i < docs.length; i++) {
+			arr.push(docs[i]["title"]);
+		}
 		res.render('checkouts', {
-			"chklist" : docs
+			//Send JSON for HTML Rendering
+			"bklist" : docs,
+			//Send Array for Javascript Variables
+			"bkarr" : arr
+			//encodedJson : encodeURIComponent(JSON.stringify(docs))
 		});
 	});
 });

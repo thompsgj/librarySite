@@ -1,20 +1,35 @@
-DB Schematics
+Test Query
+db.bookcollection.insert({"title": "Dune", "author": "Frank Herbert", "publisher": "Tor", "series": "Dune Series", "level": {"ILER":8,"Former":"A"},"numbers": [{"copy": 1, "book": 14,"ISBN": 123345678},{"copy": 2, "book": 2,"ISBN": 123345678}], "attributes": {"headwords": 2000, "type": "Non-graded", "genre":"Sci-Fi", "CD": "No",},"availability": {"total":7,"checkouts":0}})
 
-bookcollection schema
+DB Schematics
+book collection schema
 {
-	"id": _____
-	"title": "title.bk",
-	"author": "author.bk",
-	"level": [
-		{"level": "level.bk", "type": "old"},
-		{"level": "level.bk", "type": "new"}
+	"title": "string",
+	"author": "string",
+	"publisher": "string",
+	"series": "string",
+	"level": {
+		"ILER":int,
+		"Former":int
+	},
+	"numbers": [
+		{"copy": int, book": int,"ISBN": int},
+		{"copy": int, book": int,"ISBN": int},
+		{"copy": int, book": int,"ISBN": int},
+		{"copy": int, book": int,"ISBN": int},
 	],
-	"genre": "genre.bk",
-	"headwords": 4444,
-	"stockTotal": stock.bk,
-	"stockAvailable": availStock.bk,
-	"timesCheckedOut": "checkouts.bk
+	"attributes": {
+		"headwords": int,
+		"type": "string",
+		"genre":"string",
+		"CD": "string",
+	},
+	"availability": {
+		"total":int,
+		"checkouts":int
+	}
 }
+
 
 usercollection scheme
 {
@@ -34,4 +49,55 @@ checkoutcollection scheme
 		"bookTitle",
 		"as necessary....."
 	]
+}
+
+
+
+////////////////////OLD
+
+Design 2
+test query
+db.bookcollection.insert({"title": "Dune", "author": "Frank Herbert", "publisher": "Tor", "series": "Dune Series", "level": {"ILER":8,"Former":"A"},"numbers": {"book": 14,"ISBN": 123345678}, "attributes": {"headwords": 2000, "type": "Non-graded", "genre":"Sci-Fi", "CD": "No",},"availability": {"total":7,"checkouts":0}})
+
+book collection schema
+{
+	"title": "string",
+	"author": "string",
+	"publisher": "string",
+	"series": "string",
+	"level": {
+		"ILER":int,
+		"Former":int
+	},
+	"numbers": {
+		"book": int,
+		"ISBN": int
+	},
+	"attributes": {
+		"headwords": int,
+		"type": "string",
+		"genre":"string",
+		"CD": "string",
+	},
+	"availability": {
+		"total":int,
+		"checkouts":int
+	}
+}
+
+Design 1
+bookcollection schema
+{
+	"id": _____
+	"title": "title.bk",
+	"author": "author.bk",
+	"level": [
+		{"level": "level.bk", "type": "old"},
+		{"level": "level.bk", "type": "new"}
+	],
+	"genre": "genre.bk",
+	"headwords": 4444,
+	"stockTotal": stock.bk,
+	"stockAvailable": availStock.bk,
+	"timesCheckedOut": "checkouts.bk
 }

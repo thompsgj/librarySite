@@ -1,0 +1,39 @@
+Original
+db.companies.aggregate( [
+    { $match: { "relationships.person": { $ne: null } } },
+    { $project: { relationships: 1, _id: 0 } },
+    { $unwind: "$relationships" },
+    { $group: {
+        _id: "$relationships.person",
+        count: { $sum: 1 }
+    } },
+    { $sort: { count: -1 } }
+] )
+
+
+Remade
+db.companies.aggregate([
+    {   $match: { "relationships.person" : { "$ne" : null }}},
+    {
+	    $project: { 
+	        "relationships" : 1, 
+	        "_id" : 0, 
+	        "name" : 1
+	    }
+    },
+    {   $unwind: "$relationships"    },
+    {   $group: { 
+          	"_id" : "$relationships.person", 
+          	"name" : {  "$addToSet" : "$name" }, 
+          	"count" : { "$sum" : 1 }
+      	}
+    },
+    {   $sort: {  "count" : -1  } },
+    {   $match: { "$permalink" : "eric-di-benedetto"  } }
+]);
+
+1) match relationships.person that isn't empty
+2) isolate only relationships field
+//Problem is here-- need to only get one document for people
+3) make a new item for each relationships array item 
+4) group by relationships.person and use that for id && count them up

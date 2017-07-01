@@ -11,8 +11,27 @@
 		}
 	</style>
 {{/section}}
+* Make dropdown menus with choices FROM DATA for:
+- publisher
+- author
+- series
+- Genre
+* Make dropdown menus with built in choices for:
+- ILER Level
+- Number of copies
+- CD/No CD
+- Graded/Non-graded
+* Remove List of Books
 
+<select name ="CDAvail">
+	<option value="cd">CD</option>
+	<option value="no">No CD</optiion>
+</select>
 
+<select name="Type">
+	<option value="graded">Graded</option>
+	<option value="non-graded">Non-graded</option>
+</select>
 
 <h1>Inventory</h1>
 
@@ -20,11 +39,12 @@
 	<input type="hidden" name="_csrf">
 		{{! Book Title }}
 		<div class="form-group">
-			<label for="fieldTitle" class="control-label">Book Title</label>
+			<label for="fieldTitle" class="control-label">Title</label>
 			<div>
 				<input type="text" class="form-control" required id="fieldTitle" name="title">
 			</div>
 		</div>
+
 		{{! Author }}
 		<div class="form-group">
 			<label for="fieldAuthor" class="control-label">Author</label>
@@ -32,13 +52,41 @@
 				<input type="text" class="form-control" required id="fieldAuthor" name="author">
 			</div>
 		</div>
-		{{! Code }}
+
+		{{! Publisher }}
 		<div class="form-group">
-			<label for="fieldCode" class="control-label">Book Code</label>
+			<label for="publisher" class="control-label">Publisher</label>
 			<div>
-				<input type="text" class="form-control" required id="fieldCode" name="code">
+				<input type="text" class="form-control" required id="publisher" name="pub">
 			</div>
 		</div>
+
+		{{! Publisher Series}}
+		<div class="form-group">
+			<label for="publisherSeries" class="control-label">Publisher Series</label>
+			<div>
+				<input type="text" class="form-control" required id="publisherSeries" name="pubSeries">
+			</div>
+		</div>
+
+
+		{{! Headwords }}
+		<div class="form-group">
+			<label for="headwords" class="control-label">Headwords</label>
+			<div>
+				<input type="text" class="form-control" required id="headwords" name="head">
+			</div>
+		</div>	
+
+		{{! Graded/Non-graded }}
+		<div class="form-group">
+			<label for="bkType" class="control-label">Graded/Non-Graded</label>
+			<div>
+				<input type="text" class="form-control" required id="bkType" name="type">
+			</div>
+		</div>
+
+		
 		{{! Genre }}
 		<div class="form-group">
 			<label for="fieldGenre" class="control-label">Genre</label>
@@ -46,6 +94,55 @@
 				<input type="text" class="form-control" required id="fieldGenre" name="genre">
 			</div>
 		</div>
+
+		{{! CD/No CD }}
+		<div class="form-group">
+			<label for="CDInclude" class="control-label">CD/No CD</label>
+			<div>
+				<input type="text" class="form-control" required id="CDInclude" name="cd">
+			</div>
+		</div>
+
+		{{! Number }}
+		<div class="form-group">
+			<label for="fieldNumber" class="control-label">Book Number</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldNumber" name="number">
+			</div>
+		</div>
+
+		{{! ISBN }}
+		<div class="form-group">
+			<label for="fieldISBN" class="control-label">ISBN</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldISBN" name="isbn">
+			</div>
+		</div>
+
+		{{! LevelILER }}
+		<div class="form-group">
+			<label for="levelILER" class="control-label">ILER Level</label>
+			<div>
+				<input type="text" class="form-control" required id="levelILER" name="level">
+			</div>
+		</div>
+
+		{{! OldLevel }}
+		<div class="form-group">
+			<label for="oldLevel" class="control-label">Old Level</label>
+			<div>
+				<input type="text" class="form-control" id="oldLevel" name="old">
+			</div>
+		</div>
+
+		{{! Availability Total }}
+		<div class="form-group">
+			<label for="totalBooks" class="control-label">Number of Copies</label>
+			<div>
+				<input type="text" class="form-control" required id="totalBooks" name="total">
+			</div>
+		</div>
+
 		{{! Submission Button }}
 		<div class="form-group">
 			<div>
