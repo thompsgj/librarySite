@@ -1,0 +1,197 @@
+{{#section 'css'}}
+	<style>
+		.book {
+
+		}
+		.label {
+			font-weight: bold;
+		}
+		ul {
+			list-style: none;
+		}
+	</style>
+{{/section}}
+* Make dropdown menus with choices FROM DATA for:
+- publisher
+- author
+- series
+- Genre
+* Make dropdown menus with built in choices for:
+- ILER Level
+- Number of copies
+- CD/No CDDONE
+- Graded/Non-gradedDONE
+* Remove List of Books
+
+
+
+<h1>Inventory</h1>
+
+<form class="form-horizontal" role="form" action="/process-inv?form=inventory" method="POST">
+<h2>Book Information</h2>
+	<input type="hidden" name="_csrf">
+		{{! Book Title }}
+		<div class="form-group">
+			<label for="fieldTitle" class="control-label">Title</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldTitle" name="title">
+			</div>
+		</div>
+
+		{{! Author }}
+		<div class="form-group">
+			<label for="fieldAuthor" class="control-label">Author</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldAuthor" name="author">
+			</div>
+		</div>
+
+		{{! Publisher }}
+		<div class="form-group">
+			<label for="publisher" class="control-label">Publisher</label>
+			<div>
+				<input type="text" class="form-control" required id="publisher" name="pub">
+			</div>
+		</div>
+
+		{{! Publisher Series}}
+		<div class="form-group">
+			<label for="publisherSeries" class="control-label">Publisher Series</label>
+			<div>
+				<input type="text" class="form-control" required id="publisherSeries" name="pubSeries">
+			</div>
+		</div>
+
+		{{! LevelILER }}
+		{{!<div class="form-group">
+			<label for="levelILER" class="control-label">ILER Level</label>
+			<div>
+				<input type="text" class="form-control" required id="levelILER" name="level">
+			</div>
+		</div>}}
+		<div class="form-group">
+			<label for="levelILER" class="control-label">ILER Level</label>
+			<div>
+			<select name ="level">
+				<option value=1>1</option>
+				<option value=2>2</optiion>
+				<option value=3>3</optiion>
+				<option value=4>4</optiion>
+				<option value=5>5</optiion>
+				<option value=6>6</optiion>
+			</select>
+			</div>
+		</div>
+
+		{{! OldLevel }}
+		{{!<div class="form-group">
+			<label for="oldLevel" class="control-label">Old Level</label>
+			<div>
+				<input type="text" class="form-control" id="oldLevel" name="old">
+			</div>
+		</div>}}
+
+<h2>Book Codes</h2>
+		{{! Number }}
+		<div class="form-group">
+			<label for="fieldNumber" class="control-label">ILER Book Number</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldNumber" name="number">
+			</div>
+		</div>
+
+		{{! ISBN }}
+		<div class="form-group">
+			<label for="fieldISBN" class="control-label">ISBN</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldISBN" name="isbn">
+			</div>
+		</div>
+
+<h2>Book Attributes</h2>
+
+		{{! Headwords }}
+		<div class="form-group">
+			<label for="headwords" class="control-label">Headwords</label>
+			<div>
+				<input type="text" class="form-control" required id="headwords" name="head">
+			</div>
+		</div>	
+
+		{{! Graded/Non-graded }}
+		{{!<div class="form-group">
+			<label for="bkType" class="control-label">Graded/Non-Graded</label>
+			<div>
+				<input type="text" class="form-control" required id="bkType" name="type">
+			</div>
+		</div>}}
+		<div class="form-group">
+			<label for="bkType" class="control-label">Graded/Non-Graded</label>
+			<div>
+				<select name="type">
+					<option value="graded">Graded</option>
+					<option value="non-graded">Non-graded</option>
+				</select>
+			</div>
+		</div>
+		
+		{{! Genre }}
+		<div class="form-group">
+			<label for="fieldGenre" class="control-label">Genre</label>
+			<div>
+				<input type="text" class="form-control" required id="fieldGenre" name="genre">
+			</div>
+		</div>
+
+		{{! CD/No CD }}
+		{{!<div class="form-group">
+			<label for="CDInclude" class="control-label">CD/No CD</label>
+			<div>
+				<input type="text" class="form-control" required id="CDInclude" name="cd">
+			</div>
+		</div>}}
+		<div class="form-group">
+			<label for="CDInclude" class="control-label">CD/DVD Available</label>
+			<div>
+				<select name ="cd">
+					<option value="yes">Yes</option>
+					<option value="no">No</optiion>
+				</select>
+			</div>
+		</div>
+
+<h2>Number of Copies</h2>
+
+
+		{{! Availability Total }}
+		<div class="form-group">
+			<label for="totalBooks" class="control-label">Number of Copies</label>
+			<div>
+				<input type="text" class="form-control" required id="totalBooks" name="total">
+			</div>
+		</div>
+
+		{{! Submission Button }}
+		<div class="form-group">
+			<div>
+				<button type="submit">Register</button>
+			</div>
+		</div>
+</form>
+
+
+
+<div id="inventoryList">
+<p>List of Books</p>
+
+{{#each invlist}}
+	<div class="book">
+		<ul>
+			<li><span class="label">Title:</span> {{title}}</li>
+			<li><span class="label">Author:</span> {{author}}</li>
+			<li><span class="label">Code:</span> {{code}}</li>
+			<li><span class="label">Genre:</span> {{genre}}</li>
+		</ul>
+	</div>
+{{/each}}
+</div>

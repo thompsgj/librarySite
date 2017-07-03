@@ -35,18 +35,32 @@
 <h3>Checkout a Book</h3>
 <form class="form-horizontal" role="form" action="/process-chk?form=checkout" method="POST">
 	<input type="hidden" name="_csrf">
-	{{!Student number}}
-	<div class="form-group">
-		<label>Student number</label>
-		<div>
-			<input type="text" class="form-control" required id="idNumber" name="id">
-		</div>
-	</div>
 	{{!Book code}}
 	<div class="form-group">
 		<label>Book Code</label>
 		<div>
 			<input type="text" class="form-control" required id="bookCode" name="code">
+		</div>
+	</div>
+	{{!Student number}}
+	<div class="form-group">
+		<label>Student ID Number</label>
+		<div>
+			<input type="text" class="form-control" required id="idNumber" name="id">
+		</div>
+	</div>
+	{{!Student phone}}
+	<div class="form-group">
+		<label>Student Phone</label>
+		<div>
+			<input type="text" class="form-control" required id="studentPhone" name="phone">
+		</div>
+	</div>
+	{{!Teacher name}}
+	<div class="form-group">
+		<label>Teacher Name</label>
+		<div>
+			<input type="text" class="form-control" required id="teacherName" name="teacher">
 		</div>
 	</div>
 	{{!Submit}}

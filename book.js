@@ -40,10 +40,13 @@ app.use(function(req,res,next) {
 	next();
 });
 
+//GET HOME PAGE START
 app.get('/', function(req,res) {
 	res.render('home');
 });
+//GET HOME PAGE END
 
+//GET USER PAGE START
 app.get('/users', function(req,res) {
 	var db = req.db;
 	var collection = db.get('usercollection');
@@ -53,7 +56,9 @@ app.get('/users', function(req,res) {
 		});
 	});
 });
+//GET USER PAGE END
 
+//PROCCESS USER PAGE FORM START
 app.post('/process-user', function(req, res){
 
 	//console.log('Form (from querystring): ' + req.query.form);
@@ -89,17 +94,21 @@ app.post('/process-user', function(req, res){
 		}
 	});
 });
+//PROCESS USER PAGE END
 
-app.get('/inventory', function(req,res) {
+//GET INVENTORY PAGE START
+app.get('/addinv', function(req,res) {
 	var db = req.db;
 	var collection = db.get('bookcollection');
 	collection.find({},{},function(e,docs) {
-		res.render('inventory', {
+		res.render('addinv', {
 			"invlist" : docs
 		});
 	});
 });
+//GET INVENTORY PAGE END
 
+//PROCESS INVENTORY PAGE START
 app.post('/process-inv', function(req,res) {
 	//console.log('Form: ' + req.query.form);
 	//console.log('Title: ' + req.body.title);
@@ -121,12 +130,15 @@ app.post('/process-inv', function(req,res) {
 	var bkNumber = req.body.number; //convert to multiple numbers
 		var bkNumArr = [];
 		bkNumArr = bkNumber.split(',').map(Number);
-	var bkISBN = req.body.isbn; //Convert to multiple numbers
-		var bkISBNArr = [];
-		bkISBNArr = bkISBN.split(',').map(Number);
+	var bkISBN = req.body.isbn; 
+		//Convert to multiple numbers
+		//var bkISBNArr = [];
+		//bkISBNArr = bkISBN.split(',').map(Number);
 	var ILERLevel = req.body.level;
+		ILERLevel = parseInt(ILERLevel);
 	var oldLevel = req.body.old;
 	var totalBks = req.body.total;
+		totalBks = parseInt(totalBks);
 
 	//Set Collection
 	var collection = db.get('bookcollection');
@@ -138,7 +150,7 @@ app.post('/process-inv', function(req,res) {
 		"publisher" : bkPublisher,
 		"series" : bkSeries,
 		"level": {"ILER": ILERLevel, "Former": oldLevel},
-		"numbers": {"book":bkNumArr, "ISBN":bkISBNArr},
+		"numbers": {"book":bkNumArr, "ISBN":bkISBN},
 		"attributes": {"headwords":bkHeadwords, "type":bkType, "genre":bkGenre, "CD": bkCD},
 		"availability": {"total": totalBks, "checkouts":0},
 	}, function (err, doc) {
@@ -149,7 +161,22 @@ app.post('/process-inv', function(req,res) {
 		}
 	});
 });
+//PROCESS INTVENTORY PAGE END
 
+//GET UPDATE INVENTORY START
+app.get('/inventory', function(req,res) {
+	var db = req.db;
+	var collection = db.get('bookcollection');
+	collection.find({},{},function(e,docs) {
+		res.render('inventory', {
+			"invlist" : docs
+		});
+	});
+});
+//GET UPDATE INVENTORY END
+
+
+//GET CHECKOUTS PAGE START
 app.get('/checkouts', function(req,res) {
 	var db = req.db;
 	var collection = db.get('bookcollection');
@@ -168,18 +195,34 @@ app.get('/checkouts', function(req,res) {
 		});
 	});
 });
+//GET CHECKOUTS PAGE END
 
-
+//PROCESS CHECKOUTS PAGE FORM START
 app.post('/process-chk', function(req,res) {
 	var db = req.db;
 
 	//Instantiate variables for DB keys
-	var studentId = req.body.id
 	var bookCode = req.body.code;
+		bookCode = parseInt(bookCode);
+	var studentId = req.body.id;
+	var studentPhone = req.body.phone;
+	var teacherName = req.body.teacher;
+	
+	var today = new Date();
+	var checkoutDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 
-	console.log("Student ID: " + studentId);
-	console.log("Book Code: " + bookCode);
-	console.log(typeof[bookCode])
+	var due = new Date();
+	due.setDate(due.getDate() + 30)
+	var returnDate = due.getFullYear() + '-' + (due.getMonth()+1) + '-' + due.getDate()
+	console.log("Today")
+	console.log(today)
+	console.log("Due Date")
+	console.log(due)
+	
+	console.log("checkout date")
+	console.log(checkoutDate)
+	console.log("return date")
+	console.log(returnDate)
 
 	//Set Collection
 	var bkcoll = db.get('bookcollection');
@@ -202,10 +245,13 @@ app.post('/process-chk', function(req,res) {
 		bookName = numItems.title;
 	})*/
 
-	var query= {"code":bookCode};
-	var projection = {"title":1, "_id":0};
-	var cursor = db.collection('bookcollection').find(query)
-	
+	//WORKING CODE
+	//var query= {"numbers.book":bookCode};
+	//var projection = {"title":1, "_id":0};
+	//var cursor = db.collection('bookcollection').find(query)
+	//END WORKING CODE
+
+
 	//HERE I WAS TRYING TO ADD THE BOOK TITLE TO THE CHECKED OUT OUTPUT
 	//cursor.project(projection)
 	/*
@@ -216,11 +262,11 @@ app.post('/process-chk', function(req,res) {
 	//var bookName = bkcoll.find({"code":bookCode},{"title":1, "_id":0}).limit(1)
 	//console.log("BOOK TITLE")
 
-	chkcoll.insert({"student":studentId, "code":bookCode});
+	chkcoll.insert({"student":studentId, "code":bookCode,  "checkoutDate":checkoutDate, "returnDate": returnDate});
 
 	bkcoll.update({
-		"code" : bookCode
-	}, {$inc: {"available":-1, "checkedout":1}},
+		"numbers.book" : bookCode
+	}, {$inc: {"availability.total":-1, "availability.checkouts":1}},
 	function (err, doc) {
 		if (err) {
 			res.send("There was a problem adding the information to the database.")
@@ -229,7 +275,9 @@ app.post('/process-chk', function(req,res) {
 		}
 	});
 });
+//PROCESS CHECKOUTS PAGE FORM END
 
+//GET RETURNS PAGE START
 app.get('/returns', function(req,res) {
 	var db = req.db;
 	var collection = db.get('checkoutcollection');
@@ -239,14 +287,16 @@ app.get('/returns', function(req,res) {
 		});
 	});
 });
+//GET RETURNS PAGE END
 
-
+//PROCESS RETURNS PAGE FORM START
 app.post('/process-rtrn', function(req,res) {
 	var db = req.db;
 
 	//Instantiate variables for DB keys
 	var studentId = req.body.id
 	var bookCode = req.body.code;
+		bookCode = parseInt(bookCode)
 
 	//Set Collection
 	var bkcoll = db.get('bookcollection');
@@ -258,8 +308,8 @@ app.post('/process-rtrn', function(req,res) {
 	chkcoll.remove({"student":studentId, "code":bookCode},{justOne: true});
 
 	bkcoll.update({
-		"code" : bookCode
-	}, {$inc: {"available":1, "checkedout":-1}},
+		"numbers.book" : bookCode
+	}, {$inc: {"availability.total":1, "availability.checkouts":-1}},
 	function (err, doc) {
 		if (err) {
 			res.send("There was a problem adding the information to the database.")
@@ -268,8 +318,9 @@ app.post('/process-rtrn', function(req,res) {
 		}
 	});
 });
+//PROCESS RETURNS PAGE FORM END
 
-
+//GET ANALYTICS PAGE START
 app.get('/analytics', function(req,res) {
 	//res.render('analytics');
 	var db = req.db;
@@ -350,10 +401,9 @@ app.get('/analytics', function(req,res) {
 			}
 		});
 	});
-
-
-
 });
+//GET ANALYTICS PAGE END
+
 
 app.get('/thanks', function(req,res) {
 	res.render('thanks', { layout: 'page' });
