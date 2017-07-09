@@ -1,0 +1,13 @@
+<h1>Search</h1>
+<form class="form-horizontal" role="form" action="/process-search?form=searchinv" method="POST">
+	<input type="hidden" name="_csrf">
+	{{!Book code}}
+	<div class="form-group">
+		<label>Book Code</label>
+		<div>
+			<input type="text" class="form-control" required id="bookCode" name="code">
+		</div>
+	</div>
+	<button type="submit">Search</button>
+</form>
+

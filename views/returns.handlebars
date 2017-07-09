@@ -1,5 +1,13 @@
 <h1>Return</h1>
 
+To Do<br>
+<ol>
+<li>Design list entry</li>
+<li>Add return functionality</li>
+<li>Add Extend functionality</li>
+<li>Show checked out books in reverse chronological order (most recent due date first)</li>
+<li>Implement search to narrow down the entries</li>
+</ol>
 
 <h3>Return a Book</h3>
 <form class="form-horizontal" role="form" action="/process-rtrn?form=return" method="POST">
@@ -34,13 +42,22 @@
 {{#each chklist}}
 	<div class="checkouts">
 		<div>
+			<form class="form-horizontal" role="form" action="/process-chk?form=checkout" method="POST">
+			<div class="form-group">
+				<label>Book Code</label>
+				<div>
+					<input type="text" class="form-control" required id="bookCode" name="code" value="{{student}}">
+				</div>
+			</div>
 			<ul>
 				<li><span class="label">Student:</span> {{student}}</li>
 				<li><span class="label">Code:</span> {{code}}</li>
 			</ul>
+			</form>
 		</div>
 		<div>
 			<button>Return</button>
+			<button>Extend</button>
 		</div>
 	</div>
 {{/each}}

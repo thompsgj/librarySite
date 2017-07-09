@@ -163,17 +163,132 @@ app.post('/process-inv', function(req,res) {
 });
 //PROCESS INTVENTORY PAGE END
 
-//GET UPDATE INVENTORY START
-app.get('/inventory', function(req,res) {
+
+
+
+
+//GET SEARCH INVENTORY START
+app.get('/searchinv', function(req,res) {
 	var db = req.db;
 	var collection = db.get('bookcollection');
 	collection.find({},{},function(e,docs) {
-		res.render('inventory', {
+		res.render('searchinv', {
 			"invlist" : docs
 		});
 	});
 });
+//GET SEARCH INVENTORY END
+
+//PROCESS SEARCH PAGE FORM START
+app.post('/process-search', function(req,res) {
+	var db = req.db;
+	var collection = db.get('bookcollection');
+	//Instantiate variables for DB keys
+	var bookCode = req.body.code;
+		bookCode = parseInt(bookCode);
+
+	collection.find({"numbers.book" : bookCode},{},function(err,docs) {
+		var level = docs[0].level["ILER"]
+		var type = docs[0].attributes["type"]
+		var cd = docs[0].attributes["CD"]
+		if (err) {
+			res.send("There was a problem adding the information to the database.")
+		} else {
+
+			res.render('updateinv', {
+				"bookentry" : docs,
+				"bklevel": level,
+				"bktype":type,
+				"bkcd":cd
+			});
+		}
+
+	});
+});
+//PROCESS SEARCH PAGE FORM END
+
+//GET UPDATE INVENTORY START
+/* Unnecessary
+app.get('/updateinv', function(req,res) {
+	var db = req.db;
+	var collection = db.get('bookcollection');
+
+	var bookCode = req.body.code;
+		bookCode = parseInt(60);
+	collection.find({"numbers.book":bookCode},{},function(e,docs) {
+		var level = docs[0].level["ILER"]
+		var type = docs[0].attributes["type"]
+		var cd = docs[0].attributes["CD"]
+		res.render('updateinv', {
+			"bookentry" : docs,
+			"bklevel": level,
+			"bktype":type,
+			"bkcd":cd
+		});
+	});
+});
+*/
 //GET UPDATE INVENTORY END
+
+//PROCESS UPDATE PAGE FORM START
+app.post('/process-update', function(req,res) {
+	var db = req.db;
+
+	//Instantiate variables for DB keys
+	var bkTitle = req.body.title;
+	var bkAuthor = req.body.author;
+	var bkPublisher = req.body.pub;
+	var bkSeries = req.body.pubSeries;
+	var bkHeadwords = req.body.head;
+	var bkType = req.body.type;
+	var bkGenre = req.body.genre;
+	var bkCD = req.body.cd;
+	var bkNumber = req.body.number; //convert to multiple numbers
+		var bkNumArr = [];
+		bkNumArr = bkNumber.split(',').map(Number);
+	var bkISBN = req.body.isbn; 
+		//Convert to multiple numbers
+		//var bkISBNArr = [];
+		//bkISBNArr = bkISBN.split(',').map(Number);
+	var ILERLevel = req.body.level;
+		ILERLevel = parseInt(ILERLevel);
+	var oldLevel = req.body.old;
+	var totalBks = req.body.total;
+		totalBks = parseInt(totalBks);
+
+	//Set Collection
+	var collection = db.get('bookcollection');
+
+	//
+	collection.update({"title":bkTitle},{
+		"title" : bkTitle,
+		"author" : bkAuthor,
+		"publisher" : bkPublisher,
+		"series" : bkSeries,
+		"level": {"ILER": ILERLevel, "Former": oldLevel},
+		"numbers": {"book":bkNumArr, "ISBN":bkISBN},
+		"attributes": {"headwords":bkHeadwords, "type":bkType, "genre":bkGenre, "CD": bkCD},
+		"availability": {"total": totalBks, "checkouts":0},
+	}, function (err, doc) {
+		if (err) {
+			res.send("There was a problem adding the information to the database.")
+		} else {
+			res.redirect(303, '/thanks')
+		}
+	});
+});
+//PROCESS UPDATES PAGE FORM END
+
+
+
+
+
+
+
+
+
+
+
 
 
 //GET CHECKOUTS PAGE START
@@ -212,7 +327,7 @@ app.post('/process-chk', function(req,res) {
 	var checkoutDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 
 	var due = new Date();
-	due.setDate(due.getDate() + 30)
+	due.setDate(due.getDate() + 15)
 	var returnDate = due.getFullYear() + '-' + (due.getMonth()+1) + '-' + due.getDate()
 	console.log("Today")
 	console.log(today)
@@ -406,7 +521,7 @@ app.get('/analytics', function(req,res) {
 
 
 app.get('/thanks', function(req,res) {
-	res.render('thanks', { layout: 'page' });
+	res.render('thanks');
 });
 
 /*Error Handling*/

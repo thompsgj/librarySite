@@ -2,10 +2,114 @@
 <html>
 <head>
 	<title>Book</title>
-	{{{_sections.css}}}
+
+	<style>
+		html, body {
+			background-color: #072B42;
+			margin:0px;
+			padding: 0px;
+			height:100%;
+			color: white;
+			font-family: arial;
+		}
+
+		.container, .full {
+			height: 100%
+		}
+
+		#navbar {
+			background-color: #072B42;
+			min-width: 300px;
+			max-width: 300px;
+			float:left;
+			height:100%;
+			position: relative;
+			overflow: auto;
+			/*height: 100%;
+			width: 160px;*/
+		}
+		#main {
+			width: calc(100% - 330px);
+			background-color: #37465c;
+			float:right;
+			padding: 15px;
+			margin:0px;
+			min-height:100%;
+			overflow:hidden;
+			/*width: 640px;
+			height: 100%;*/
+		}
+		#contents {
+			width:500px;
+			margin:auto;
+		}
+
+		ul {
+			list-style: none;
+			margin-left: 25px;
+			padding: 0px;
+		}
+
+		li {
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+		a {
+			color: white;
+			font-weight: bold;
+			text-decoration: none
+		}
+		a:hover {
+			color: #ED2C43;
+		}
+		input {
+			border-color: #999999;
+			height: 25px;
+			margin-bottom: 5px;
+		}
+		select {
+			height: 30px;
+			min-width: 50px;
+			margin-bottom: 5px;
+		}
+	</style>
+	<!--{{{_sections.css}}}-->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-{{{body}}}
+<div class="container">
+		<div id="navbar">
+			<ul>
+				<li>
+					<a href="users" id="users">USERS</a>
+				</li>
+				<li>
+					<a href="addinv" id="addinv">ADD BOOK</a>
+					<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
+				</li>
+				<li>
+					<a href="searchinv" id="searchinv">UPDATE BOOK</a>
+				</li>
+				<li>
+					<a href="checkouts" id="checkouts">CHECKOUTS</a>
+				</li>
+				<li>
+					<a href="returns" id="returns">RETURNS</a>
+				</li>
+				<li>
+					<a href="analytics" id="analytics">ANALYTICS</a>
+				</li>
+			</ul>
+		</div>
+		<div id="main">
+			<div id="contents">
+				{{{body}}}
+			</div>
+		</div>
+	</div>
+</div>
+
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript">
 		{{{_sections.jcode}}}

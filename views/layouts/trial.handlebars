@@ -1,0 +1,24 @@
+	/*
+		var arr = ["abdullah","aadfsdf", "niazi","abdrty"];
+		var array2 = $.map(arr, function(n,i){return n.toLowerCase();});
+		$("#search").keyup(function(e){
+    		value = $("#search").val();
+    		if(value == ""){
+        		$("#autocomplete").val("");
+        		return;
+    		}
+	    	new_value = value.toLowerCase();
+	   		$("#autocomplete").val(value);
+	    	for(i = 0; i< array2.length; i++){
+	       		if(array2[i].lastIndexOf(new_value, 0) === 0){
+	            	if(e.keyCode == 39){
+	                	$("#search").val(array2[i])
+	            	}
+	            	str_after = array2[i].substr(new_value.length, array2[i].ength);
+	            	new_str = value + str_after
+	            	$("#autocomplete").val(new_str);
+	            	return;
+	        	}
+	    	}
+		});
+	*/
