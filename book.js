@@ -429,11 +429,72 @@ app.post('/process-rtrn', function(req,res) {
 		if (err) {
 			res.send("There was a problem adding the information to the database.")
 		} else {
-			res.redirect(303, '/thanks')
+			//res.redirect(303, '/thanks')
+			console.log("SUCCESS");
 		}
 	});
 });
 //PROCESS RETURNS PAGE FORM END
+
+
+
+//PROCESS RETURNS PAGE ---mod--- FORM START
+app.post('/process-rtrn2', function(req,res) {
+	var db = req.db;
+	var coll = db.get('checkoutcollection');
+	
+	var data = req.body;
+
+	coll.remove(
+		data
+	,
+	function (err, doc) {
+		if (err) {
+			res.send("There was a problem adding the information to the database.")
+		} else {
+			//res.redirect(303, '/thanks')
+			res.set({'Content-Type':'application/json'});
+			res.end(JSON.stringify({response:'json'}));
+		}
+	});
+
+
+});
+//PROCESS RETURNS PAGE ---mod--- FORM END
+
+//PROCESS EXTEND PROCESS START
+app.post('/process-extend', function(req,res) {
+	var db = req.db;
+	var coll = db.get('checkoutcollection');
+	
+	var data = req.body;
+
+	var today = new Date();
+	var checkoutDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+
+	var due = new Date();
+	due.setDate(due.getDate() + 15)
+	var returnDate = due.getFullYear() + '-' + (due.getMonth()+1) + '-' + due.getDate()
+	
+
+	coll.update(
+		data, {$set:{checkoutDate: checkoutDate, returnDate: returnDate}}
+	,
+	function (err, doc) {
+		if (err) {
+			res.send("There was a problem adding the information to the database.")
+		} else {
+			res.set({'Content-Type':'application/json'});
+			res.end(JSON.stringify({response:'json'}));
+		}
+	});
+
+
+});
+//PROCESS EXTEND PROCESS END
+
+
+
 
 //GET ANALYTICS PAGE START
 app.get('/analytics', function(req,res) {

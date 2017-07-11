@@ -9,6 +9,7 @@ To Do<br>
 <li>Implement search to narrow down the entries</li>
 </ol>
 
+<!--
 <h3>Return a Book</h3>
 <form class="form-horizontal" role="form" action="/process-rtrn?form=return" method="POST">
 	<input type="hidden" name="_csrf">
@@ -33,31 +34,96 @@ To Do<br>
 		</div>
 	</div>
 </form>
-
+-->
 
 <h3>Return a book</h3>
 
 
 <h3>View List of Current Checkouts</h3>
+
+<div id="test"></div>
+
+<input id="heatit" name="heatit" type="submit" value="Heat up!">
 {{#each chklist}}
 	<div class="checkouts">
-		<div>
-			<form class="form-horizontal" role="form" action="/process-chk?form=checkout" method="POST">
-			<div class="form-group">
+			<!--
 				<label>Book Code</label>
 				<div>
 					<input type="text" class="form-control" required id="bookCode" name="code" value="{{student}}">
 				</div>
-			</div>
-			<ul>
-				<li><span class="label">Student:</span> {{student}}</li>
-				<li><span class="label">Code:</span> {{code}}</li>
-			</ul>
-			</form>
-		</div>
-		<div>
-			<button>Return</button>
-			<button>Extend</button>
-		</div>
+			-->
+
+		<ul>
+			<li><span class="label student">Student:</span> <span class="studid">{{student}}</span></li>
+			<li><span class="label code">Code:</span> <span class="codeid">{{code}}</span></li>
+		</ul>
+		
+			<button class="return" name="hi" type="submit" value="YOYO">Return</button>
+			<button class="extend">Extend</button>
+
 	</div>
 {{/each}}
+
+
+{{#section 'jcode'}}
+		$(".extend").click(function(){
+			//Collect variables from parent div
+			var studid = $(this).parent().find('.studid').text();
+			var codeid = parseInt($(this).parent().find('.codeid').text());
+
+			//Send/Receive data from the server
+			$.ajax({
+				url: "/process-extend",
+				type: "POST",
+				dataType:"json",
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify({student: studid, code: codeid}),
+			}).done(function() {
+				alert("Extended")
+			}).fail(function() {
+				alert("FAIL")
+			})			
+		})
+
+		$('.return').click(function(){
+			//Set parent div as variable
+			var placeholder = $(this).parent().remove();
+
+			//Collect variables from parent div
+			var studid = $(this).parent().find('.studid').text();
+			var codeid = parseInt($(this).parent().find('.codeid').text());
+
+			//Send/Receive data from the server
+			$.ajax({
+				url: "/process-rtrn2",
+				type: "POST",
+				dataType:"json",
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify({student: studid, code: codeid}),
+			}).done(function() {
+				placeholder
+			}).fail(function() {
+				alert("FAIL")
+			})
+		})
+
+
+{{/section}}
+
+{{!https://stackoverflow.com/questions/23784614/node-js-ajax-sending-and-receiving-json
+
+https://stackoverflow.com/questions/36364264/request-data-from-server-nodejs-on-button-click
+
+https://stackoverflow.com/questions/32455648/sending-form-data-to-nodejs-without-reloading-page-using-ajax
+
+
+			$.ajax({
+				url: "/process-rtrn2",
+				type: "POST",
+				contentType:"application/json, charset=utf-8",
+				dataType:"json",
+				data: JSON.stringify({student:"Greg", code:60,
+			}).done(function(data) {
+				alert("DONE")
+			})
+}}
