@@ -2,7 +2,7 @@
 
 		.entry {
 			height: 150px;
-			margin-top: 15px;
+			margin-top: 75px;
 			background-color:black;
 			position: relative;
 		}
@@ -131,52 +131,11 @@
 	</div>
 
 
-
-
-<!-- <h2>Original</h2>
-{{#each bklist}}
-<div class="entry">
-	<div class="headerContainer">
-		<div class="bookHead">
-			<span class="title">{{title}}/</span>
-			<span class="author"> {{author}}</span>
-		</div>
-		<div class="buttons">
-			<form class="form-horizontal" role="form" action="/book/entry" method="POST">
-				<input type="hidden" name="_id" value="{{_id}}">
-				<button class="update" type="submit">Update</button>
-			</form>
-			<button class="delete" type="button" value={{_id}}>Delete</button>
-		</div>
-	</div>
-	<div class="infoContainer">
-		<div class="spacer"> </div>
-		<div class="section1">
-			<ul>
-				<li><span class="label">Publisher: </span>{{publisher}}</li>
-				<li><span class="label">Series: </span>{{series}}</li>
-				<li><span class="label">ISBN: </span>{{numbers.ISBN}}</li>
-			</ul>
-		</div>
-		<div class="section2">
-			<ul>
-				<li><span class="label">Level: </span>{{level.ILER}}</li>
-				<li><span class="label">Headwords: </span>{{attributes.headwords}}</li>
-				<li><span class="label">Type: </span>{{attributes.type}}</li>
-				<li><span class="label">Genre: </span>{{attributes.genre}}</li>
-				<li><span class="label">CD: </span>{{attributes.CD}}</li>
-			</ul>
-		</div>
-		<div class="section3">
-			<span class="label">Copies: </span>{{numbers.book}}
-		</div>
-	<div>
-</div>
-{{/each}}
--->
 {{#section 'jcode'}}
+/*
 	$(".delete").click(function() {
 		var entry = $(this).val()
+		alert(entry)
 		$.ajax({
 			url: "/book/delete",
 			type: "POST",
@@ -189,4 +148,5 @@
 			alert("FAIL")
 		})
 	})
+*/
 {{/section}}
