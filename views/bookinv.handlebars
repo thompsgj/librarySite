@@ -1,0 +1,111 @@
+{{#section 'css'}}
+
+		.entry {
+			height: 150px;
+			margin-top: 15px;
+			background-color:black;
+			position: relative;
+		}
+
+		.headerContainer {
+			background-color: white;
+			height:30px;
+		}
+
+		.title {
+			background-color: green;
+			float: left;
+			font-size: 20px;
+			font-weight: bold;
+			max-width:50%;
+			height:
+		}
+
+		.author {
+			background-color:grey;
+			float:left;
+		}
+
+		.entry li {
+			padding: 0px;
+			margin: 0px;
+		}
+
+		.entry .label {
+			font-weight: bold;
+		}
+
+		.infoContainer {
+			height: 120px;
+			width: 500px
+			background-color: red;
+		}
+
+		.spacer{
+			clear: both;
+			height 15px;
+			width: 100%
+		}
+		.section1 {
+			float: left;
+			background-color: purple;
+			height: 100%;
+			width: 50%;
+		}
+
+		.section2 {
+			float: right;
+			background-color: pink;
+			height: 100%;
+			width: 50%;
+		}
+
+		.section3 {
+			clear: both;
+			background-color: orange;
+		}
+
+{{/section}}
+
+<h1>Book Inventory</h1>
+
+To Do
+<ul>
+<li>filter book results</li>
+	<ol>
+	<li>by level</li>
+	<li>by series</li>
+	</ol>
+<li>leave off the word "the" at the beginning of titles</li>
+</ul>
+
+{{#each bklist}}
+<div class="entry">
+	<div class="headerContainer">
+		<span class ="title">{{title}}/</span>
+		<span class="author"> {{author}}</span>
+	</div>
+	<div class="infoContainer">
+		<div class="spacer"> </div>
+		<div class="section1">
+			<ul>
+				<li><span class="label">Publisher: </span>{{publisher}}</li>
+				<li><span class="label">Series: </span>{{series}}</li>
+				<li><span class="label">ISBN: </span>{{numbers.ISBN}}</li>
+			</ul>
+		</div>
+		<div class="section2">
+			<ul>
+				<li><span class="label">Level: </span>{{level.ILER}}</li>
+				<li><span class="label">Headwords: </span>{{attributes.headwords}}</li>
+				<li><span class="label">Type: </span>{{attributes.type}}</li>
+				<li><span class="label">Genre: </span>{{attributes.genre}}</li>
+				<li><span class="label">CD: </span>{{attributes.CD}}</li>
+			</ul>
+		</div>
+		<div class="section3">
+			<span class="label">Copies: </span>{{numbers.ISBN}}
+		</div>
+	<div>
+</div>
+{{/each}}

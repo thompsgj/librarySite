@@ -1,0 +1,60 @@
+{{#section 'css'}}
+		div {
+		    position: relative;
+		}
+		#search {
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    z-index: 11;
+		    background: transparent;
+		    
+		}
+		#autocomplete {
+		    position: absolute;    
+		    top: 2px;
+		    left: 1px; 
+		    background: transparent;
+		    z-index: 10;
+		    border: 0px;
+		}
+{{/section}}
+
+<h3>Checkout Book</h3>
+<form class="form-horizontal" role="form" action="/book/checkout/new" method="POST">
+	<input type="hidden" name="_csrf">
+	{{!Book code}}
+	<div class="form-group">
+		<label>Book Codes</label>
+		<div>
+			<input type="text" class="form-control" required id="bookCode" name="code">
+		</div>
+	</div>
+	{{!Student number}}
+	<div class="form-group">
+		<label>Student ID Number</label>
+		<div>
+			<input type="text" class="form-control" required id="idNumber" name="id">
+		</div>
+	</div>
+	{{!Student phone}}
+	<div class="form-group">
+		<label>Student Phone</label>
+		<div>
+			<input type="text" class="form-control" required id="studentPhone" name="phone">
+		</div>
+	</div>
+	{{!Teacher name}}
+	<div class="form-group">
+		<label>Teacher Name</label>
+		<div>
+			<input type="text" class="form-control" required id="teacherName" name="teacher">
+		</div>
+	</div>
+	{{!Submit}}
+	<div class="form-group">
+		<div>
+			<button type="submit">Submit</button>
+		</div>
+	</div>
+</form>

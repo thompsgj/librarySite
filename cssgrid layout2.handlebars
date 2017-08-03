@@ -1,0 +1,130 @@
+		html, body {
+			background-color: #072B42;
+			margin:0px;
+			padding: 0px;
+			height:100%;
+			color: white;
+			font-family: arial;
+		}
+
+		.container, .full {
+			height: 100%
+		}
+
+		#navbar {
+			background-color: #072B42;
+			min-width: 300px;
+			max-width: 300px;
+			float:left;
+			height:100%;
+			position: relative;
+			overflow: auto;
+			/*height: 100%;
+			width: 160px;*/
+		}
+		#main {
+			width: calc(100% - 330px);
+			background-color: #37465c;
+			float:right;
+			padding: 15px;
+			margin:0px;
+			min-height:100%;
+			overflow:hidden;
+			/*width: 640px;
+			height: 100%;*/
+		}
+		#contents {
+			width:500px;
+			margin:auto;
+		}
+
+		ul {
+			list-style: none;
+			margin-left: 25px;
+			padding: 0px;
+		}
+
+		li {
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+		a {
+			color: white;
+			font-weight: bold;
+			text-decoration: none
+		}
+		a:hover {
+			color: #ED2C43;
+		}
+		input {
+			border-color: #999999;
+			height: 25px;
+			margin-bottom: 5px;
+		}
+		select {
+			height: 30px;
+			min-width: 50px;
+			margin-bottom: 5px;
+		}
+
+		#pic {
+			width: 150px;
+			height: 150px;
+			background-color: red;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------working example
+manipulated from https://codepen.io/rachelandrew/pen/BKdmpG
+.mainheader {
+  grid-area: header;
+
+}
+.content {
+  grid-area: content;
+  
+}
+.panel {
+  grid-area: sidebar;
+
+}
+.mainfooter {
+  grid-area: footer;
+
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas: 
+    "header"
+    "content"
+    "sidebar"
+    "footer"
+}
+
+@media (min-width: 550px) {
+  .wrapper {
+    grid-template-columns: 300px 80%;
+    grid-template-rows: 250px 3fr 70px;
+    grid-template-areas:
+      "header content"
+      "sidebar content"
+      "footer content"
+  }
+}

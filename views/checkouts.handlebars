@@ -1,5 +1,5 @@
 {{#section 'css'}}
-	<style>
+
 		div {
 		    position: relative;
 		}
@@ -19,109 +19,117 @@
 		    z-index: 10;
 		    border: 0px;
 		}
-	</style>
+
+		.checkouts li {
+			padding: 0px;
+			margin: 0px;
+		}
+
+		.checkouts .label {
+			font-weight: bold;
+		}
 {{/section}}
 
-<h1>Checkout</h1>
-
-
-<div id="cube">aaa</div>
-    <input type = "text" id = "search"/>
-    <input id="autocomplete" type="text" disabled="disabled"/>
-
-<br><br><br><br><br><br><br><br><br><br><br>
-
-
-<h3>Checkout a Book</h3>
-<form class="form-horizontal" role="form" action="/process-chk?form=checkout" method="POST">
-	<input type="hidden" name="_csrf">
-	{{!Book code}}
-	<div class="form-group">
-		<label>Book Code</label>
-		<div>
-			<input type="text" class="form-control" required id="bookCode" name="code">
-		</div>
-	</div>
-	{{!Student number}}
-	<div class="form-group">
-		<label>Student ID Number</label>
-		<div>
-			<input type="text" class="form-control" required id="idNumber" name="id">
-		</div>
-	</div>
-	{{!Student phone}}
-	<div class="form-group">
-		<label>Student Phone</label>
-		<div>
-			<input type="text" class="form-control" required id="studentPhone" name="phone">
-		</div>
-	</div>
-	{{!Teacher name}}
-	<div class="form-group">
-		<label>Teacher Name</label>
-		<div>
-			<input type="text" class="form-control" required id="teacherName" name="teacher">
-		</div>
-	</div>
-	{{!Submit}}
-	<div class="form-group">
-		<div>
-			<button type="submit">Submit</button>
-		</div>
-	</div>
-</form>
-
-<!--
-<h3>Return a book</h3>
-<h3>View List of Current Checkouts</h3>
-{{#each chklist}}
-	<div class="checkouts">
-		<ul>
-			<li><span class="label">Student:</span> {{student}}</li>
-			<li><span class="label">Code:</span> {{code}}</li>
-		</ul>
-	</div>
-{{/each}}
-
--->
+<h1>Checkout List</h1>
 
 {{#each bklist}}
 	<div class="checkouts">
 		<ul>
+			<li><span class="label">Entry IDL</span> {{_id}}</li>
+			<li><span class="label">Student:</span> {{student}}</li>
 			<li><span class="label">Title:</span> {{title}}</li>
+			<li><span class="label">Code:</span> <span class="codeid">{{code}}<span></li>
+			<li><span class="label">Checkout Date:</span> {{checkoutDate}}</li>
+			<li><span class="label">Due Date:</span> {{returnDate}}</li>
+			<button class="return" name="return" type="button" value="{{_id}}">Return2</button>
+			<button class="extend" name="extend" type="button" value="{{_id}}">Extend2</button>
+
+			<!--a.btn.btn-default.pull-right(href='/location/#{location._id}/review/new') -->
 		</ul>
 	</div>
 {{/each}}
 {{#section 'jcode'}}
-		//Convert String Array to Array
-		var bk = "{{bkarr}}";
-		var bkarr = bk.split(",");
 
-		//Convert array to lower case
-		var array2 = $.map(bkarr, function(n,i){return n.toLowerCase();});
+//NEED TO REMODEL THIS SECTION SO THAT EACH BOOK CAN BE RETURNED SEPARATELY OR ALL TOGETHER
+	$(".extend").click(function() {
+		var entry = $(this).val()
+		$.ajax({
+			url: "/book/checkout/extend",
+			type: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=UTF-8",
+			data: JSON.stringify({_id: entry})
+		}).done(function() {
+			location.reload();
+		}).fail(function() {
+			alert("FAIL")
+		})
+	})
 
-		//On key up, set value to #search
-		$("#search").keyup(function(e){
-    		value = $("#search").val();
-    		//If value is nothing, set value to nothing
-    		if(value == ""){
-        		$("#autocomplete").val("");
-        		return;
-    		}
-    		//If value is related, take the substring based on word length
-	    	new_value = value.toLowerCase();
-	   		$("#autocomplete").val(value);
-	    	for(i = 0; i< array2.length; i++){
-	       		if(array2[i].lastIndexOf(new_value, 0) === 0){
-	            	if(e.keyCode == 39){
-	                	$("#search").val(array2[i])
-	            	}
-	            	str_after = array2[i].substr(new_value.length, array2[i].length);
-	            	new_str = value + str_after
-	            	$("#autocomplete").val(new_str);
-	            	return;
-	        	}
-	    	}
-		});
+	$(".return").click(function() {
+		var entry = $(this).val()
+		var studid = $(this).parent().find('.studid').text();
+		var codeid = parseInt($(this).parent().find('.codeid').text());
+		alert(codeid)
+		$.ajax({
+			url: "/book/checkout/return",
+			type: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=UTF-8",
+			data: JSON.stringify({_id: entry, code: codeid})
+		}).done(function() {
+			location.reload();
+		}).fail(function() {
+			alert("FAIL")
+		})
+	})
 
+
+
+
+
+
+
+/*
+		$(".extend").click(function(){
+			//Collect variables from parent div
+			var studid = $(this).parent().find('.studid').text();
+			var codeid = parseInt($(this).parent().find('.codeid').text());
+
+			//Send/Receive data from the server
+			$.ajax({
+				url: "/process-extend",
+				type: "POST",
+				dataType:"json",
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify({student: studid, code: codeid}),
+			}).done(function() {
+				alert("Extended")
+			}).fail(function() {
+				alert("FAIL")
+			})			
+		})
+
+		$('.return').click(function(){
+			//Set parent div as variable
+			var placeholder = $(this).parent().remove();
+
+			//Collect variables from parent div
+			var studid = $(this).parent().find('.studid').text();
+			var codeid = parseInt($(this).parent().find('.codeid').text());
+
+			//Send/Receive data from the server
+			$.ajax({
+				url: "/process-rtrn2",
+				type: "POST",
+				dataType:"json",
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify({student: studid, code: codeid}),
+			}).done(function() {
+				placeholder
+			}).fail(function() {
+				alert("FAIL")
+			})
+		})
+*/
 {{/section}}

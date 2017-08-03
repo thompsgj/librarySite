@@ -72,8 +72,10 @@
 			min-width: 50px;
 			margin-bottom: 5px;
 		}
+
+		{{{_sections.css}}}
 	</style>
-	<!--{{{_sections.css}}}-->
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -81,23 +83,30 @@
 		<div id="navbar">
 			<ul>
 				<li>
-					<a href="users" id="users">USERS</a>
+					<a href="/user" id="users">USERS</a>
 				</li>
 				<li>
-					<a href="addinv" id="addinv">ADD BOOK</a>
+					<a href="/user/add" id="addusers">ADD USER</a>
+				</li>
+				<li>
+					<a href="/book/add" id="addinv">ADD BOOK</a>
 					<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
 				</li>
 				<li>
-					<a href="searchinv" id="searchinv">UPDATE BOOK</a>
+					<a href="/book/list" id="addinv">BOOK LIST</a>
+					<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
 				</li>
 				<li>
-					<a href="checkouts" id="checkouts">CHECKOUTS</a>
+					<a href="/book/update" id="searchinv">UPDATE BOOK</a>
 				</li>
 				<li>
-					<a href="returns" id="returns">RETURNS</a>
+					<a href="/book/checkout" id="checkout">CHECKOUT BOOK</a>
 				</li>
 				<li>
-					<a href="analytics" id="analytics">ANALYTICS</a>
+					<a href="/book/checkout/list" id="checkoutlist">CHECKOUT LIST</a>
+				</li>
+				<li>
+					<a href="/analytics" id="analytics">ANALYTICS</a>
 				</li>
 			</ul>
 		</div>

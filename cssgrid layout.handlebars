@@ -1,0 +1,73 @@
+		#pic {
+			width: 150px;
+			height: 150px;
+			background-color: red;
+		}
+
+		ul {
+			list-style: none;
+			margin-left: 25px;
+			padding: 0px;
+		}
+
+		li {
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+		a {
+			color: white;
+			font-weight: bold;
+			text-decoration: none
+		}
+		a:hover {
+			color: #ED2C43;
+		}
+		input {
+			border-color: #999999;
+			height: 25px;
+			margin-bottom: 5px;
+		}
+		select {
+			height: 30px;
+			min-width: 50px;
+			margin-bottom: 5px;
+		}
+
+		/* Grid Support- Medium Size */
+		.logo {
+			grid-area: logo;
+			background-color: black;
+		}
+		.sidebar {
+			grid-area: sidebar;
+			background-color: #072B42;
+		}
+		.content {
+			grid-area: main;
+			background-color: #37465c;
+		}
+		.footer {
+			grid-area: footer;
+			background-color: blue;
+		}
+
+		.wrapper {
+			display:grid;
+			height:100%;
+			grid-template-areas:
+			"logo"
+			"sidebar"
+			"main"
+			"footer"
+		}
+		@media only screen and (min-width: 500px) {
+			.wrapper {
+				grid-template-columns: 300px 100%;
+				grid-template-rows: 1fr 3fr 0.5fr auto auto;
+				height: calc(100vh - 10px);
+				grid-template-areas:
+					"logo main main"
+					"sidebar main main"
+					"footer main main";
+			}
+		}

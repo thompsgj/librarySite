@@ -11,19 +11,9 @@
 		}
 	</style>
 {{/section}}
-* Make dropdown menus with choices FROM DATA for:
-- publisher
-- author
-- series
-- Genre
-
-* Remove List of Books
-
-
-
 <h1>Inventory</h1>
 
-<form class="form-horizontal" role="form" action="/process-inv?form=inventory" method="POST">
+<form class="form-horizontal" role="form" action="/book/entry/new" method="POST">
 <h2>Book Information</h2>
 	<input type="hidden" name="_csrf">
 		{{! Book Title }}
@@ -174,20 +164,3 @@
 			</div>
 		</div>
 </form>
-
-
-
-<div id="inventoryList">
-<p>List of Books</p>
-
-{{#each invlist}}
-	<div class="book">
-		<ul>
-			<li><span class="label">Title:</span> {{title}}</li>
-			<li><span class="label">Author:</span> {{author}}</li>
-			<li><span class="label">Code:</span> {{code}}</li>
-			<li><span class="label">Genre:</span> {{genre}}</li>
-		</ul>
-	</div>
-{{/each}}
-</div>
