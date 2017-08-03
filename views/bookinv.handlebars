@@ -12,12 +12,20 @@
 			height:30px;
 		}
 
+		.bookHead {
+			float: left;
+		}
+
+		.buttons {
+			float: right;
+		}
+
 		.title {
 			background-color: green;
 			float: left;
 			font-size: 20px;
 			font-weight: bold;
-			max-width:50%;
+
 			height:
 		}
 
@@ -69,21 +77,77 @@
 
 <h1>Book Inventory</h1>
 
-To Do
-<ul>
-<li>filter book results</li>
-	<ol>
-	<li>by level</li>
-	<li>by series</li>
-	</ol>
-<li>leave off the word "the" at the beginning of titles</li>
-</ul>
+	<div ng-controller="bookListCtrl">
+		<label for="filter">Filter Results</label>
+		<h3> Search by anything </h3>
+		<input id="filter" type="text" name="filter" ng-model="textFilter">
+		<h3> Search by title</h3>
+		<input type="text" ng-model="search.title">
 
+		<h3> Search by Level</h3>
+		<input type="number" ng-model="search.level.ILER">
+
+
+		<div ng-repeat="bookEntry in bookEntries | filter : search">
+
+			<div class="entry">
+				<div class="headerContainer">
+					<div class="bookHead">
+						<span class="title">\{{bookEntry.title}}/</span>
+						<span class="author">\{{bookEntry.author}}</span>
+					</div>
+					<div class="buttons">
+						<form class="form-horizontal" role="form" action="/book/entry" method="POST">
+							<input type="hidden" name="_id" value=\{{bookEntry._id}}>
+							<button class="update" type="submit">Update</button>
+						</form>
+						<button class="delete" type="button" value=\{{bookEntry._id}}>Delete</button>
+					</div>
+				</div>
+				<div class="infoContainer">
+					<div class="spacer"> </div>
+					<div class="section1">
+						<ul>
+							<li><span class="label">Publisher: </span>\{{bookEntry.publisher}}</li>
+							<li><span class="label">Series: </span>\{{bookEntry.series}}</li>
+							<li><span class="label">ISBN: </span>\{{bookEntry.numbers.ISBN}}</li>
+						</ul>
+					</div>
+					<div class="section2">
+						<ul>
+							<li><span class="label">Level: </span>\{{bookEntry.level.ILER}}</li>
+							<li><span class="label">Headwords: </span>\{{bookEntry.attributes.headwords}}</li>
+							<li><span class="label">Type: </span>\{{bookEntry.attributes.type}}</li>
+							<li><span class="label">Genre: </span>\{{bookEntry.attributes.genre}}</li>
+							<li><span class="label">CD: </span>\{{bookEntry.attributes.CD}}</li>
+						</ul>
+					</div>
+					<div class="section3">
+						<span class="label">Copies: </span>\{{bookEntry.numbers.book}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+<!-- <h2>Original</h2>
 {{#each bklist}}
 <div class="entry">
 	<div class="headerContainer">
-		<span class ="title">{{title}}/</span>
-		<span class="author"> {{author}}</span>
+		<div class="bookHead">
+			<span class="title">{{title}}/</span>
+			<span class="author"> {{author}}</span>
+		</div>
+		<div class="buttons">
+			<form class="form-horizontal" role="form" action="/book/entry" method="POST">
+				<input type="hidden" name="_id" value="{{_id}}">
+				<button class="update" type="submit">Update</button>
+			</form>
+			<button class="delete" type="button" value={{_id}}>Delete</button>
+		</div>
 	</div>
 	<div class="infoContainer">
 		<div class="spacer"> </div>
@@ -104,8 +168,25 @@ To Do
 			</ul>
 		</div>
 		<div class="section3">
-			<span class="label">Copies: </span>{{numbers.ISBN}}
+			<span class="label">Copies: </span>{{numbers.book}}
 		</div>
 	<div>
 </div>
 {{/each}}
+-->
+{{#section 'jcode'}}
+	$(".delete").click(function() {
+		var entry = $(this).val()
+		$.ajax({
+			url: "/book/delete",
+			type: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=UTF-8",
+			data: JSON.stringify({_id: entry})
+		}).done(function() {
+			location.reload();
+		}).fail(function() {
+			alert("FAIL")
+		})
+	})
+{{/section}}

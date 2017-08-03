@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html ng-app="libraryApp">
 <head>
 	<title>Book</title>
 
@@ -77,33 +77,32 @@
 	</style>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="/javascript/angular/angular.min.js"></script>
+	<script src="/javascript/angular/libraryApp.js"></script>
 </head>
 <body>
 <div class="container">
 		<div id="navbar">
 			<ul>
 				<li>
-					<a href="/user" id="users">USERS</a>
+					<a href="/user" id="users">VIEW USER LIST</a>
 				</li>
 				<li>
 					<a href="/user/add" id="addusers">ADD USER</a>
+				</li>
+				<li>
+					<a href="/book/list" id="addinv">VIEW BOOK LIST</a>
+					<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
 				</li>
 				<li>
 					<a href="/book/add" id="addinv">ADD BOOK</a>
 					<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
 				</li>
 				<li>
-					<a href="/book/list" id="addinv">BOOK LIST</a>
-					<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
-				</li>
-				<li>
-					<a href="/book/update" id="searchinv">UPDATE BOOK</a>
+					<a href="/book/checkout/list" id="checkoutlist">VIEW CHECKOUT LIST</a>
 				</li>
 				<li>
 					<a href="/book/checkout" id="checkout">CHECKOUT BOOK</a>
-				</li>
-				<li>
-					<a href="/book/checkout/list" id="checkoutlist">CHECKOUT LIST</a>
 				</li>
 				<li>
 					<a href="/analytics" id="analytics">ANALYTICS</a>
@@ -117,6 +116,7 @@
 		</div>
 	</div>
 </div>
+
 
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -15,6 +15,9 @@ router.get('/book/add', ctrlBooks.addBook);//DONE
 router.post('/book/entry/new', ctrlBooks.doAddBook);//DONE
 //Add in a route for viewing the entry
 
+//Delete a book entry
+router.post('/book/delete', ctrlBooks.doDeleteBook);
+
 //Add Book List Page and Fill with list of Books
 router.get('/book/list', ctrlBooks.bookList);
 

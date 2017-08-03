@@ -72,7 +72,41 @@ module.exports.doAddBook = function(req, res) {
 	}
 }
 
+
+
+module.exports.doDeleteBook = function(req, res) {
+	var requestOptions, deletedata, path;
+	path = '/api/books/';
+	deletedata = {
+		_id : req.body._id,
+	};
+	console.log(deletedata)
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: "DELETE",
+		json: deletedata
+	};
+	if (!deletedata._id) {
+		res.redirect('/deletebook/new?err=val');
+	} else {
+		request(
+			requestOptions,		
+			function(err, response, body) {
+				if (response.statusCode === 201) {
+					res.set({'Content-Type':'application/json'});
+					res.end(JSON.stringify({response:'json'}));
+				} else if (response.statusCode === 400 && body.name === "ValidationError") {
+					res.redirect('/deletebook/new?err=val');
+				} else {
+					_showError(req, res, response.statusCode);
+				}
+			}
+		)
+	}
+}
+
 var renderBookInventoryList = function(req, res, responseBody) {
+/*
 	var message;
 	if(!(responseBody instanceof Array)) {
 		message = "API Lookup Error";
@@ -86,9 +120,12 @@ var renderBookInventoryList = function(req, res, responseBody) {
 		bklist: responseBody,
 		message: message
 	})
+*/
+	res.render('bookinv');
 }
 
 module.exports.bookList = function(req, res) {
+/*
 	var requestOptions, path;
 	path = "/api/books"
 	requestOptions = {
@@ -103,6 +140,8 @@ module.exports.bookList = function(req, res) {
 			renderBookInventoryList(req, res, data);
 		}
 	)
+*/
+	renderBookInventoryList(req,res);
 }
 
 module.exports.searchBookForUpdate = function(req, res) {
@@ -111,10 +150,12 @@ module.exports.searchBookForUpdate = function(req, res) {
 
 module.exports.updateBook = function(req, res) {
 	var requestOptions, path, bookid, postdata;
-	bookCode = parseInt(req.body.code);
+	console.log("REQ BODY ID")
+	console.log(req.body)
+	bookid = req.body._id
 	path = '/api/books/:bookid';
 	postdata = {
-		bookId: bookCode
+		bookId: bookid
 	};
 	requestOptions = {
 		url: apiOptions.server + path,
@@ -127,11 +168,13 @@ module.exports.updateBook = function(req, res) {
 		request(
 			requestOptions,
 			function(err, response, body) {
+				console.log("UPDATE BOOK CONTINUED")
+				console.log(body)
+				console.log("RESPONSE BODY")
 				if (response.statusCode === 201) {
 					var level = body[0].level["ILER"]
 					var type = body[0].attributes["type"]
 					var cd = body[0].attributes["CD"]
-
 					res.render('updateinv', {
 						"bookentry" : body,
 						"bklevel": level,

@@ -17,7 +17,7 @@ var handlebars = require('express3-handlebars').create({
 			if(!this._sections) this._sections = {};
 			this._sections[name] = options.fn(this);
 			return null;
-		}
+		},
 	}
 });
 var app = express();
