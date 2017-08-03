@@ -5,7 +5,7 @@ var bodyParser = require('body-parser')
 
 var monk = require('monk');
 var db = monk('localhost:27017/bookdb');
-require('./app_api/models/db.js');
+
 var routes = require('./app_server/routes/index');
 var routesApi = require('./app_api/routes/index');
 
@@ -37,6 +37,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/api', routesApi);
 
+/*Error Handling*/
+//custom 404 page
+app.use(function(req,res) {
+	res.status(404);
+	res.render('404');
+});
+
+//custom 500 page
+app.use(function(err, req, res, next) {
+	console.error(err.stack);
+	res.status(500);
+	res.render('500');
+});
 
 
 app.listen(app.get('port'), function() {
