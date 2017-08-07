@@ -150,8 +150,6 @@ module.exports.searchBookForUpdate = function(req, res) {
 
 module.exports.updateBook = function(req, res) {
 	var requestOptions, path, bookid, postdata;
-	console.log("REQ BODY ID")
-	console.log(req.body)
 	bookid = req.body._id
 	path = '/api/books/:bookid';
 	postdata = {
@@ -168,9 +166,6 @@ module.exports.updateBook = function(req, res) {
 		request(
 			requestOptions,
 			function(err, response, body) {
-				console.log("UPDATE BOOK CONTINUED")
-				console.log(body)
-				console.log("RESPONSE BODY")
 				if (response.statusCode === 201) {
 					var level = body[0].level["ILER"]
 					var type = body[0].attributes["type"]
@@ -193,12 +188,12 @@ module.exports.updateBook = function(req, res) {
 
 module.exports.doUpdateBook = function(req, res) {
 	var requestOptions, path, updatedata;
-
 	var bkNumber = req.body.number;
 	var bkNumArr = [];
 		bkNumArr = bkNumber.split(',').map(Number);
 	path = '/api/books/';
 	updatedata = {
+		id: req.body.bookId,
 		title: req.body.title,
 		author: req.body.author,
 		publisher: req.body.pub,

@@ -5,11 +5,10 @@
 </form>
 
 {{#each bookentry}}
-	<div class="entry">
 
 <form class="form-horizontal" role="form" action="/book/entry/update" method="POST">
 <h2>Book Information</h2>
-	<input type="hidden" name="_csrf">
+	<input type="hidden" name="bookId" value={{_id}}>
 		{{! Book Title }}
 		<div class="form-group">
 			<label for="fieldTitle" class="control-label">Title</label>

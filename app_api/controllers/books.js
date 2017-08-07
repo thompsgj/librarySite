@@ -30,8 +30,6 @@ module.exports.bookCreateOne = function(req,res) {
 
 
 module.exports.bookRetrieveOne = function(req,res) {
-	console.log("BOOK RETRIEVE ONE DATA")
-	console.log(req.body)
 	collection.find({
 		"_id" : req.body.bookId
 	},{}).then(function(doc,err) {
@@ -39,6 +37,7 @@ module.exports.bookRetrieveOne = function(req,res) {
 			res.send("Problem");//NEED TO FIX THIS- send a message that there was nothing found
 		} else {
 			console.log("FIRING END OF BOOK RETRIEVE ONE")
+			console.log(doc)
 			sendJsonResponse(res, 201, doc)
 		}
 	})
@@ -46,13 +45,10 @@ module.exports.bookRetrieveOne = function(req,res) {
 
 
 module.exports.bookRetrieveList = function(req,res) {
-	console.log("ANGULAR REQUEST FIRED")
 	collection.find({}).then(function(doc,err) {
 		if(err) {
 			res.send("Problem");
 		} else {
-			console.log("ANGULAR REQUEST SUCCESSFUL")
-			console.log(doc)
 			sendJsonResponse(res, 200, doc)
 		}
 	})
@@ -60,7 +56,7 @@ module.exports.bookRetrieveList = function(req,res) {
 
 
 module.exports.bookUpdateOne = function(req,res) {
-	collection.update({"title":req.body.title},{
+	collection.update({"_id":req.body.id},{
 		"title": req.body.title,
 		"author": req.body.author,
 		"publisher": req.body.publisher,
