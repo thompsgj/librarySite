@@ -10,16 +10,24 @@ var sendJsonResponse = function(res, status, content) {
 };
 
 module.exports.userCreateOne = function(req,res) {
-	collection.insert({
-		"name":  req.body.name,
-		"idnumber": req.body.idnumber,
-		"phone": req.body.phone,
-		"email": req.body.email
-	}).then(function(doc,err) {
-		if (err) {
-			res.send("Problem")
+	collection.find({
+		"idnumber": req.body.idnumber
+	}).then(function(doc, err) {
+		if(doc.length==0) {
+			collection.insert({
+				"name":  req.body.name,
+				"idnumber": req.body.idnumber,
+				"phone": req.body.phone,
+				"email": req.body.email
+			}).then(function(doc,err) {
+				if (err) {
+					res.send("Problem")
+				} else {
+					sendJsonResponse(res, 201, doc);
+				}
+			})
 		} else {
-			sendJsonResponse(res, 201, doc);
+			sendJsonResponse(res, 409, doc)
 		}
 	})
 }

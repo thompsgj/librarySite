@@ -36,7 +36,7 @@ module.exports.checkoutCreateOne = function(req,res) {
 			}]
 		}, ["title"]).then(function(doc, err) {
 			if (doc.length === 0) {
-				res.send("No book with that code is in the database.")
+				res.send("No student with that id number is in the database.")
 			} else if (userDoc.length === 0) {
 				res.send("No student with that id number is in the database.")
 			} else {

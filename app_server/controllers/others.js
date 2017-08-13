@@ -122,6 +122,12 @@ module.exports.doAddUser = function(req, res) {
 						message: "The data could not be validated."
 					}
 					res.redirect('/user/new?err=val')
+				} else if (response.statusCode === 409) {
+					req.session.flash = {
+						type: "failure",
+						message: "A book with that title already had an entry in the database."
+					}
+					res.redirect('back')
 				} else {
 					_showError(req, res, response.statusCode)
 				}
