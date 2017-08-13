@@ -20,6 +20,8 @@
 		}
 {{/section}}
 
+
+
 <h3>Checkout Book</h3>
 <form class="form-horizontal" role="form" action="/book/checkout/new" method="POST">
 	<input type="hidden" name="_csrf">
@@ -35,13 +37,6 @@
 		<label>Student ID Number</label>
 		<div>
 			<input type="text" class="form-control" required id="idNumber" name="id">
-		</div>
-	</div>
-	{{!Student phone}}
-	<div class="form-group">
-		<label>Student Phone</label>
-		<div>
-			<input type="text" class="form-control" required id="studentPhone" name="phone">
 		</div>
 	</div>
 	{{!Teacher name}}

@@ -32,25 +32,63 @@
 
 <h1>Checkout List</h1>
 
-{{#each bklist}}
-	<div class="checkouts">
-		<ul>
-			<li><span class="label">Entry IDL</span> {{_id}}</li>
-			<li><span class="label">Student:</span> {{student}}</li>
-			<li><span class="label">Title:</span> {{title}}</li>
-			<li><span class="label">Code:</span> <span class="codeid">{{code}}<span></li>
-			<li><span class="label">Checkout Date:</span> {{checkoutDate}}</li>
-			<li><span class="label">Due Date:</span> {{returnDate}}</li>
-			<button class="return" name="return" type="button" value="{{_id}}">Return</button>
-			<button class="extend" name="extend" type="button" value="{{_id}}">Extend</button>
+<div ng-controller="chkoutListCtrl">
+	<h3>Filter Results</h3>
+	Student ID
+	<input type="text" ng-model="search.student.studentId"></input><br>
+	Student Phone
+	<input type="text" ng-model="search.student.studentPhone"></input>
 
-			<!--a.btn.btn-default.pull-right(href='/location/#{location._id}/review/new') -->
-		</ul>
+<!-- Need to send checkout id and book code to the server -->
+	<div ng-repeat="chkoutEntry in chkoutEntries | filter : search">
+		<div class="checkouts" id="\{{chkoutEntry._id}}">
+				<div class="entry">
+					<div class="student">
+						<span class="label">Student:</span> \{{chkoutEntry.student.studentId}}
+						<span class="label">Contact Number:</span> \{{chkoutEntry.student.studentPhone}}
+						<span class="label"> Email: </span> \{{chkoutEntry.student.studentEmail}}
+					</div>
+					<div class="other">
+						<span class="label">Teacher:</span> \{{chkoutEntry.student.teacher}}
+					</div>
+					<div class="book" ng-repeat= "book in chkoutEntry.books">
+						<div class="info">
+							<span class="label">Title:</span> \{{book.title}}
+							<span class="label">Code:</span> <span class="codeid">\{{book.code}}<span>
+						</div>				
+					</div>
+					<div class="date">
+						<span class="label">Due Date:</span> \{{chkoutEntry.dates.returnDate}}
+					</div>		
+
+					<form class="form-horizontal" role="form" action="/book/checkout/return" method="POST" onsubmit="return confirm('Do you really want to return these books?')">
+						<input type="hidden" name="_id" value=\{{chkoutEntry._id}}>
+						<input type="hidden" name="books" value=\{{chkoutEntry}}>
+						<button class="return" name="return" type="submit" >Return All</button>
+					</form>
+					<form class="form-horizontal" role="form" action="/book/checkout/extend" method="POST">
+						<input type="hidden" name="_id" value=\{{chkoutEntry._id}}>
+						<button class="extend" name="extend" type="submit">Extend All</button>
+					</form>
+					<!--a.btn.btn-default.pull-right(href='/location/#{location._id}/review/new') -->
+				</div>
+			</ul>
+		</div>
 	</div>
-{{/each}}
-{{#section 'jcode'}}
+</div>
 
+
+{{#section 'jcode'}}
+/*
+$(document).ready(function() {
+	$(".return").click(function() {
+		location.reload();
+	})
+})
+*/
 //NEED TO REMODEL THIS SECTION SO THAT EACH BOOK CAN BE RETURNED SEPARATELY OR ALL TOGETHER
+
+/*  	WORKING
 	$(".extend").click(function() {
 		var entry = $(this).val()
 		$.ajax({
@@ -84,7 +122,7 @@
 		})
 	})
 
-
+*/
 
 
 

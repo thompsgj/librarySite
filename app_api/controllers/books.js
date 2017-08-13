@@ -77,7 +77,6 @@ module.exports.bookUpdateOne = function(req,res) {
 
 module.exports.bookDeleteOne = function(req,res) {
 	var data = req.body._id;
-
 	collection.remove({
 		_id: data
 	}, {

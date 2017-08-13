@@ -2,6 +2,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser')
+var flash = require('connect-flash');
+var session = require('express-session');
+
+
 
 var monk = require('monk');
 var db = monk('localhost:27017/bookdb');
@@ -33,6 +37,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+	secret: 'keyboard cat',
+	resave: true,
+	saveUninitialized: true,
+    cookie: { maxAge: 60000 }
+}))
+
+app.use(require('connect-flash')());
+app.use(function(req, res, next) {
+	res.locals.flash = req.session.flash;
+	delete req.session.flash;
+	next();
+})
 
 app.use('/', routes);
 app.use('/api', routesApi);

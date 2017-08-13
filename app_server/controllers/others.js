@@ -36,6 +36,10 @@ var getUserInfo = function(req, res, callback) {
 		function(err, response, body) {
 			var data = body;
 			if(response.statusCode === 200  && data.length) {
+				req.session.flash = {
+					type: "success",
+					message: "The users information has been retrieved."
+				}
 				callback(req, res, data);
 			} else {
 				_showError(req, res, response.statusCode);
@@ -97,14 +101,26 @@ module.exports.doAddUser = function(req, res) {
 		json: postdata
 	};
 	if(!postdata.name || !postdata.idnumber || !postdata.phone || !postdata.email) {
+		req.session.flash = {
+			type: "failure",
+			message: "Data missing.  Please make sure to enter all information."
+		}
 		res.redirect('/user/new?err=val');
 	} else {
 		request(
 			requestOptions,
 			function(err, response, body) {
 				if(response.statusCode === 201) {
+					req.session.flash = {
+						type: "success",
+						message: "The user has been added."
+					}
 					res.redirect('/thanks')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
+					req.session.flash = {
+						type: "failure",
+						message: "The data could not be validated."
+					}
 					res.redirect('/user/new?err=val')
 				} else {
 					_showError(req, res, response.statusCode)

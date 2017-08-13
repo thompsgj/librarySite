@@ -111,6 +111,20 @@
 		</div>
 		<div id="main">
 			<div id="contents">
+				<div id="messageArea">{{message}} </div>
+				
+				
+
+				<div id="messages">
+					{{#if flash}}
+						<div class="messages2">
+							{{flash.type}}
+							{{{flash.message}}}
+						</div>
+					{{/if}}
+				</div>
+
+</div>
 				{{{body}}}
 			</div>
 		</div>

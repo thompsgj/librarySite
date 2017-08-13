@@ -27,8 +27,6 @@ module.exports.home = function(req, res) {
 	res.render('home')
 }
 
-
-
 module.exports.addBook = function(req, res) {
 	res.render('addinv');
 }
@@ -55,15 +53,27 @@ module.exports.doAddBook = function(req, res) {
 		json: postdata
 	};
 	if (!postdata.title || !postdata.author || !postdata.publisher || !postdata.series || !postdata.level.ILER || !postdata.numbers.book || !postdata.numbers.ISBN || !postdata.attributes.headwords || !postdata.attributes.type || !postdata.attributes.genre || !postdata.attributes.CD || !postdata.availability.total) {
-		res.redirect('/addinv/new?err=val');
+		req.session.flash = {
+			type: "failure",
+			message: "Data missing.  Please make sure to enter all information."
+		}
+		res.redirect('/book/list');
 	} else {
 		request(
 			requestOptions,
 			function(err, response, body) {
 				if (response.statusCode === 201) {
+					req.session.flash = {
+						type: "success",
+						message: "The book was added to the collection successfully."
+					}
 					res.redirect('/thanks')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
-					res.redirect('/addinv/new?err=val')
+					req.session.flash = {
+						type: "failure",
+						message: "The data could not be validated."
+					}
+					res.redirect('back')
 				} else {
 					_showError(req, res, response.statusCode)
 				}
@@ -93,10 +103,17 @@ module.exports.doDeleteBook = function(req, res) {
 			requestOptions,		
 			function(err, response, body) {
 				if (response.statusCode === 201) {
-					res.set({'Content-Type':'application/json'});
-					res.end(JSON.stringify({response:'json'}));
+					req.session.flash = {
+						type: "success",
+						message: "The book entry was deleted successfully."
+					}
+					res.redirect('/book/list');
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
-					res.redirect('/deletebook/new?err=val');
+					req.session.flash = {
+						type: "failure",
+						message: "The data could not be validated."
+					}
+					res.redirect('back');
 				} else {
 					_showError(req, res, response.statusCode);
 				}
@@ -177,7 +194,11 @@ module.exports.updateBook = function(req, res) {
 						"bkcd":cd
 					})
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
-					res.redirect('/update/new?err=val')
+					req.session.flash = {
+						type: "failure",
+						message: "The data could not be validated."
+					}
+					res.redirect('back')
 				} else {
 					_showError(req, res, response.statusCode)
 				}
@@ -209,15 +230,27 @@ module.exports.doUpdateBook = function(req, res) {
 		json: updatedata
 	};
 	if (!updatedata.title || !updatedata.author || !updatedata.publisher || !updatedata.series || !updatedata.level.ILER || !updatedata.numbers.book || !updatedata.numbers.ISBN || !updatedata.attributes.headwords || !updatedata.attributes.type || !updatedata.attributes.genre || !updatedata.attributes.CD || !updatedata.availability.total) {
-		res.redirect('/update/new?err=val');
+		req.session.flash = {
+			type: "failure",
+			message: "Data missing.  Please make sure to enter all information."
+		}
+		res.redirect('back');
 	} else {
 		request(
 			requestOptions,
 			function(err, response, body) {
 				if (response.statusCode === 201) {
-					res.redirect('/thanks')
+					req.session.flash = {
+						type: "success",
+						message: "The book entry was updated successfully."
+					}
+					res.redirect('/book/list')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
-					res.redirect('/update/new?err=val')
+					req.session.flash = {
+						type: "failure",
+						message: "The data could not be validated."
+					}
+					res.redirect('back')
 				} else {
 					_showError(req, res, response.statusCode)
 				}
@@ -244,11 +277,12 @@ module.exports.doCheckoutBook = function(req, res) {
 	var bkNumArr = [];
 		bkNumArr = bkNumber.split(',').map(Number);
 
+	console.log("CHECKOUT BOOK ENTRY")
+	console.log(req.body)
 	path = '/api/checkouts/';
 	postdata = {
 		code: bkNumArr,
 		studentId: req.body.id,
-		studentPhone: req.body.phone,
 		teacher: req.body.teacher,
 		checkoutDate: checkoutDate,
 		returnDate: returnDate
@@ -258,18 +292,33 @@ module.exports.doCheckoutBook = function(req, res) {
 		method: "POST",
 		json: postdata
 	};
-	if (!postdata.code || !postdata.studentId || !postdata.studentPhone || !postdata.teacher) {
-		res.redirect('/checkout/new?err=val');
+	if (!postdata.code || !postdata.studentId || !postdata.teacher) {
+		res.render('checkout', {
+			message: "Data is missing or incomplete.  Please fill out all fields with appropriate data."
+		})
 	} else {
 		request(
 			requestOptions,
 			function(err, response, body) {
 				if (response.statusCode === 201) {
+					req.session.flash = {
+						type: "success",
+						message: "The checkout entry was created successfully."
+					}
 					res.redirect('/thanks')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
-					res.redirect('/checkout/new?err=val')
+					req.session.flash = {
+						type: "failure",
+						message: "The checkout entry was not created successfully.  Please try again."
+					}
+					res.redirect('back')
 				} else {
-					_showError(req, res, response.statusCode)
+					//_showError(req, res, response.statusCode)
+					console.log(body)
+
+					res.render('checkout', {
+					    message : body
+					 });
 				}
 			}
 		)
@@ -278,22 +327,26 @@ module.exports.doCheckoutBook = function(req, res) {
 
 
 var renderCheckoutListPage = function(req, res, responseBody) {
-	var message;
-	if(!(responseBody instanceof Array)) {
-		message = "API Lookup Error";
-		responseBody = [];
-	} else {
-		if(!responseBody.length) {
-			message = "No books checked out."
+	/* 
+		var message;
+		if(!(responseBody instanceof Array)) {
+			message = "API Lookup Error";
+			responseBody = [];
+		} else {
+			if(!responseBody.length) {
+				message = "No books checked out."
+			}
 		}
-	}
-	res.render('checkouts', {
-		bklist: responseBody,
-		message: message
-	})
+		res.render('checkouts', {
+			bklist: responseBody,
+			message: message
+		})
+	*/
+	res.render('checkouts');
 }
-
+///////////////////////////////////////////HERE
 module.exports.checkoutList = function(req, res) {
+	/*
 	var requestOptions, path;
 		path = '/api/checkouts'
 		requestOptions = {
@@ -308,31 +361,65 @@ module.exports.checkoutList = function(req, res) {
 				renderCheckoutListPage(req, res, data)
 			}
 		);
+	*/
+	renderCheckoutListPage(req, res);
 }
 
 module.exports.returnBook = function(req, res) {
-	var requestOptions, deletedata, path;
+	var requestOptions, deletedata, path, bookCodes;
+	bookCodes = [];
 	path = '/api/checkouts/';
+
+	var json = JSON.parse(req.body.books)
+	console.log("RETURN BOOK FIRST FUNCTION")
+	console.log(json.books)
+	for(i = 1; i < Object.keys(json.books).length +1; i++) {
+		console.log("RUN")
+		if (i == 1) {
+			bookCodes.push(json.books.book1.code)
+		} else if (i == 2) {
+			bookCodes.push(json.books.book2.code)
+		} else {
+			bookCodes.push(json.books.book3.code)
+		}
+	}
+
+	console.log("BOOKCODES VARIABLE")
+	console.log(bookCodes)
 	deletedata = {
 		_id : req.body._id,
-		code: req.body.code
+		codes: bookCodes
 	};
-	console.log(deletedata)
 	requestOptions = {
 		url: apiOptions.server + path,
 		method: "DELETE",
 		json: deletedata
 	};
 	if (!deletedata._id) {
-		res.redirect('/checkoutlist/new?err=val');
+		req.session.flash = {
+			type: "failure",
+			message: "This book id was not found."
+		}
+		res.redirect('back')
 	} else {
 		request(
 			requestOptions,		
 			function(err, response, body) {
 				if (response.statusCode === 200) {
-					res.set({'Content-Type':'application/json'});
-					res.end(JSON.stringify({response:'json'}));
+					/*
+						res.set({'Content-Type':'application/json'});
+						res.end(JSON.stringify({response:'json'}));
+					*/
+					req.session.flash = {
+						type: "success",
+						message: "The book was returned successfully."
+					}
+					res.redirect('back')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
+					req.session.flash = {
+						type: "failure",
+						message: "The checkout entry was not deleted."
+					}
 					res.redirect('/checkoutlist/new?err=val');
 				} else {
 					_showError(req, res, response.statusCode);
@@ -345,6 +432,7 @@ module.exports.returnBook = function(req, res) {
 
 
 module.exports.extendBook = function(req, res) {
+	console.log("EXTEND BOOK FIRST FUNCTION")
 	var requestOptions, updatedata, path;
 	path = '/api/checkouts/';
 	updatedata = {
@@ -356,15 +444,30 @@ module.exports.extendBook = function(req, res) {
 		json: updatedata
 	};
 	if (!updatedata._id) {
-		res.redirect('/checkoutlist/new?err=val');
+		req.session.flash = {
+			type: "failure",
+			message: "This book id was not found."
+		}
+		res.redirect('back')
 	} else {
 		request(
 			requestOptions,		
 			function(err, response, body) {
 				if (response.statusCode === 200) {
+					req.session.flash = {
+						type: "success",
+						message: "The book has been extended."
+					}
+					/*
 					res.set({'Content-Type':'application/json'});
 					res.end(JSON.stringify({response:'json'}));
+					*/
+					res.redirect('back')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
+					req.session.flash = {
+						type: "failure",
+						message: "The book was not extended."
+					}
 					res.redirect('/checkoutlist/new?err=val');
 				} else {
 					_showError(req, res, response.statusCode);
@@ -376,6 +479,7 @@ module.exports.extendBook = function(req, res) {
 
 module.exports.doCheckoutDelete = function(req, res) {
 	var requestOptions, path;
+	console.log("CHECKOUT DELETE")
 	path = '/api/checkouts';
 	deletedata = {
 		title: req.body.title,
