@@ -67,11 +67,18 @@ module.exports.doAddBook = function(req, res) {
 						type: "success",
 						message: "The book was added to the collection successfully."
 					}
-					res.redirect('/thanks')
+					res.redirect('/book/add')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
 					req.session.flash = {
 						type: "failure",
 						message: "The data could not be validated."
+					}
+					res.redirect('back')
+				} else if (response.statusCode === 409) {
+					console.log("409 REQUEST SENT")
+					req.session.flash = {
+						type: "failure",
+						message: "A book with that ISBN already exists."
 					}
 					res.redirect('back')
 				} else {
@@ -305,7 +312,7 @@ module.exports.doCheckoutBook = function(req, res) {
 						type: "success",
 						message: "The checkout entry was created successfully."
 					}
-					res.redirect('/thanks')
+					res.redirect('/book/checkout/list')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
 					req.session.flash = {
 						type: "failure",
@@ -478,7 +485,7 @@ module.exports.extendBook = function(req, res) {
 }
 
 module.exports.doCheckoutDelete = function(req, res) {
-	var requestOptions, path;
+	var requestOptions, deletedata, path;
 	console.log("CHECKOUT DELETE")
 	path = '/api/checkouts';
 	deletedata = {
@@ -502,4 +509,78 @@ module.exports.doCheckoutDelete = function(req, res) {
 			renderCheckoutListPage(req, res, data)
 		}
 	);
+}
+
+module.exports.downloadOverdue = function(req, res) {
+	/*
+		Set the date parameter (today's date)DONE
+		send parameters to APIDONE
+			[AT API
+				Use date parameter to find all due dates before today
+				query database && export results
+				db.checkoutcollection.find({"dates.returnDate": {$lt:"2017-8-28"}})
+				create file
+				send back file name overduelist%today'sDate%
+			]
+		use file name to download the file
+
+	*/
+	console.log("DOWNLOAD BOOK SERVER FUNCTION")
+	var requestOptions, postdata, path, today, fileDate
+	today = new Date();
+	fileDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+	path = '/api/checkouts/overduelist'
+	postdata = {
+		date: fileDate
+	};
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: "GET",
+		json: postdata
+	};
+	request(
+		requestOptions,
+		function(err, response, body) {
+				console.log("RESPONSE RECEIVED- READY TO DOWNLOAD")
+				console.log(response.responseContent)
+				var filePath = require('path');
+				var file = 'backup.csv'
+				path = filePath.resolve(".") + '/files/' + file;
+				res.download(path)
+
+		}
+	)
+}
+
+
+
+var renderCheckoutArchiveListPage = function(req, res, responseBody) {
+	res.render('checkoutsArchive');
+}
+
+module.exports.checkoutArchiveList = function(req, res) {
+	console.log("RENDER PAGE")
+	renderCheckoutArchiveListPage(req, res);
+}
+
+module.exports.downloadBookList = function(req, res) {
+	var path, requestOptions;
+	path = '/api/book/backup'
+
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: "GET",
+		json: {message:"booklist"}
+	};
+	request(
+		requestOptions,
+		function(err, response, body) {
+				console.log("BOOK LIST RESPONSE RECEIVED- READY TO DOWNLOAD")
+				console.log(response.responseContent)
+				var filePath = require('path');
+				var file = 'bkcolbackup.csv'
+				path = filePath.resolve(".") + '/files/' + file;
+				res.download(path)
+		}
+	)
 }

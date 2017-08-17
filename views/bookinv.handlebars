@@ -1,37 +1,65 @@
 {{#section 'css'}}
 
 		.entry {
-			height: 150px;
-			margin-top: 75px;
-			background-color:black;
+			height: 180px;
+			margin-bottom: 75px;
 			position: relative;
+			width: 500px;
+		}
+/*HEADER Container */
+		.headerContainer {
+			min-height:60px;
 		}
 
-		.headerContainer {
-			background-color: white;
-			height:30px;
+		.lev6 {
+			background-color: grey;
+		}
+		.lev5 {
+			background-color: pink;
+		}
+		.lev4 {
+			background-color: green;
+		}
+		.lev3 {
+			background-color: blue;
+		}
+		.lev2 {
+			background-color: yellow;
+		}
+		.lev1 {
+			background-color: brown;
 		}
 
 		.bookHead {
-			float: left;
+			clear:both;
+			width: 100%;
 		}
 
 		.buttons {
+			clear:both;
+		}
+
+		.update {
+			float: left;
+		}
+		.delete {
 			float: right;
 		}
 
 		.title {
-			background-color: green;
 			float: left;
 			font-size: 20px;
 			font-weight: bold;
-
-			height:
 		}
 
 		.author {
-			background-color:grey;
 			float:left;
+		}
+
+		.entry ul {
+			list-style: none;
+			margin-left: 10px;
+			padding: 0px;
 		}
 
 		.entry li {
@@ -42,11 +70,10 @@
 		.entry .label {
 			font-weight: bold;
 		}
-
+/* BOOK INFORMATION Container */
 		.infoContainer {
-			height: 120px;
-			width: 500px
-			background-color: red;
+			min-height: 120px;
+			background-color: #5B6269;
 		}
 
 		.spacer{
@@ -54,40 +81,55 @@
 			height 15px;
 			width: 100%
 		}
+	/* Book Information 1 */
 		.section1 {
 			float: left;
-			background-color: purple;
 			height: 100%;
 			width: 50%;
 		}
-
+	/* Book Information 2 */
 		.section2 {
 			float: right;
-			background-color: pink;
 			height: 100%;
 			width: 50%;
 		}
-
+	/* Book Information 3 */
 		.section3 {
 			clear: both;
-			background-color: orange;
+			background-color: #5B6269;
 		}
 
 {{/section}}
 
 <h1>Book Inventory</h1>
 
-	<div ng-controller="bookListCtrl">
-		<h3>Filter Results</h3>
+	<form action="/book/add">
+		<input type="submit" value="Add Book"/>
+	</form>
 
+	<form action="/book/list/download">
+		<input type="submit" value="Download Overdue List"/>
+	</form>
+
+	<div class="filters">
+		<h3>Filters</h3>
 		Title
 		<input type="text" ng-model="search.title"><br>
 
-		Level
-		<input type="text" ng-model="search.level.ILER"><br>
+		Author
+		<input type="text" ng-model="search.author"><br>
 
 		Publisher
 		<input type="text" ng-model="search.publisher"><br>
+
+		Series
+		<input type="text" ng-model="search.series"><br>
+
+		ISBN
+		<input type="text" ng-model="search.numbers.ISBN"><br>
+
+		Level
+		<input type="text" ng-model="search.level.ILER"><br>
 
 		Headwords
 		<input type="text" ng-model="search.attributes.headwords"><br>
@@ -95,23 +137,39 @@
 		Type
 		<input type="text" ng-model="search.attributes.type"><br>
 
-		<div ng-repeat="bookEntry in bookEntries | filter:search">
+		Genre
+		<input type="text" ng-model="search.attributes.genre"><br>
+
+		CD/DVD
+		<input type="text" ng-model="search.attributes.CD"><br>
+
+		Available Copies
+		<input type="text" ng-model="search.availability.total"><br>
+	</div>
+
+
+	<div class="pageContent" ng-controller="bookListCtrl">
+		<div ng-if="search.title || search.author || search.publisher || search.series || search.numbers.ISBN || search.level.ILER || search.attributes.headwords || search.attributes.type || search.attributes.genre || search.attributes.CD || search.availability.total" ng-repeat="bookEntry in bookEntries | filter:search | orderBy:'level.ILER'">
 		<!--((search===null)?undefined:search):true-->
-			<div class="entry">
-				<div class="headerContainer">
+			<div class="entry lev\{{bookEntry.level.ILER}}">
+				<div class="headerContainer lev\{{bookEntry.level.ILER}}">
 					<div class="bookHead">
 						<span class="title">\{{bookEntry.title}}/</span>
 						<span class="author">\{{bookEntry.author}}</span>
 					</div>
 					<div class="buttons">
-						<form class="form-horizontal" role="form" action="/book/entry" method="POST">
-							<input type="hidden" name="_id" value=\{{bookEntry._id}}>
-							<button class="update" type="submit">Update</button>
-						</form>
-						<form class="form-horizontal" role="form" action="/book/delete" method="POST" onsubmit="return confirm('Do you really want to delete this book')">
-							<input type="hidden" name="_id" value=\{{bookEntry._id}}>
-							<button class="delete" type="submit">Delete</button>
-						</form>
+						<div class="update">
+							<form class="form-horizontal" role="form" action="/book/entry" method="POST">
+								<input type="hidden" name="_id" value=\{{bookEntry._id}}>
+								<button class="updatebtn" type="submit">Update</button>
+							</form>
+						</div>
+						<div class="delete">
+							<form class="form-horizontal" role="form" action="/book/delete" method="POST" onsubmit="return confirm('Do you really want to delete this book')">
+								<input type="hidden" name="_id" value=\{{bookEntry._id}}>
+								<button class="deletebtn" type="submit">Delete</button>
+							</form>
+						</div>
 					</div>
 				</div>
 				<div class="infoContainer">
@@ -134,11 +192,13 @@
 					</div>
 					<div class="section3">
 						<span class="label">Copies: </span>\{{bookEntry.numbers.book}}
+						<span class="label">Available Copies: </span>\{{bookEntry.availability.total}}
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 
 
 {{#section 'jcode'}}

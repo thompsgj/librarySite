@@ -99,7 +99,8 @@ module.exports.checkoutCreateOne = function(req,res) {
 					"dates": {
 						"checkoutDate": req.body.checkoutDate,
 						"returnDate": req.body.returnDate
-					}
+					},
+					"status": "active"
 				}
 				chkcoll.insert(fullQuery).then(function(doc2, err2) {
 					console.log("EXECUTE BOOK UPDATE QUERY")
@@ -261,7 +262,8 @@ module.exports.checkoutRetrieveOne = function(req,res) {
 }
 
 module.exports.checkoutRetrieveList = function(req,res) {
-	chkcoll.find({}).then(function(doc,err) {
+	console.log("RETRIEVE LIST")
+	chkcoll.find({"status": "active"}).then(function(doc,err) {
 		if(err) {
 			res.send("Problem");
 		} else {
@@ -269,6 +271,20 @@ module.exports.checkoutRetrieveList = function(req,res) {
 		}
 	})
 }
+
+module.exports.checkoutArchiveList = function(req,res) {
+	console.log("ARCHIVE API CALL")
+	chkcoll.find({"status": "archived"}).then(function(doc,err) {
+		if(err) {
+			res.send("Problem");
+		} else {
+			console.log("SUCCESSFUL API RESPONSE")
+			console.log(doc)
+			sendJsonResponse(res, 200, doc)
+		}
+	})
+}
+
 
 module.exports.checkoutUpdateOne = function(req,res) {
 	console.log("CHECKOUT UPDATE ONE FUNCTION")
@@ -303,6 +319,37 @@ module.exports.checkoutDeleteOne = function(req,res) {
 	var query;
 	console.log("CODE")
 	console.log(codes)
+
+	chkcoll.update({
+		_id:data
+	}, {
+		$set:{"status": "archived"}
+	}).then(function(doc, err) {
+		if (err) {
+			res.send("There was a problem adding the information to the database.")
+		} else {
+			if (codes.length == 3) {
+				query = [{"numbers.book": codes[0]},{"numbers.book": codes[1]},{"numbers.book": codes[2]}]
+			} else if (codes.length == 2) {
+				query = [{"numbers.book": codes[0]},{"numbers.book": codes[1]}]
+			} else {
+				query = [{"numbers.book": codes[0]}]
+			}
+			bkcoll.update({
+				$or : query
+			}, {
+				$inc: {"availability.total":1, "availability.checkouts": -1}
+			},{multi: true}).then(function (doc2, err2) {
+				if (err2) {
+					res.send("Problem Updating Book Collection");
+				} else {
+					sendJsonResponse(res, 200, doc2);
+				}
+			})
+		}
+	})
+
+	/* THIS CODE WILL ACTUALLY DELETE THE ENTRY
 	chkcoll.remove({
 		_id: data
 	}, {
@@ -332,5 +379,23 @@ module.exports.checkoutDeleteOne = function(req,res) {
 			})
 		}
 	})
+	*/
+}
+
+module.exports.checkoutRetrieveOverdueList = function(req, res) {
+	console.log("OVERDUE LIST API FUNCTION")
+	var path = require('path');
+	var spawn = require('child_process').spawn;
+	var mongoExport = spawn('mongoexport', [
+		'--db', 'bookdb', 
+		'--collection', 'checkoutcollection',
+		'--type','csv',
+		'--query','{"dates.returnDate": {$lt:"2017-8-29"}}',
+		'--fields', 'student.studentId,student.studentPhone',
+		'--out', path.resolve(".") + '/files/' + 'backup.csv'
+	]);
+
+	res.set('Content-Type','text/csv')
+	mongoExport.stdout.pipe(res)
 }
 

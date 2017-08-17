@@ -49,37 +49,12 @@ var getUserInfo = function(req, res, callback) {
 }
 
 var renderUserPage = function(req, res, responseBody) {
-	var message;
-	if(!(responseBody instanceof Array)) {
-		message = "API Lookup Error";
-		responseBody = [];
-	} else {
-		if(!responseBody.length) {
-			message = "No users found."
-		}
-	}
-	res.render('users', {
-		userlist: responseBody,
-		message: message
-	})
+	res.render('users')
 }
 
 
 module.exports.users = function(req, res) {
-	var requestOptions, path;
-		path = '/api/users'
-		requestOptions = {
-			url: apiOptions.server + path,
-			method: "GET",
-			json: {}
-		};
-		request(
-			requestOptions,
-			function(err, response, body) {
-				var data = body;
-				renderUserPage(req, res, data)
-			}
-		);
+	renderUserPage(req, res)
 };
 
 module.exports.addUser = function(req, res) {
@@ -115,17 +90,17 @@ module.exports.doAddUser = function(req, res) {
 						type: "success",
 						message: "The user has been added."
 					}
-					res.redirect('/thanks')
+					res.redirect('/user')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
 					req.session.flash = {
 						type: "failure",
 						message: "The data could not be validated."
 					}
-					res.redirect('/user/new?err=val')
+					res.redirect('back')
 				} else if (response.statusCode === 409) {
 					req.session.flash = {
 						type: "failure",
-						message: "A book with that title already had an entry in the database."
+						message: "A user with that id is already in the database."
 					}
 					res.redirect('back')
 				} else {

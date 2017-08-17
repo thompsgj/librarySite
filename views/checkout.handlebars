@@ -19,30 +19,27 @@
 		    border: 0px;
 		}
 {{/section}}
-
-
-
 <h3>Checkout Book</h3>
 <form class="form-horizontal" role="form" action="/book/checkout/new" method="POST">
 	<input type="hidden" name="_csrf">
 	{{!Book code}}
-	<div class="form-group">
-		<label>Book Codes</label>
-		<div>
+	<div class="form-group row">
+		<label for="bookCode" class="col-3 col-form-label">Book Codes</label>
+		<div class="col-9">
 			<input type="text" class="form-control" required id="bookCode" name="code">
 		</div>
 	</div>
 	{{!Student number}}
-	<div class="form-group">
-		<label>Student ID Number</label>
-		<div>
+	<div class="form-group row">
+		<label for="idNumber" class="col-3 col-form-label">ID Number</label>
+		<div class="col-9">
 			<input type="text" class="form-control" required id="idNumber" name="id">
 		</div>
 	</div>
 	{{!Teacher name}}
-	<div class="form-group">
-		<label>Teacher Name</label>
-		<div>
+	<div class="form-group row">
+		<label for="teacherName" class="col-3 col-form-label">Teacher</label>
+		<div class="col-9">
 			<input type="text" class="form-control" required id="teacherName" name="teacher">
 		</div>
 	</div>

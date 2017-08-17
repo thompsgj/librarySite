@@ -3,79 +3,136 @@
 		div {
 		    position: relative;
 		}
-		#search {
-		    position: absolute;
-		    top: 0;
-		    left: 0;
-		    z-index: 11;
-		    background: transparent;
-		    
+		.checkouts {
+			margin-bottom: 50px;
+			width: 500px;
+			height: 220px;
+			background-color: red;
 		}
-		#autocomplete {
-		    position: absolute;    
-		    top: 2px;
-		    left: 1px; 
-		    background: transparent;
-		    z-index: 10;
-		    border: 0px;
-		}
-
 		.checkouts li {
 			padding: 0px;
 			margin: 0px;
 		}
-
 		.checkouts .label {
 			font-weight: bold;
+		}
+		.return {
+			float: left;
+		}
+		.extend {
+			float: right;
+		}
+		.contactInformation {
+			float: left;
+		}
+		.bookInformation {
+			height: 150px;
+			float: right;
+		}
+		.entry ul {
+			list-style: none;
+			margin-left: 10px;
+			padding: 0px;
+		}
+		.entry li {
+			padding: 0px;
+			margin: 0px;
+		}
+		.date {
+			clear: both;
+		}
+		.buttons {
+			clear: both;
+		}
+		.headerContainer {
+			clear: both;
+		}
+		.studentDiv {
+			float: left;
+		}
+		.dueDiv {
+			float: right;
+		}
+		.infoContainer {
+			clear: both;
 		}
 {{/section}}
 
 <h1>Checkout List</h1>
+	<form action="/book/checkout">
+		<input type="submit" value="Checkout Book"/>
+	</form>
 
-<div ng-controller="chkoutListCtrl">
-	<h3>Filter Results</h3>
-	Student ID
-	<input type="text" ng-model="search.student.studentId"></input><br>
-	Student Phone
-	<input type="text" ng-model="search.student.studentPhone"></input>
+	<form action="/book/checkout/list/download">
+		<input type="submit" value="Download Overdue List"/>
+	</form>
 
-<!-- Need to send checkout id and book code to the server -->
-	<div ng-repeat="chkoutEntry in chkoutEntries | filter : search">
-		<div class="checkouts" id="\{{chkoutEntry._id}}">
+	<form action="/book/checkout/archive">
+		<input type="submit" value="Archived Returns"/>
+	</form>
+
+	<div class="filters">
+		<h3>Filter</h3>
+		Student ID
+		<input type="text" ng-model="search.student.studentId"></input><br>
+		Phone
+		<input type="text" ng-model="search.student.studentPhone"></input><br>
+	</div>
+
+<!--  
+
+Need to send checkout id and book code to the server -->
+
+	<div class="pageContent" ng-controller="chkoutListCtrl">
+		<div  ng-if="search.student.studentId || search.student.studentPhone" ng-repeat="chkoutEntry in chkoutEntries | filter: search | orderBy:'dates.returnDate':true">
+			<div class="checkouts" id="\{{chkoutEntry._id}}">
 				<div class="entry">
-					<div class="student">
-						<span class="label">Student:</span> \{{chkoutEntry.student.studentId}}
-						<span class="label">Contact Number:</span> \{{chkoutEntry.student.studentPhone}}
-						<span class="label"> Email: </span> \{{chkoutEntry.student.studentEmail}}
+					<div class="headerContainer">
+						<div class="studentDiv">
+							<span class="student">\{{chkoutEntry.student.studentId}}</span>
+						</div>
+						<div class="dueDiv">
+							<span class="label">Due Date:</span> \{{chkoutEntry.dates.returnDate}}
+						</div>
 					</div>
-					<div class="other">
-						<span class="label">Teacher:</span> \{{chkoutEntry.student.teacher}}
+					<div class="infoContainer">
+						<div class="contactInformation">
+							<ul>
+								<li><span class="label">Contact Number:</span> \{{chkoutEntry.student.studentPhone}}</li>
+								<li><span class="label"> Email: </span> \{{chkoutEntry.student.studentEmail}}</li>
+								<li><span class="label">Teacher:</span> \{{chkoutEntry.student.teacher}}</li>
+							</ul>
+						</div>
+						<div class="bookInformation">
+							<div ng-repeat= "book in chkoutEntry.books">
+								<div class="bookEntry">
+									<ul>
+										<li><span class="label">Title:</span> \{{book.title}}</li>
+										<li><span class="label">Code:</span> <span class="codeid">\{{book.code}}<span></li>
+									</ul>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="book" ng-repeat= "book in chkoutEntry.books">
-						<div class="info">
-							<span class="label">Title:</span> \{{book.title}}
-							<span class="label">Code:</span> <span class="codeid">\{{book.code}}<span>
-						</div>				
+					<div class="buttons">
+						<div class="return">
+							<form class="form-horizontal" role="form" action="/book/checkout/return" method="POST" onsubmit="return confirm('Do you really want to return these books?')">
+								<input type="hidden" name="_id" value=\{{chkoutEntry._id}}>
+								<input type="hidden" name="books" value=\{{chkoutEntry}}>
+								<button class="returnbtn" name="return" type="submit" >Return</button>
+							</form>
+						</div>
+						<div class="extend">
+							<form class="form-horizontal" role="form" action="/book/checkout/extend" method="POST">
+								<input type="hidden" name="_id" value=\{{chkoutEntry._id}}>
+								<button class="extendbtn" name="extend" type="submit">Extend</button>
+							</form>
+						</div>
 					</div>
-					<div class="date">
-						<span class="label">Due Date:</span> \{{chkoutEntry.dates.returnDate}}
-					</div>		
-
-					<form class="form-horizontal" role="form" action="/book/checkout/return" method="POST" onsubmit="return confirm('Do you really want to return these books?')">
-						<input type="hidden" name="_id" value=\{{chkoutEntry._id}}>
-						<input type="hidden" name="books" value=\{{chkoutEntry}}>
-						<button class="return" name="return" type="submit" >Return All</button>
-					</form>
-					<form class="form-horizontal" role="form" action="/book/checkout/extend" method="POST">
-						<input type="hidden" name="_id" value=\{{chkoutEntry._id}}>
-						<button class="extend" name="extend" type="submit">Extend All</button>
-					</form>
-					<!--a.btn.btn-default.pull-right(href='/location/#{location._id}/review/new') -->
 				</div>
-			</ul>
+			</div>
 		</div>
 	</div>
-</div>
 
 
 {{#section 'jcode'}}

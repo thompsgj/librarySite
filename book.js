@@ -18,10 +18,21 @@ var handlebars = require('express3-handlebars').create({
 	//necessary for injecting views into layouts when desired
 	helpers: {
 		section: function(name, options) {
+			console.log("FIRING SECTION HELPER")
 			if(!this._sections) this._sections = {};
 			this._sections[name] = options.fn(this);
 			return null;
 		},
+		messageAlert: function(val) {
+			console.log("FIRING MESSAGE HELPER")
+			console.log(val)
+			if(val == "success") {
+				console.log("LOGIC WORKS")
+				return "alert alert-success"
+			} else {
+				return "alert alert-danger"
+			}
+		}
 	}
 });
 var app = express();
@@ -76,6 +87,9 @@ app.listen(app.get('port'), function() {
 
 
 module.exports = app;
+
+
+
 
 
 

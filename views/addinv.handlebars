@@ -15,36 +15,37 @@
 
 <form class="form-horizontal" role="form" action="/book/entry/new" method="POST">
 <h2>Book Information</h2>
+
 	<input type="hidden" name="_csrf">
 		{{! Book Title }}
-		<div class="form-group">
-			<label for="fieldTitle" class="control-label">Title</label>
-			<div>
-				<input type="text" class="form-control" required id="fieldTitle" name="title">
+		<div class="form-group row">
+			<label for="fieldTitle" class="col-3 col-form-label" id="titleLab">Title</label>
+			<div class="col-9">
+				<input type="text" class="form-control" required id="fieldTitle" aria-describedby="titleLab" name="title">
 			</div>
 		</div>
 
 		{{! Author }}
-		<div class="form-group">
-			<label for="fieldAuthor" class="control-label">Author</label>
-			<div>
-				<input type="text" class="form-control" required id="fieldAuthor" name="author">
+		<div class="form-group row">
+			<label for="fieldAuthor" class="col-3 col-form-label" id="authorLab">Author</label>
+			<div class="col-9">
+				<input type="text" class="form-control" required id="fieldAuthor" aria-describedby="authorLab" name="author">
 			</div>
 		</div>
 
 		{{! Publisher }}
-		<div class="form-group">
-			<label for="publisher" class="control-label">Publisher</label>
-			<div>
-				<input type="text" class="form-control" required id="publisher" name="pub">
+		<div class="form-group row">
+			<label for="publisher" class="col-3 col-form-label" id="publisherLab">Publisher</label>
+			<div class="col-9">
+				<input type="text" class="form-control" required id="publisher" aria-describedby="publisherLab" name="pub">
 			</div>
 		</div>
 
 		{{! Publisher Series}}
-		<div class="form-group">
-			<label for="publisherSeries" class="control-label">Publisher Series</label>
-			<div>
-				<input type="text" class="form-control" required id="publisherSeries" name="pubSeries">
+		<div class="form-group row">
+			<label for="publisherSeries" class="col-3 col-form-label" id="seriesLab">Publisher Series</label>
+			<div class="col-9">
+				<input type="text" class="form-control" required id="publisherSeries" aria-describedby="seriesLab" name="pubSeries">
 			</div>
 		</div>
 
@@ -55,18 +56,18 @@
 				<input type="text" class="form-control" required id="levelILER" name="level">
 			</div>
 		</div>}}
-		<div class="form-group">
-			<label for="levelILER" class="control-label">ILER Level</label>
-			<div>
-			<select name ="level">
-				<option value=1>1</option>
-				<option value=2>2</optiion>
-				<option value=3>3</optiion>
-				<option value=4>4</optiion>
-				<option value=5>5</optiion>
-				<option value=6>6</optiion>
-				<option value=0>NA</option>
-			</select>
+		<div class="form-group row">
+			<label for="levelILER" class="col-3 col-form-label" id="levelLab">ILER Level</label>
+			<div class="col-9">
+				<select class="form-control" id="levelILER" aria-describedby="levelLab" name ="level">
+					<option value=1>1</option>
+					<option value=2>2</option>
+					<option value=3>3</option>
+					<option value=4>4</option>
+					<option value=5>5</option>
+					<option value=6>6</option>
+					<option value=7>NA</option>
+				</select>
 			</div>
 		</div>
 
@@ -80,28 +81,28 @@
 
 <h2>Book Codes</h2>
 		{{! Number }}
-		<div class="form-group">
-			<label for="fieldNumber" class="control-label">ILER Book Number</label>
-			<div>
-				<input type="text" class="form-control" required id="fieldNumber" name="number">
+		<div class="form-group row">
+			<label for="fieldNumber" class="col-3 col-form-label" id="numberLab">ILER Book Number</label>
+			<div class="col-9">
+				<input type="text" class="form-control" required id="fieldNumber" aria-describedby="numberLab" name="number">
 			</div>
 		</div>
 
 		{{! ISBN }}
-		<div class="form-group">
-			<label for="fieldISBN" class="control-label">ISBN</label>
-			<div>
-				<input type="text" class="form-control" required id="fieldISBN" name="isbn">
+		<div class="form-group row">
+			<label for="fieldISBN" class="col-3 col-form-label" id="isbnLab">ISBN</label>
+			<div class="col-9">
+				<input type="text" class="form-control" required id="fieldISBN" aria-describedby="isbnLab" name="isbn">
 			</div>
 		</div>
 
 <h2>Book Attributes</h2>
 
 		{{! Headwords }}
-		<div class="form-group">
-			<label for="headwords" class="control-label">Headwords</label>
-			<div>
-				<input type="text" class="form-control" required id="headwords" name="head">
+		<div class="form-group row">
+			<label for="headwords" class="col-3 col-form-label" id="headwordsLab">Headwords</label>
+			<div class="col-9">
+				<input type="text" class="form-control" required id="headwords" aria-describedby="headwordsLab" name="head">
 			</div>
 		</div>	
 
@@ -112,10 +113,10 @@
 				<input type="text" class="form-control" required id="bkType" name="type">
 			</div>
 		</div>}}
-		<div class="form-group">
-			<label for="bkType" class="control-label">Graded/Non-Graded</label>
-			<div>
-				<select name="type">
+		<div class="form-group row">
+			<label for="bkType" class="col-3 col-form-label" id="typeLab">Graded/Non-Graded</label>
+			<div class="col-9">
+				<select class="form-control" aria-describedby="typeLab" name="type">
 					<option value="graded">Graded</option>
 					<option value="non-graded">Non-graded</option>
 				</select>
@@ -123,10 +124,10 @@
 		</div>
 		
 		{{! Genre }}
-		<div class="form-group">
-			<label for="fieldGenre" class="control-label">Genre</label>
-			<div>
-				<input type="text" class="form-control" required id="fieldGenre" name="genre">
+		<div class="form-group row">
+			<label for="fieldGenre" class="col-3 col-form-label" id="genreLab">Genre</label>
+			<div class="col-9">
+				<input type="text" class="form-control" required id="fieldGenre" aria-describedby="genreLab" name="genre">
 			</div>
 		</div>
 
@@ -137,10 +138,10 @@
 				<input type="text" class="form-control" required id="CDInclude" name="cd">
 			</div>
 		</div>}}
-		<div class="form-group">
-			<label for="CDInclude" class="control-label">CD/DVD Available</label>
-			<div>
-				<select name ="cd">
+		<div class="form-group row">
+			<label for="CDInclude" class="col-3 col-form-label" id="cddvdLab">CD/DVD Available</label>
+			<div class="col-9">
+				<select class="form-control" aria-describedby="cddvdLab" name ="cd">
 					<option value="yes">Yes</option>
 					<option value="no">No</optiion>
 				</select>
@@ -151,10 +152,10 @@
 
 
 		{{! Availability Total }}
-		<div class="form-group">
-			<label for="totalBooks" class="control-label">Number of Copies</label>
-			<div>
-				<input type="text" class="form-control" required id="totalBooks" name="total">
+		<div class="form-group row">
+			<label for="totalBooks" class="col-3 col-form-label" id="copiesLab">Number of Copies</label>
+			<div class="col-9">
+				<input type="text" class="form-control" required id="totalBooks" aria-describedby="copiesLab" name="total">
 			</div>
 		</div>
 

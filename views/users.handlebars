@@ -12,17 +12,48 @@
 	.users {
 		margin-bottom: 10px;
 	}
+	.headerContainer {
+		background-color: orange;
+		height: 30px;
+	}
+	.infoContainer {
+		background-color: red;
+	}
 {{/section}}
 
 <h1>Users</h1>
 
-{{#each userlist}}
-	<div class="users">
-		<ul>
-			<li><span class="label">Name:</span> {{name}}</li>
-			<li><span class="label">Id Number:</span> {{idnumber}}</li>
-			<li><span class="label">Phone:</span> {{phone}}</li>
-			<li><span class="label">Email:</span> {{email}}</li>
-		</ul>
+	<form action="/user/add">
+		<input type="submit" value="Add User"/>
+	</form>
+
+
+	<div class="filters">
+		<h3>Filters</h3>
+		Student
+		<input type="text" ng-model="search.name"></input><br>
+		Student ID
+		<input type="text" ng-model="search.idnumber"></input><br>
+		Phone
+		<input type="text" ng-model="search.phone"></input><br>
+		Email
+		<input type="text" ng-model="search.email"></input>
 	</div>
-{{/each}}
+<div class="pageContent" ng-controller="userListCtrl">
+	<div ng-if="search.name || search.idnumber || search.phone || search.email" ng-repeat="userEntry in userEntries | filter: search | orderBy: 'idnumber'">
+		<div class="entry">
+			<div class="headerContainer">
+				<ul>
+					<li><span class="label">Name:</span> \{{userEntry.name}}</li>
+				</ul>
+			</div>
+			<div class="infoContainer">
+				<ul>
+					<li><span class="label">Id Number:</span> \{{userEntry.idnumber}}</li>
+					<li><span class="label">Phone:</span> \{{userEntry.phone}}</li>
+					<li><span class="label">Email:</span> \{{userEntry.email}}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

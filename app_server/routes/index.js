@@ -28,6 +28,7 @@ router.post('/book/entry/', ctrlBooks.updateBook);//DONE
 //Do the Action of Updating a Book
 router.post('/book/entry/update', ctrlBooks.doUpdateBook);//DONE
 //Use the get /book/entry/ to view the updated entry
+router.get('/book/list/download', ctrlBooks.downloadBookList);
 
 //Checkout Book Page
 router.get('/book/checkout', ctrlBooks.checkoutBook);//DONE
@@ -36,6 +37,11 @@ router.post('/book/checkout/new', ctrlBooks.doCheckoutBook);//DONE
 
 //Get the Checkout List Page and Populate it
 router.get('/book/checkout/list', ctrlBooks.checkoutList);//DONE
+
+router.get('/book/checkout/archive', ctrlBooks.checkoutArchiveList);
+
+//Download Overdue Checkout List
+router.get('/book/checkout/list/download', ctrlBooks.downloadOverdue);//DONE
 
 
 //Do the action of deleting a checkout entry

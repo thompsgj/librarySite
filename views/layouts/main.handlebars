@@ -1,8 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Book</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <title>Book</title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	
 	<style>
 		html, body {
 			background-color: #072B42;
@@ -13,25 +18,8 @@
 			font-family: arial;
 		}
 
-		.container, .full {
-			height: 100%
-		}
-
-		#navbar {
-			background-color: #072B42;
-			min-width: 300px;
-			max-width: 300px;
-			float:left;
-			height:100%;
-			position: relative;
-			overflow: auto;
-			/*height: 100%;
-			width: 160px;*/
-		}
 		#main {
-			width: calc(100% - 330px);
 			background-color: #37465c;
-			float:right;
 			padding: 15px;
 			margin:0px;
 			min-height:100%;
@@ -40,19 +28,8 @@
 			height: 100%;*/
 		}
 		#contents {
-			width:500px;
+			width:800px;
 			margin:auto;
-		}
-
-		ul {
-			list-style: none;
-			margin-left: 25px;
-			padding: 0px;
-		}
-
-		li {
-			margin-top: 20px;
-			margin-bottom: 10px;
 		}
 		a {
 			color: white;
@@ -63,17 +40,33 @@
 			color: #ED2C43;
 		}
 		input {
+			/*
 			border-color: #999999;
 			height: 25px;
 			margin-bottom: 5px;
+			*/
 		}
 		select {
 			height: 30px;
 			min-width: 50px;
 			margin-bottom: 5px;
 		}
+   		.navbar-collapse.collapse.in { 
+        	display: block!important;
+    	}
+		
+		.filters {
+			background-color: orange;
+			float: left;
+		}
+
+		.pageContent {
+			float: right;
+		}
+
 
 		{{{_sections.css}}}
+
 	</style>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -81,61 +74,86 @@
 	<script src="/javascript/angular/libraryApp.js"></script>
 </head>
 <body ng-app="libraryApp">
-<div class="container">
-		<div id="navbar">
-			<ul>
-				<li>
-					<a href="/user" id="users">VIEW USER LIST</a>
-				</li>
-				<li>
-					<a href="/user/add" id="addusers">ADD USER</a>
-				</li>
-				<li>
-					<a href="/book/list" id="addinv">VIEW BOOK LIST</a>
-					<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
-				</li>
-				<li>
-					<a href="/book/add" id="addinv">ADD BOOK</a>
-					<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
-				</li>
-				<li>
-					<a href="/book/checkout/list" id="checkoutlist">VIEW CHECKOUT LIST</a>
-				</li>
-				<li>
-					<a href="/book/checkout" id="checkout">CHECKOUT BOOK</a>
-				</li>
-				<li>
-					<a href="/analytics" id="analytics">ANALYTICS</a>
-				</li>
-			</ul>
-		</div>
-		<div id="main">
-			<div id="contents">
-				<div id="messageArea">{{message}} </div>
-				
-				
 
-				<div id="messages">
-					{{#if flash}}
-						<div class="messages2">
-							{{flash.type}}
-							{{{flash.message}}}
-						</div>
-					{{/if}}
+
+<nav class="navbar navbar-toggleable-md navbar-dark bg-dark navbar-fixed-top">
+	<!-- Toggler Button -->
+	<a href="/" class="navbar-brand">ILER Book Cafe</a>
+	<button type="button" class="navbar-toggler"  data-toggle="collapse" data-target="#pageNavbar" aria-controls="pageNavbar" aria-expanded="false">
+		<span class="sr-only"> Toggle Navigation</span>
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	
+	<div class="collapse navbar-collapse" id="pageNavbar">
+		<ul class="navbar-nav nav">
+			<li class="nav-item active">
+				<a href="/user" class="nav-link" id="users">USERS</a>
+			</li>
+			<!--
+			<li class="nav-item active">
+				<a href="/user/add" class="nav-link" id="addusers">ADD USER</a>
+			</li>
+			-->
+			<li class="nav-item active">
+				<a href="/book/list" class="nav-link" id="addinv">BOOKS</a>
+				<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
+			</li>
+			<!--
+			<li class="nav-item active">
+				<a href="/book/add" class="nav-link" id="addinv">ADD BOOK</a>
+				////////////////////////////IFRAME OLD
+				IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>
+			</li>
+			-->
+			<li class="nav-item active">
+				<a href="/book/checkout/list" class="nav-link" id="checkoutlist">CHECKOUTS</a>
+			</li>
+			<!--
+			<li class="nav-item active">
+				<a href="/book/checkout" class="nav-link" id="checkout">CHECKOUT BOOK</a>
+			</li>
+			-->
+			<li class="nav-item active">
+				<a href="/analytics" class="nav-link" id="analytics">ANALYTICS</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+<div id="main">
+	<div id="contents">
+		<div id="messageArea">{{message}} </div>
+		<div id="messages">
+			{{#if flash}}
+				<div class='{{{messageAlert flash.type}}}''>
+					{{{flash.message}}}
 				</div>
+			{{/if}}
+		</div>
+		<div id ="pages">
 
+
+
+			{{{body}}}
+
+		</div>
 </div>
-				{{{body}}}
 			</div>
 		</div>
 	</div>
 </div>
 
-
-
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+
 	<script type="text/javascript">
 		{{{_sections.jcode}}}
+
+
+
+
 	</script>
 </body>
 </html>
