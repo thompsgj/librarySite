@@ -1,33 +1,6 @@
 {{#section 'css'}}
-
-		div {
-		    position: relative;
-		}
-		.checkouts {
-			margin-bottom: 50px;
-			width: 500px;
-			height: 220px;
-			background-color: red;
-		}
-		.checkouts li {
-			padding: 0px;
-			margin: 0px;
-		}
-		.checkouts .label {
-			font-weight: bold;
-		}
-		.return {
-			float: left;
-		}
-		.extend {
-			float: right;
-		}
-		.contactInformation {
-			float: left;
-		}
-		.bookInformation {
-			height: 150px;
-			float: right;
+		.entry {
+			margin-bottom: 15px;
 		}
 		.entry ul {
 			list-style: none;
@@ -38,68 +11,67 @@
 			padding: 0px;
 			margin: 0px;
 		}
-		.date {
-			clear: both;
-		}
-		.buttons {
-			clear: both;
-		}
-		.headerContainer {
-			clear: both;
-		}
-		.studentDiv {
-			float: left;
-		}
-		.dueDiv {
-			float: right;
+
+		.headerContainer, .dateContainer {
+			background-color: #011a2b;
 		}
 		.infoContainer {
-			clear: both;
+			background-color: #af8983;
 		}
+/* FILTERS Container */
+	.filtersContainer {
+		height: 150px;
+	}
 {{/section}}
 
 <h1>Checkout Archive</h1>
-
-	<div class="filters">
-		<h3>Filter</h3>
-		Student ID
-		<input type="text" ng-model="search.student.studentId"></input><br>
-		Phone
-		<input type="text" ng-model="search.student.studentPhone"></input><br>
+<div class="row">
+	<div class="filtersContainer col-12 col-sm-3 col-md-3 float-sm-left float-md-left">
+		<div class="filters">
+			<label for="idFilter" class="col-12 col-form-label">Student ID</label>
+			<input type="text" class="col-12 col-form" id="idFilter" ng-model="search.student.studentId"></input><br>
+			<label for="phoneFilter" class="col-12 col-form-label">Phone</label>
+			<input type="text" class="col-12 col-form" id="phoneFilter" ng-model="search.student.studentPhone"></input><br>
+		</div>
 	</div>
 
-<!--  
-ng-if="search.student.studentId || search.student.studentPhone"
-Need to send checkout id and book code to the server -->
-
-	<div class="pageContent" ng-controller="chkoutArchiveListCtrl">
-		<div ng-repeat="archiveEntry in archiveEntries">
-			<div class="checkouts" id="\{{archiveEntry._id}}">
-				<div class="entry">
-					<div class="headerContainer">
-						<div class="studentDiv">
-							<span class="student">\{{archiveEntry.student.studentId}}</span>
-						</div>
-						<div class="dueDiv">
-							<span class="label">Due Date:</span> \{{archiveEntry.dates.returnDate}}
-						</div>
+<!-- -->
+	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="chkoutArchiveListCtrl">
+		<div ng-if="search.student.studentId|| search.student.studentPhone" ng-repeat="archiveEntry in archiveEntries">
+			<div class="col-9 entry" id="\{{archiveEntry._id}}">
+				<div class="headerContainer row">
+					<div class="studentDiv col-12">
+						<span class="student">\{{archiveEntry.student.studentId}}</span>
 					</div>
-					<div class="infoContainer">
-						<div class="contactInformation">
-							<ul>
-								<li><span class="label">Contact Number:</span> \{{archiveEntry.student.studentPhone}}</li>
-								<li><span class="label"> Email: </span> \{{archiveEntry.student.studentEmail}}</li>
-								<li><span class="label">Teacher:</span> \{{archiveEntry.student.teacher}}</li>
-							</ul>
-						</div>
-						<div class="bookInformation">
-							<div ng-repeat= "book in archiveEntry.books">
-								<div class="bookEntry">
-									<ul>
-										<li><span class="label">Title:</span> \{{book.title}}</li>
-										<li><span class="label">Code:</span> <span class="codeid">\{{book.code}}<span></li>
-									</ul>
-								</div>
+				</div>
+				<div class="dateContainer row">
+					<div class="dueDiv col-6 float-md-left">
+						<ul>
+							<li><span class="label">Date Returned:</span> \{{archiveEntry.dates.archived}}</li>
+						<ul>
+					</div>
+					<div class="dueDiv col-6 float-md-right">
+						<ul>
+							<li><span class="label">Original Due Date:</span> \{{archiveEntry.dates.returnDate}}</li>
+						<ul>
+					</div>
+				</div>
+
+				<div class="infoContainer row">
+					<div class="contactInformation col-6 float-md-left">
+						<ul>
+							<li><span class="label">Contact Number:</span> \{{archiveEntry.student.studentPhone}}</li>
+							<li><span class="label"> Email: </span> \{{archiveEntry.student.studentEmail}}</li>
+							<li><span class="label">Teacher:</span> \{{archiveEntry.student.teacher}}</li>
+						</ul>
+					</div>
+					<div class="bookInformation col-6 float-md-right">
+						<div ng-repeat="book in archiveEntry.books">
+							<div class="bookEntry">
+								<ul>
+									<li><span class="label">Title:</span> \{{book.title}}</li>
+									<li><span class="label">Code:</span> <span class="codeid">\{{book.code}}<span></li>
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -107,6 +79,7 @@ Need to send checkout id and book code to the server -->
 			</div>
 		</div>
 	</div>
+</div>
 
 
 {{#section 'jcode'}}

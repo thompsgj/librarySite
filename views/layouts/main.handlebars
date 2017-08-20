@@ -6,11 +6,13 @@
 
     <title>Book</title>
 	
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
 	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
 	<style>
 		html, body {
-			background-color: #072B42;
+			/*Beautiful color background-color: #072B42; */
 			margin:0px;
 			padding: 0px;
 			height:100%;
@@ -19,7 +21,8 @@
 		}
 
 		#main {
-			background-color: #37465c;
+			/*Beautiful color background-color: #37465c; */
+			background-color: #ad6c49;
 			padding: 15px;
 			margin:0px;
 			min-height:100%;
@@ -55,13 +58,16 @@
         	display: block!important;
     	}
 		
-		.filters {
-			background-color: orange;
-			float: left;
+		.container {
+			width: 100%;
+		}
+
+		.filtersContainer {
+			background-color: #543B30;
 		}
 
 		.pageContent {
-			float: right;
+
 		}
 
 
@@ -77,61 +83,69 @@
 
 
 <nav class="navbar navbar-toggleable-md navbar-dark bg-dark navbar-fixed-top">
+	<div class="container-fluid">
 	<!-- Toggler Button -->
-	<a href="/" class="navbar-brand">ILER Book Cafe</a>
-	<button type="button" class="navbar-toggler"  data-toggle="collapse" data-target="#pageNavbar" aria-controls="pageNavbar" aria-expanded="false">
-		<span class="sr-only"> Toggle Navigation</span>
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	
-	<div class="collapse navbar-collapse" id="pageNavbar">
-		<ul class="navbar-nav nav">
-			<li class="nav-item active">
-				<a href="/user" class="nav-link" id="users">USERS</a>
-			</li>
-			<!--
-			<li class="nav-item active">
-				<a href="/user/add" class="nav-link" id="addusers">ADD USER</a>
-			</li>
-			-->
-			<li class="nav-item active">
-				<a href="/book/list" class="nav-link" id="addinv">BOOKS</a>
-				<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
-			</li>
-			<!--
-			<li class="nav-item active">
-				<a href="/book/add" class="nav-link" id="addinv">ADD BOOK</a>
-				////////////////////////////IFRAME OLD
-				IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>
-			</li>
-			-->
-			<li class="nav-item active">
-				<a href="/book/checkout/list" class="nav-link" id="checkoutlist">CHECKOUTS</a>
-			</li>
-			<!--
-			<li class="nav-item active">
-				<a href="/book/checkout" class="nav-link" id="checkout">CHECKOUT BOOK</a>
-			</li>
-			-->
-			<li class="nav-item active">
-				<a href="/analytics" class="nav-link" id="analytics">ANALYTICS</a>
-			</li>
-		</ul>
+		<a href="/" class="navbar-brand">ILER Book Cafe</a>
+		<button type="button" class="navbar-toggler"  data-toggle="collapse" data-target="#pageNavbar" aria-controls="pageNavbar" aria-expanded="false">
+			<span class="sr-only"> Toggle Navigation</span>
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse" id="pageNavbar">
+			<ul class="navbar-nav nav ">
+				<li class="nav-item active dropdown">
+					<a href="#" class="nav-link dropdown-toggle" id="usersOptions" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						USERS
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="/user" class="dropdown-item">User List</a></li>
+						<li><a href="/user/add" class="dropdown-item">Add User</a></li>
+					</ul>
+				</li>			
+				<li class="nav-item activedropdown">
+					<a href="#" class="nav-link dropdown-toggle" id="booksOptions" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						BOOKS
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="/book/list" class="dropdown-item">Book List</a></li>
+						<li><a href="/book/add" class="dropdown-item">Add Book</a></li>
+						<li><a href="/book/list/download" class="dropdown-item">Download Book List</a></li>
+					</ul>
+				</li>
+					<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
+				</li>
+				<li class="nav-item active dropdown">
+					<a href="#" class="nav-link dropdown-toggle" id="checkoutsOptions" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						CHECKOUTS
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="/book/checkout/list" class="dropdown-item">Checkouts List</a></li>
+						<li><a href="/book/checkout" class="dropdown-item">Checkout Book</a></li>
+						<li><a href="/book/checkout/list/download" class="dropdown-item">Download Overdue List</a></li>
+						<li><a href="/book/checkout/archive" class="dropdown-item">Checkout Archive</a></li>
+					</ul>
+				</li>
+				<li class="nav-item active">
+					<a href="/analytics" class="nav-link" id="analytics">ANALYTICS</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 </nav>
+
+
+
 <div id="main">
 	<div id="contents">
 		<div id="messageArea">{{message}} </div>
 		<div id="messages">
 			{{#if flash}}
-				<div class='{{{messageAlert flash.type}}}''>
+				<div class='{{{messageAlert flash.type}}}'>
 					{{{flash.message}}}
 				</div>
 			{{/if}}
 		</div>
-		<div id ="pages">
-
-
+		<div id ="pages container">
 
 			{{{body}}}
 
@@ -141,12 +155,12 @@
 		</div>
 	</div>
 </div>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 	<script type="text/javascript">
 		{{{_sections.jcode}}}

@@ -5,6 +5,7 @@ var db = monk('localhost:27017/bookdb');
 var chkcoll = db.get('checkoutcollection');
 var bkcoll = db.get('bookcollection');
 var usercoll = db.get('usercollection');
+var analyticscoll = db.get('analyticscollection');
 
 var sendJsonResponse = function(res, status, content) {
 	res.status(status);
@@ -126,12 +127,30 @@ module.exports.checkoutCreateOne = function(req,res) {
 					bkcoll.update(updateQuery, {
 						$inc: {"availability.total":-1, "availability.checkouts":1}
 					},{"multi":true}).then(function (doc3,err3) {
-						if (err3) {
-							console.log("ERROR IN BOOK COLLECTION")
-							res.send("Problem Updating Book Collection");
-						} else {
-							sendJsonResponse(res, 201, doc3);
+						analyticsQuery = {
+							timestamp: req.body.checkoutDate,
+							actor: {
+								idnumber: userDoc[0].idnumber,
+								teacher: req.body.teacher
+							},
+							verb: {
+								display: "borrowed"
+							},
+							object: {
+								definition: {
+									codes: bookQuery,
+									duedate: req.body.returnDate,
+								}
+							}
 						}
+						analyticscoll.insert(analyticsQuery).then(function(doc4, err4) {
+							if (err3) {
+								console.log("ERROR IN BOOK COLLECTION")
+								res.send("Problem Updating Book Collection");
+							} else {
+								sendJsonResponse(res, 201, doc3);
+							}
+						})
 					})
 					})
 			}
@@ -302,12 +321,31 @@ module.exports.checkoutUpdateOne = function(req,res) {
 	}, {
 		$set:{"dates.checkoutDate": newCheckoutDate, "dates.returnDate": newReturnDate}
 	}).then(function(doc, err) {
-		console.log(doc)
-		if (err) {
-			res.send("There was a problem adding the information to the database.")
-		} else {
-			sendJsonResponse(res, 200, doc)
+		analyticsQuery = {
+			timestamp: req.body.today,
+			actor: {
+				idnumber: req.body.idnumber,
+				teacher: req.body.teacher
+			},
+			verb: {
+				display: "extended"
+			},
+			object: {
+				definition: {
+					codes: req.body.bookInfo,
+					oldduedate: req.body.returnDate,
+					duedate: newReturnDate
+				}
+			}
 		}
+		analyticscoll.insert(analyticsQuery).then(function(doc2, err2) {
+			console.log(doc)
+			if (err) {
+				res.send("There was a problem adding the information to the database.")
+			} else {
+				sendJsonResponse(res, 200, doc)
+			}
+		})
 	})
 }
 
@@ -315,36 +353,54 @@ module.exports.checkoutUpdateOne = function(req,res) {
 module.exports.checkoutDeleteOne = function(req,res) {
 	console.log("CHECKOUTDELETEONE API")
 	var data = req.body._id;
-	var codes = req.body.codes
+	var bkcodes = req.body.codes
 	var query;
 	console.log("CODE")
-	console.log(codes)
+	console.log(bkcodes)
 
 	chkcoll.update({
 		_id:data
 	}, {
-		$set:{"status": "archived"}
+		$set:{"status": "archived", "dates.archived": req.body.today}
 	}).then(function(doc, err) {
 		if (err) {
 			res.send("There was a problem adding the information to the database.")
 		} else {
-			if (codes.length == 3) {
-				query = [{"numbers.book": codes[0]},{"numbers.book": codes[1]},{"numbers.book": codes[2]}]
-			} else if (codes.length == 2) {
-				query = [{"numbers.book": codes[0]},{"numbers.book": codes[1]}]
+			if (bkcodes.length == 3) {
+				query = [{"numbers.book": bkcodes[0]},{"numbers.book": bkcodes[1]},{"numbers.book": bkcodes[2]}]
+			} else if (bkcodes.length == 2) {
+				query = [{"numbers.book": bkcodes[0]},{"numbers.book": bkcodes[1]}]
 			} else {
-				query = [{"numbers.book": codes[0]}]
+				query = [{"numbers.book": bkcodes[0]}]
 			}
 			bkcoll.update({
 				$or : query
 			}, {
 				$inc: {"availability.total":1, "availability.checkouts": -1}
 			},{multi: true}).then(function (doc2, err2) {
-				if (err2) {
-					res.send("Problem Updating Book Collection");
-				} else {
-					sendJsonResponse(res, 200, doc2);
+				analyticsQuery = {
+					timestamp: req.body.today,
+					actor: {
+						idnumber: req.body.idnumber,
+						teacher: req.body.teacher
+					},
+					verb: {
+						display: "returned"
+					},
+					object: {
+						definition: {
+							codes: req.body.bookInfo,
+							duedate: req.body.returnDate,
+						}
+					}
 				}
+				analyticscoll.insert(analyticsQuery).then(function(doc3, err3) {
+					if (err2) {
+						res.send("Problem Updating Book Collection");
+					} else {
+						sendJsonResponse(res, 200, doc2);
+					}					
+				})
 			})
 		}
 	})

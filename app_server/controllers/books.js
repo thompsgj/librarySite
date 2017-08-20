@@ -373,13 +373,17 @@ module.exports.checkoutList = function(req, res) {
 }
 
 module.exports.returnBook = function(req, res) {
-	var requestOptions, deletedata, path, bookCodes;
+	var requestOptions, deletedata, path, bookCodes, bookQuery;
 	bookCodes = [];
 	path = '/api/checkouts/';
 
+	var today = new Date();
+	var todayDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+
+
 	var json = JSON.parse(req.body.books)
 	console.log("RETURN BOOK FIRST FUNCTION")
-	console.log(json.books)
+	console.log(json)
 	for(i = 1; i < Object.keys(json.books).length +1; i++) {
 		console.log("RUN")
 		if (i == 1) {
@@ -391,11 +395,56 @@ module.exports.returnBook = function(req, res) {
 		}
 	}
 
-	console.log("BOOKCODES VARIABLE")
-	console.log(bookCodes)
+	if (bookCodes.length === 3) {
+		bookQuery = {
+			book1: {
+				"title":json.books.book1.title, 
+				"code": json.books.book1.code, 
+				"id":1,
+			}, 
+			book2: {
+				"title":json.books.book2.title, 
+				"code": json.books.book2.code, 
+				"id":2,
+			}, 
+			book3: {
+				"title":json.books.book3.title, 
+				"code": json.books.book3.code, 
+				"id":3,
+			}
+		}
+	} else if (bookCodes.length === 2) {
+		bookQuery = {
+			book1: {
+				"title":json.books.book1.title, 
+				"code": json.books.book1.code, 
+				"id":1,
+			}, 
+			book2: {
+				"title":json.books.book2.title, 
+				"code": json.books.book2.code, 
+				"id":2,
+			}
+		}
+	} else {
+		bookQuery = {
+			book1: {
+				"title":json.books.book1.title, 
+				"code": json.books.book1.code, 
+				"id":1,
+			}
+		}
+	}
+	console.log("BOOK QUERY RETURN BOOK FUNCTION")
+	console.log(bookQuery)
 	deletedata = {
 		_id : req.body._id,
-		codes: bookCodes
+		codes: bookCodes,
+		bookInfo: bookQuery,
+		teacher: json.student.teacher,
+		idnumber: json.student.studentId,
+		returnDate: json.dates.returnDate,
+		today: todayDate
 	};
 	requestOptions = {
 		url: apiOptions.server + path,
@@ -440,10 +489,65 @@ module.exports.returnBook = function(req, res) {
 
 module.exports.extendBook = function(req, res) {
 	console.log("EXTEND BOOK FIRST FUNCTION")
+	console.log("REQ BODY")
+	console.log(req.body)
 	var requestOptions, updatedata, path;
 	path = '/api/checkouts/';
+
+	var today = new Date();
+	var todayDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+
+
+	var json = JSON.parse(req.body.books)
+
+	if (Object.keys(json.books).length === 3) {
+		bookQuery = {
+			book1: {
+				"title":json.books.book1.title, 
+				"code": json.books.book1.code, 
+				"id":1,
+			}, 
+			book2: {
+				"title":json.books.book2.title, 
+				"code": json.books.book2.code, 
+				"id":2,
+			}, 
+			book3: {
+				"title":json.books.book3.title, 
+				"code": json.books.book3.code, 
+				"id":3,
+			}
+		}
+	} else if (Object.keys(json.books).length === 2) {
+		bookQuery = {
+			book1: {
+				"title":json.books.book1.title, 
+				"code": json.books.book1.code, 
+				"id":1,
+			}, 
+			book2: {
+				"title":json.books.book2.title, 
+				"code": json.books.book2.code, 
+				"id":2,
+			}
+		}
+	} else {
+		bookQuery = {
+			book1: {
+				"title":json.books.book1.title, 
+				"code": json.books.book1.code, 
+				"id":1,
+			}
+		}
+	}
+
 	updatedata = {
-		_id : req.body._id
+		_id : req.body._id,
+		bookInfo: bookQuery,
+		teacher: json.student.teacher,
+		idnumber: json.student.studentId,
+		returnDate: json.dates.returnDate,
+		today: todayDate
 	};
 	requestOptions = {
 		url: apiOptions.server + path,

@@ -1,14 +1,13 @@
 {{#section 'css'}}
 
 		.entry {
-			height: 180px;
-			margin-bottom: 75px;
-			position: relative;
+			margin-bottom: 15px;
 			width: 500px;
 		}
 /*HEADER Container */
 		.headerContainer {
-			min-height:60px;
+
+			background-color: #011a2b;
 		}
 
 		.lev6 {
@@ -30,21 +29,7 @@
 			background-color: brown;
 		}
 
-		.bookHead {
-			clear:both;
-			width: 100%;
-		}
 
-		.buttons {
-			clear:both;
-		}
-
-		.update {
-			float: left;
-		}
-		.delete {
-			float: right;
-		}
 
 		.title {
 			float: left;
@@ -71,117 +56,92 @@
 			font-weight: bold;
 		}
 /* BOOK INFORMATION Container */
-		.infoContainer {
-			min-height: 120px;
-			background-color: #5B6269;
+		.buttonContainer {
+			background-color: #011a2b;
+		}
+		.infoContainer, .copiesContainer {
+			background-color: #af8983;
 		}
 
-		.spacer{
-			clear: both;
-			height 15px;
-			width: 100%
-		}
-	/* Book Information 1 */
-		.section1 {
-			float: left;
-			height: 100%;
-			width: 50%;
-		}
-	/* Book Information 2 */
-		.section2 {
-			float: right;
-			height: 100%;
-			width: 50%;
-		}
-	/* Book Information 3 */
-		.section3 {
-			clear: both;
-			background-color: #5B6269;
-		}
-
+/* FILTERS Container */
+	.filtersContainer {
+		height: 740px;
+	}
 {{/section}}
 
 <h1>Book Inventory</h1>
 
-	<form action="/book/add">
-		<input type="submit" value="Add Book"/>
-	</form>
+<div class="row">
+	<div class="filtersContainer col-12 col-sm-3 col-md-3 float-sm-left float-md-left">
+		<div class="filters">
+			<label for="titleFilter" class="col-12 col-form-label">Title</label>
+			<input type="text" class="col-12 col-form" id="titleFilter" ng-model="search.title"><br>
 
-	<form action="/book/list/download">
-		<input type="submit" value="Download Overdue List"/>
-	</form>
+			<label for="authorFilter" class="col-12 col-form-label">Author</label>
+			<input type="text" class="col-12 col-form" id="authorFilter" ng-model="search.author"><br>
 
-	<div class="filters">
-		<h3>Filters</h3>
-		Title
-		<input type="text" ng-model="search.title"><br>
+			<label for="publisherFilter" class="col-12 col-form-label">Publisher</label>
+			<input type="text" class="col-12 col-form" id="publisherFilter" ng-model="search.publisher"><br>
 
-		Author
-		<input type="text" ng-model="search.author"><br>
+			<label for="seriesFilter" class="col-12 col-form-label">Series</label>
+			<input type="text" class="col-12 col-form" id="seriesFilter" ng-model="search.series"><br>
 
-		Publisher
-		<input type="text" ng-model="search.publisher"><br>
+			<label for="isbnFilter" class="col-12 col-form-label">ISBN</label>
+			<input type="text" class="col-12 col-form" id="isbnFilter" ng-model="search.numbers.ISBN"><br>
 
-		Series
-		<input type="text" ng-model="search.series"><br>
+			<label for="levelFilter" class="col-12 col-form-label">Level</label>
+			<input type="text" class="col-12 col-form" id="levelFilter" ng-model="search.level.ILER"><br>
 
-		ISBN
-		<input type="text" ng-model="search.numbers.ISBN"><br>
+			<label for="headwordsFilter" class="col-12 col-form-label">Headwords</label>
+			<input type="text" class="col-12 col-form" id="headwordsFilter" ng-model="search.attributes.headwords"><br>
 
-		Level
-		<input type="text" ng-model="search.level.ILER"><br>
+			<label for="typeFilter" class="col-12 col-form-label">Type</label>
+			<input type="text" class="col-12 col-form" id="typeFilter" ng-model="search.attributes.type"><br>
 
-		Headwords
-		<input type="text" ng-model="search.attributes.headwords"><br>
+			<label for="genreFilter" class="col-12 col-form-label">Genre</label>
+			<input type="text" class="col-12 col-form" id="genreFilter" ng-model="search.attributes.genre"><br>
 
-		Type
-		<input type="text" ng-model="search.attributes.type"><br>
+			<label for="cddvdFilter" class="col-12 col-form-label">CD/DVD</label>
+			<input type="text" class="col-12 col-form" id="cddvdFilter" ng-model="search.attributes.CD"><br>
 
-		Genre
-		<input type="text" ng-model="search.attributes.genre"><br>
-
-		CD/DVD
-		<input type="text" ng-model="search.attributes.CD"><br>
-
-		Available Copies
-		<input type="text" ng-model="search.availability.total"><br>
+			<label for="availableFilter" class="col-12 col-form-label">Available Copies</label>
+			<input type="text" class="col-12 col-form" id="availableFilter" ng-model="search.availability.total"><br>
+		</div>
 	</div>
 
-
-	<div class="pageContent" ng-controller="bookListCtrl">
-		<div ng-if="search.title || search.author || search.publisher || search.series || search.numbers.ISBN || search.level.ILER || search.attributes.headwords || search.attributes.type || search.attributes.genre || search.attributes.CD || search.availability.total" ng-repeat="bookEntry in bookEntries | filter:search | orderBy:'level.ILER'">
-		<!--((search===null)?undefined:search):true-->
-			<div class="entry lev\{{bookEntry.level.ILER}}">
-				<div class="headerContainer lev\{{bookEntry.level.ILER}}">
+<!-- ng-if="search.title || search.author || search.publisher || search.series || search.numbers.ISBN || search.level.ILER || search.attributes.headwords || search.attributes.type || search.attributes.genre || search.attributes.CD || search.availability.total" -->
+	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="bookListCtrl">
+		<div  ng-repeat="bookEntry in bookEntries | filter:search | orderBy:'level.ILER'">
+			<div class="col-12 entry ">
+				<div class="headerContainer row lev\{{bookEntry.level.ILER}}">
 					<div class="bookHead">
-						<span class="title">\{{bookEntry.title}}/</span>
-						<span class="author">\{{bookEntry.author}}</span>
-					</div>
-					<div class="buttons">
-						<div class="update">
-							<form class="form-horizontal" role="form" action="/book/entry" method="POST">
-								<input type="hidden" name="_id" value=\{{bookEntry._id}}>
-								<button class="updatebtn" type="submit">Update</button>
-							</form>
-						</div>
-						<div class="delete">
-							<form class="form-horizontal" role="form" action="/book/delete" method="POST" onsubmit="return confirm('Do you really want to delete this book')">
-								<input type="hidden" name="_id" value=\{{bookEntry._id}}>
-								<button class="deletebtn" type="submit">Delete</button>
-							</form>
-						</div>
+						<span class="title col-12 col-sm-6 float-md-left">\{{bookEntry.title}}/</span>
+						<span class="author col-12 col-sm-6  float-md-right">\{{bookEntry.author}}</span>
 					</div>
 				</div>
-				<div class="infoContainer">
-					<div class="spacer"> </div>
-					<div class="section1">
+				<div class="buttonContainer row">
+					<div class="update col-12 col-sm-6  float-md-left">
+						<form class="form-horizontal" role="form" action="/book/entry" method="POST">
+							<input type="hidden" name="_id" value=\{{bookEntry._id}}>
+							<button class="updatebtn" type="submit">Update</button>
+							</form>
+					</div>
+					<div class="delete col-12 col-sm-6  float-md-right">
+						<form class="form-horizontal" role="form" action="/book/delete" method="POST" onsubmit="return confirm('Do you really want to delete this book')">
+							<input type="hidden" name="_id" value=\{{bookEntry._id}}>
+							<button class="deletebtn" type="submit">Delete</button>
+							</form>
+					</div>
+				</div>
+				<div class="infoContainer row">
+					<div class="section1 col-12 col-md-6 float-md-left">
 						<ul>
 							<li><span class="label">Publisher: </span>\{{bookEntry.publisher}}</li>
 							<li><span class="label">Series: </span>\{{bookEntry.series}}</li>
 							<li><span class="label">ISBN: </span>\{{bookEntry.numbers.ISBN}}</li>
 						</ul>
 					</div>
-					<div class="section2">
+					<div class="section2 col-12 col-md-6  float-md-right">
 						<ul>
 							<li><span class="label">Level: </span>\{{bookEntry.level.ILER}}</li>
 							<li><span class="label">Headwords: </span>\{{bookEntry.attributes.headwords}}</li>
@@ -190,33 +150,26 @@
 							<li><span class="label">CD: </span>\{{bookEntry.attributes.CD}}</li>
 						</ul>
 					</div>
-					<div class="section3">
-						<span class="label">Copies: </span>\{{bookEntry.numbers.book}}
-						<span class="label">Available Copies: </span>\{{bookEntry.availability.total}}
+				</div>
+				<div class="copiesContainer row">
+					<div class="section3 col-12 col-md-6  float-md-left">
+						<ul>
+							<li><span class="label">Copies: </span>\{{bookEntry.numbers.book}}</li>
+						</ul>
+					</div>
+					<div class="section4 col-12 col-md-6  float-md-right">
+						<ul>
+							<li><span class="label">Total Copies: </span>\{{bookEntry.availability.total}}</li>
+							<li><span class="label">Borrowed Copies: </span>\{{bookEntry.availability.checkouts}}</li>
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
+</div>
 
 {{#section 'jcode'}}
-/*
-	$(".delete").click(function() {
-		var entry = $(this).val()
-		alert(entry)
-		$.ajax({
-			url: "/book/delete",
-			type: "POST",
-			dataType: "json",
-			contentType: "application/json; charset=UTF-8",
-			data: JSON.stringify({_id: entry})
-		}).done(function() {
-			location.reload();
-		}).fail(function() {
-			alert("FAIL")
-		})
-	})
-*/
+
 {{/section}}

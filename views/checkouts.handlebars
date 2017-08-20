@@ -1,34 +1,15 @@
 {{#section 'css'}}
 
-		div {
-		    position: relative;
-		}
-		.checkouts {
-			margin-bottom: 50px;
-			width: 500px;
-			height: 220px;
+		.entry {
+			margin-bottom: 15px;
 			background-color: red;
+			width:500px;
 		}
-		.checkouts li {
-			padding: 0px;
-			margin: 0px;
-		}
-		.checkouts .label {
+		.entry .label {
 			font-weight: bold;
 		}
-		.return {
-			float: left;
-		}
-		.extend {
-			float: right;
-		}
-		.contactInformation {
-			float: left;
-		}
-		.bookInformation {
-			height: 150px;
-			float: right;
-		}
+
+
 		.entry ul {
 			list-style: none;
 			margin-left: 10px;
@@ -38,53 +19,94 @@
 			padding: 0px;
 			margin: 0px;
 		}
-		.date {
-			clear: both;
-		}
-		.buttons {
-			clear: both;
-		}
 		.headerContainer {
-			clear: both;
+			background-color: #011a2b;
 		}
-		.studentDiv {
-			float: left;
+		.infoContainer, .buttonContainer {
+			background-color: #af8983;
 		}
-		.dueDiv {
-			float: right;
-		}
-		.infoContainer {
-			clear: both;
-		}
+
+
+/* FILTERS Container */
+	.filtersContainer {
+		height: 150px;
+	}
 {{/section}}
 
 <h1>Checkout List</h1>
-	<form action="/book/checkout">
-		<input type="submit" value="Checkout Book"/>
-	</form>
 
-	<form action="/book/checkout/list/download">
-		<input type="submit" value="Download Overdue List"/>
-	</form>
-
-	<form action="/book/checkout/archive">
-		<input type="submit" value="Archived Returns"/>
-	</form>
-
-	<div class="filters">
-		<h3>Filter</h3>
-		Student ID
-		<input type="text" ng-model="search.student.studentId"></input><br>
-		Phone
-		<input type="text" ng-model="search.student.studentPhone"></input><br>
+<div class="row">
+	<div class="filtersContainer col-12 col-sm-3 col-md-3 float-sm-left float-md-left">
+		<div class="filters">
+			<label for="idFilter" class="col-12 col-form-label">Student ID</label>
+			<input type="text" class="col-12 col-form" id="idFilter" ng-model="search.student.studentId"></input><br>
+			<label for="phoneFilter" class="col-12 col-form-label">Phone</label>
+			<input type="text" class="col-12 col-form" id="phoneFilter" ng-model="search.student.studentPhone"></input><br>
+		</div>
 	</div>
 
-<!--  
+	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="chkoutListCtrl">
+		<div ng-if="search.student.studentId || search.student.studentPhone" ng-repeat="chkoutEntry in chkoutEntries | filter: search | orderBy:'dates.returnDate':true">
+			<div class="col-9 entry" id="\{{chkoutEntry._id}}">
+				<div class="headerContainer row">
+					<div class="studentDiv col-12 col-md-6 float-md-left">
+						<span class="student">\{{chkoutEntry.student.studentId}}</span>
+					</div>
+					<div class="dueDiv col-12 col-md-6 float-md-right">
+						<span class="label">Due Date:</span> \{{chkoutEntry.dates.returnDate}}
+					</div>
+				</div>
 
-Need to send checkout id and book code to the server -->
+				<div class="infoContainer row">
+					<div class="contactInformation col-12 col-sm-6 float-md-left">
+						<ul>
+							<li><span class="label">Phone:</span> \{{chkoutEntry.student.studentPhone}}</li>
+							<li><span class="label"> Email: </span> \{{chkoutEntry.student.studentEmail}}</li>
+							<li><span class="label">Teacher:</span> \{{chkoutEntry.student.teacher}}</li>
+						</ul>
+					</div>
+					<div class="bookInformation col-12 col-sm-6 float-md-right">
+						<div ng-repeat= "book in chkoutEntry.books">
+							<div class="bookEntry">
+								<ul>
+									<li><span class="label">Title:</span> \{{book.title}}</li>
+									<li><span class="label">Code:</span> <span class="codeid">\{{book.code}}<span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 
-	<div class="pageContent" ng-controller="chkoutListCtrl">
-		<div  ng-if="search.student.studentId || search.student.studentPhone" ng-repeat="chkoutEntry in chkoutEntries | filter: search | orderBy:'dates.returnDate':true">
+				<div class="buttonContainer row">
+					<div class="return col-12 col-sm-6 float-md-left">
+						<form class="form-horizontal" role="form" action="/book/checkout/return" method="POST" onsubmit="return confirm('Do you really want to return these books?')">
+							<input type="hidden" name="_id" value=\{{chkoutEntry._id}}>
+							<input type="hidden" name="books" value=\{{chkoutEntry}}>
+								<button class="returnbtn" name="return" type="submit" >Return</button>
+						</form>
+					</div>
+					<div class="extend col-12 col-sm-6 float-md-right">
+						<form class="form-horizontal" role="form" action="/book/checkout/extend" method="POST">
+							<input type="hidden" name="_id" value=\{{chkoutEntry._id}}>
+							<input type="hidden" name="books" value=\{{chkoutEntry}}>
+							<button class="extendbtn" name="extend" type="submit">Extend</button>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+		<div ng-if="search.student.studentId || search.student.studentPhone" ng-repeat="chkoutEntry in chkoutEntries | filter: search | orderBy:'dates.returnDate':true">
 			<div class="checkouts" id="\{{chkoutEntry._id}}">
 				<div class="entry">
 					<div class="headerContainer">
@@ -133,98 +155,8 @@ Need to send checkout id and book code to the server -->
 			</div>
 		</div>
 	</div>
-
+</div>
 
 {{#section 'jcode'}}
-/*
-$(document).ready(function() {
-	$(".return").click(function() {
-		location.reload();
-	})
-})
-*/
-//NEED TO REMODEL THIS SECTION SO THAT EACH BOOK CAN BE RETURNED SEPARATELY OR ALL TOGETHER
 
-/*  	WORKING
-	$(".extend").click(function() {
-		var entry = $(this).val()
-		$.ajax({
-			url: "/book/checkout/extend",
-			type: "POST",
-			dataType: "json",
-			contentType: "application/json; charset=UTF-8",
-			data: JSON.stringify({_id: entry})
-		}).done(function() {
-			location.reload();
-		}).fail(function() {
-			alert("FAIL")
-		})
-	})
-
-	$(".return").click(function() {
-		var entry = $(this).val()
-		var studid = $(this).parent().find('.studid').text();
-		var codeid = parseInt($(this).parent().find('.codeid').text());
-		alert(codeid)
-		$.ajax({
-			url: "/book/checkout/return",
-			type: "POST",
-			dataType: "json",
-			contentType: "application/json; charset=UTF-8",
-			data: JSON.stringify({_id: entry, code: codeid})
-		}).done(function() {
-			location.reload();
-		}).fail(function() {
-			alert("FAIL")
-		})
-	})
-
-*/
-
-
-
-
-
-/*
-		$(".extend").click(function(){
-			//Collect variables from parent div
-			var studid = $(this).parent().find('.studid').text();
-			var codeid = parseInt($(this).parent().find('.codeid').text());
-
-			//Send/Receive data from the server
-			$.ajax({
-				url: "/process-extend",
-				type: "POST",
-				dataType:"json",
-				contentType: "application/json; charset=UTF-8",
-				data: JSON.stringify({student: studid, code: codeid}),
-			}).done(function() {
-				alert("Extended")
-			}).fail(function() {
-				alert("FAIL")
-			})			
-		})
-
-		$('.return').click(function(){
-			//Set parent div as variable
-			var placeholder = $(this).parent().remove();
-
-			//Collect variables from parent div
-			var studid = $(this).parent().find('.studid').text();
-			var codeid = parseInt($(this).parent().find('.codeid').text());
-
-			//Send/Receive data from the server
-			$.ajax({
-				url: "/process-rtrn2",
-				type: "POST",
-				dataType:"json",
-				contentType: "application/json; charset=UTF-8",
-				data: JSON.stringify({student: studid, code: codeid}),
-			}).done(function() {
-				placeholder
-			}).fail(function() {
-				alert("FAIL")
-			})
-		})
-*/
 {{/section}}

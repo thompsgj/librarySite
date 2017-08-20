@@ -13,46 +13,53 @@
 		margin-bottom: 10px;
 	}
 	.headerContainer {
-		background-color: orange;
+		/* Good Dull shade of Brown background-color: #8a604f; */
+		background-color: #011a2b;
 		height: 30px;
 	}
 	.infoContainer {
-		background-color: red;
+		/* Good Grey/Pink color background-color: #af8983; */
+		background-color: #af8983;
+	}
+	.filtersContainer {
+		height: 280px;
 	}
 {{/section}}
 
 <h1>Users</h1>
 
-	<form action="/user/add">
-		<input type="submit" value="Add User"/>
-	</form>
+<div class="row">
+	<div class="filtersContainer col-12 col-sm-3 col-md-3 float-sm-left float-md-left">
+		<div class="filters">
+			<label for="nameFilter" class="col-12 col-form-label"> Student</label><br>
+			<input type="text" class="col-12 col-form" id="nameFilter" ng-model="search.name"></input><br>
 
+			<label for="idFilter" class="col-12 col-form-label"> Student ID</label><br>
+			<input type="text" class="col-12 col-form" id="idFilter" ng-model="search.idnumber"></input><br>
 
-	<div class="filters">
-		<h3>Filters</h3>
-		Student
-		<input type="text" ng-model="search.name"></input><br>
-		Student ID
-		<input type="text" ng-model="search.idnumber"></input><br>
-		Phone
-		<input type="text" ng-model="search.phone"></input><br>
-		Email
-		<input type="text" ng-model="search.email"></input>
+			<label for="phoneFilter" class="col-12 col-form-label"> Phone</label><br>
+			<input type="text" class="col-12 col-form" id="phoneFilter" ng-model="search.phone"></input><br>
+
+			<label for="emailFilter" class="col-12 col-form-label">Email</label><br>
+			<input type="text" class="col-12 col-form" id="emailFilter" ng-model="search.email"></input>
+		</div>
 	</div>
-<div class="pageContent" ng-controller="userListCtrl">
-	<div ng-if="search.name || search.idnumber || search.phone || search.email" ng-repeat="userEntry in userEntries | filter: search | orderBy: 'idnumber'">
-		<div class="entry">
-			<div class="headerContainer">
-				<ul>
-					<li><span class="label">Name:</span> \{{userEntry.name}}</li>
-				</ul>
-			</div>
-			<div class="infoContainer">
-				<ul>
-					<li><span class="label">Id Number:</span> \{{userEntry.idnumber}}</li>
-					<li><span class="label">Phone:</span> \{{userEntry.phone}}</li>
-					<li><span class="label">Email:</span> \{{userEntry.email}}</li>
-				</ul>
+
+	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="userListCtrl">
+		<div ng-if="search.name || search.idnumber || search.phone || search.email" ng-repeat="userEntry in userEntries | filter: search | orderBy: 'idnumber'">
+			<div class="entry">
+				<div class="headerContainer">
+					<ul>
+						<li><span class="label">Name:</span> \{{userEntry.name}}</li>
+					</ul>
+				</div>
+				<div class="infoContainer">
+					<ul>
+						<li><span class="label">Id Number:</span> \{{userEntry.idnumber}}</li>
+						<li><span class="label">Phone:</span> \{{userEntry.phone}}</li>
+						<li><span class="label">Email:</span> \{{userEntry.email}}</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
