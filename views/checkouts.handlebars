@@ -36,7 +36,7 @@
 <h1>Checkout List</h1>
 
 <div class="row">
-	<div class="filtersContainer col-12 col-sm-3 col-md-3 float-sm-left float-md-left">
+	<div class="filtersContainer col-4 col-sm-3 col-md-3 float-sm-left float-md-left">
 		<div class="filters">
 			<label for="idFilter" class="col-12 col-form-label">Student ID</label>
 			<input type="text" class="col-12 col-form" id="idFilter" ng-model="search.student.studentId"></input><br>
@@ -47,7 +47,7 @@
 
 	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="chkoutListCtrl">
 		<div ng-if="search.student.studentId || search.student.studentPhone" ng-repeat="chkoutEntry in chkoutEntries | filter: search | orderBy:'dates.returnDate':true">
-			<div class="col-9 entry" id="\{{chkoutEntry._id}}">
+			<div class="col-4 col-sm-9 entry" id="\{{chkoutEntry._id}}">
 				<div class="headerContainer row">
 					<div class="studentDiv col-12 col-md-6 float-md-left">
 						<span class="student">\{{chkoutEntry.student.studentId}}</span>

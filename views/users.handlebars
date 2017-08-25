@@ -29,7 +29,7 @@
 <h1>Users</h1>
 
 <div class="row">
-	<div class="filtersContainer col-12 col-sm-3 col-md-3 float-sm-left float-md-left">
+	<div class="filtersContainer col-4 col-sm-3 col-md-3 float-sm-left float-md-left">
 		<div class="filters">
 			<label for="nameFilter" class="col-12 col-form-label"> Student</label><br>
 			<input type="text" class="col-12 col-form" id="nameFilter" ng-model="search.name"></input><br>
@@ -47,7 +47,7 @@
 
 	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="userListCtrl">
 		<div ng-if="search.name || search.idnumber || search.phone || search.email" ng-repeat="userEntry in userEntries | filter: search | orderBy: 'idnumber'">
-			<div class="entry">
+			<div class="col-4 col-sm-9 entry">
 				<div class="headerContainer">
 					<ul>
 						<li><span class="label">Name:</span> \{{userEntry.name}}</li>

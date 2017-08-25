@@ -72,7 +72,7 @@
 <h1>Book Inventory</h1>
 
 <div class="row">
-	<div class="filtersContainer col-12 col-sm-3 col-md-3 float-sm-left float-md-left">
+	<div class="filtersContainer col-4 col-sm-3 col-md-3 float-sm-left float-md-left">
 		<div class="filters">
 			<label for="titleFilter" class="col-12 col-form-label">Title</label>
 			<input type="text" class="col-12 col-form" id="titleFilter" ng-model="search.title"><br>
@@ -111,8 +111,8 @@
 
 <!-- ng-if="search.title || search.author || search.publisher || search.series || search.numbers.ISBN || search.level.ILER || search.attributes.headwords || search.attributes.type || search.attributes.genre || search.attributes.CD || search.availability.total" -->
 	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="bookListCtrl">
-		<div  ng-repeat="bookEntry in bookEntries | filter:search | orderBy:'level.ILER'">
-			<div class="col-12 entry ">
+		<div   ng-if="search.title || search.author || search.publisher || search.series || search.numbers.ISBN || search.level.ILER || search.attributes.headwords || search.attributes.type || search.attributes.genre || search.attributes.CD || search.availability.total" ng-repeat="bookEntry in bookEntries | filter:search | orderBy:'level.ILER'">
+			<div class="col-4 col-sm-9 entry ">
 				<div class="headerContainer row lev\{{bookEntry.level.ILER}}">
 					<div class="bookHead">
 						<span class="title col-12 col-sm-6 float-md-left">\{{bookEntry.title}}/</span>

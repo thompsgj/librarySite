@@ -26,7 +26,7 @@
 
 <h1>Checkout Archive</h1>
 <div class="row">
-	<div class="filtersContainer col-12 col-sm-3 col-md-3 float-sm-left float-md-left">
+	<div class="filtersContainer col-4 col-sm-3 col-md-3 float-sm-left float-md-left">
 		<div class="filters">
 			<label for="idFilter" class="col-12 col-form-label">Student ID</label>
 			<input type="text" class="col-12 col-form" id="idFilter" ng-model="search.student.studentId"></input><br>
@@ -38,7 +38,7 @@
 <!-- -->
 	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="chkoutArchiveListCtrl">
 		<div ng-if="search.student.studentId|| search.student.studentPhone" ng-repeat="archiveEntry in archiveEntries">
-			<div class="col-9 entry" id="\{{archiveEntry._id}}">
+			<div class="col-4 col-sm-9 entry" id="\{{archiveEntry._id}}">
 				<div class="headerContainer row">
 					<div class="studentDiv col-12">
 						<span class="student">\{{archiveEntry.student.studentId}}</span>
