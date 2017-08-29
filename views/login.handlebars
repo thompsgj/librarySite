@@ -1,0 +1,28 @@
+{{#section 'css'}}
+
+{{/section}}
+
+<h1>Account Login</h1>
+
+<form class="form-horizontal" role="form" action="/login" method="POST">
+		{{! Name Entry }}
+		<div class="form-group row">
+			<label for="fieldName" class="col-2 col-form-label">Username</label>
+			<div class="col-5 col-sm-10">
+				<input type="text" class="form-control" required id="fieldName" name="name" placeholder="Username">
+			</div>
+		</div>
+		{{! Password }}
+		<div class="form-group row">
+			<label for="fieldPassword" class="col-2 col-form-label">Password</label>
+			<div class="col-5 col-sm-10">
+				<input type="password" class="form-control" required id="fieldPassword" name="password" placeholder="Password">
+			</div>
+		</div>
+		{{! Submission Button }}
+		<div class="form-group">
+			<div>
+				<button type="submit">Register</button>
+			</div>
+		</div>
+</form>

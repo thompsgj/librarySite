@@ -18,7 +18,7 @@ router.get('/users/:userid', ctrlUsers.userRetrieveOne);
 router.get('/users', ctrlUsers.userRetrieveList);
 router.put('/users/:userid', ctrlUsers.userUpdateOne);
 router.delete('/users', ctrlUsers.userDeleteOne);
-
+router.post('/users/staff', ctrlUsers.staffCreateOne)
 // Checkout
 router.post('/checkouts', ctrlCheckouts.checkoutCreateOne);
 //router.get('/checkouts/:checkoutid', ctrlCheckouts.checkoutRetrieveOne);

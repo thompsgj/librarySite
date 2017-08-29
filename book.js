@@ -1,10 +1,11 @@
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var flash = require('connect-flash');
 var session = require('express-session');
-
+var passport = require('passport');
+var LocalStrategy = require('passport-local'),Strategy;
 
 
 var monk = require('monk');
@@ -18,16 +19,12 @@ var handlebars = require('express3-handlebars').create({
 	//necessary for injecting views into layouts when desired
 	helpers: {
 		section: function(name, options) {
-			console.log("FIRING SECTION HELPER")
 			if(!this._sections) this._sections = {};
 			this._sections[name] = options.fn(this);
 			return null;
 		},
 		messageAlert: function(val) {
-			console.log("FIRING MESSAGE HELPER")
-			console.log(val)
 			if(val == "success") {
-				console.log("LOGIC WORKS")
 				return "alert alert-success"
 			} else {
 				return "alert alert-danger"
@@ -35,6 +32,8 @@ var handlebars = require('express3-handlebars').create({
 		}
 	}
 });
+
+
 var app = express();
 
 app.engine('handlebars', handlebars.engine);
@@ -53,8 +52,11 @@ app.use(session({
 	secret: 'keyboard cat',
 	resave: true,
 	saveUninitialized: true,
-    cookie: { maxAge: 60000 }
-}))
+    cookie: { maxAge: 3600000 }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(require('connect-flash')());
 app.use(function(req, res, next) {
@@ -62,6 +64,16 @@ app.use(function(req, res, next) {
 	delete req.session.flash;
 	next();
 })
+
+
+app.use(function (req, res, next){
+	res.locals.user = req.user || null;
+	if(req.user) {
+		res.locals.admin = req.user[0].group === "admin" || null;
+		console.log("ADMIN VARIABLE", res.locals.admin)
+	}
+	next();
+});
 
 app.use('/', routes);
 app.use('/api', routesApi);

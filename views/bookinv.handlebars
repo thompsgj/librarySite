@@ -119,6 +119,7 @@
 						<span class="author col-12 col-sm-6  float-md-right">\{{bookEntry.author}}</span>
 					</div>
 				</div>
+				{{#if admin}}
 				<div class="buttonContainer row">
 					<div class="update col-12 col-sm-6  float-md-left">
 						<form class="form-horizontal" role="form" action="/book/entry" method="POST">
@@ -133,6 +134,7 @@
 							</form>
 					</div>
 				</div>
+				{{/if}}
 				<div class="infoContainer row">
 					<div class="section1 col-12 col-md-6 float-md-left">
 						<ul>

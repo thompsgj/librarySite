@@ -1,8 +1,11 @@
 var monk = require('monk');
 var assert = require('assert');
 var asynch = require('asynch');
+var bcrypt = require('bcryptjs');
 var db = monk('localhost:27017/bookdb');
 var collection = db.get('usercollection');
+var staffcollection = db.get('users');
+
 
 var sendJsonResponse = function(res, status, content) {
 	res.status(status);
@@ -52,4 +55,28 @@ module.exports.userUpdateOne = function(req,res) {
 
 module.exports.userDeleteOne = function(req,res) {
 	console.log("Test");
+}
+
+
+module.exports.staffCreateOne = function(req, res) {
+	console.log("STAFF CREATE ONE FUNCTION")
+	bcrypt.genSalt(10, function(err, salt) {
+		bcrypt.hash(req.body.password, salt, function(err, hash) {
+			req.body.password = hash;
+			console.log(req.body.password)
+			staffcollection.insert({
+				"name":  req.body.name,
+				"email": req.body.email,
+				"password": req.body.password,
+				"group": req.body.group
+			}).then(function(doc,err) {
+				console.log("RESPONSE SENDS")
+				if (err) {
+					res.send("Problem")
+				} else {
+					sendJsonResponse(res, 201, doc);
+				}
+			})
+		})
+	})
 }

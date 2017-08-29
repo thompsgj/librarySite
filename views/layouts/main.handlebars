@@ -93,27 +93,33 @@
 		
 		<div class="collapse navbar-collapse" id="pageNavbar">
 			<ul class="navbar-nav nav ">
+			{{#if user}}
+				{{#if admin}}
 				<li class="nav-item active dropdown">
 					<a href="#" class="nav-link dropdown-toggle" id="usersOptions" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 						USERS
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="/user" class="dropdown-item">User List</a></li>
+						<li><a href="/user/list" class="dropdown-item">User List</a></li>
 						<li><a href="/user/add" class="dropdown-item">Add User</a></li>
 					</ul>
-				</li>			
-				<li class="nav-item activedropdown">
+				</li>
+				{{/if}}
+				<li class="nav-item active dropdown">
 					<a href="#" class="nav-link dropdown-toggle" id="booksOptions" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 						BOOKS
 					</a>
 					<ul class="dropdown-menu">
 						<li><a href="/book/list" class="dropdown-item">Book List</a></li>
+						{{#if admin}}
 						<li><a href="/book/add" class="dropdown-item">Add Book</a></li>
+						{{/if}}
 						<li><a href="/book/list/download" class="dropdown-item">Download Book List</a></li>
 					</ul>
 				</li>
 					<!-- IFrame version <a href="#" id="addinv" onclick="url2div(this.id, 'main')">ADD BOOK</a>-->
 				</li>
+				{{#if admin}}
 				<li class="nav-item active dropdown">
 					<a href="#" class="nav-link dropdown-toggle" id="checkoutsOptions" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 						CHECKOUTS
@@ -125,9 +131,19 @@
 						<li><a href="/book/checkout/archive" class="dropdown-item">Checkout Archive</a></li>
 					</ul>
 				</li>
+				{{/if}}
 				<li class="nav-item active">
 					<a href="/analytics" class="nav-link" id="analytics">ANALYTICS</a>
 				</li>
+				<li class="nav-item active">
+					<a href="/logout" class="nav-link" id="analytics">LOG OUT</a>
+				</li>
+			{{else}}
+
+				<li class="nav-item active">
+					<a href="/user/login" class="nav-link" id="analytics">LOG IN</a>
+				</li>
+			{{/if}}
 			</ul>
 		</div>
 	</div>
