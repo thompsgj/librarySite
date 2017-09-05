@@ -94,8 +94,10 @@ router.post('/book/checkout/extend/', ensureAuthentication, ctrlBooks.extendBook
 router.get('/user/list', ensureAuthentication, groupVerification('admin'), ctrlOthers.users);//DONE
 
 router.get('/user/login', ctrlOthers.staffLogin);
-router.get('/user/staff/registration', ensureAuthentication, groupVerification('admin'), ctrlOthers.addStaff);
-router.post('/user/staff/registration', ensureAuthentication, ctrlOthers.doAddStaff);
+//router.get('/user/staff/registration', ensureAuthentication, groupVerification('admin'), ctrlOthers.addStaff);
+router.get('/user/staff/registration', ctrlOthers.addStaff);
+//router.post('/user/staff/registration', ensureAuthentication, ctrlOthers.doAddStaff);
+router.post('/user/staff/registration', ctrlOthers.doAddStaff);
 
 router.get('/user/add', ensureAuthentication, groupVerification('admin'), ctrlOthers.addUser);//DONE
 router.post('/user/entry/new', ensureAuthentication, ctrlOthers.doAddUser);//DONE

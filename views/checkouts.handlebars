@@ -46,7 +46,7 @@
 	</div>
 
 	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="chkoutListCtrl">
-		<div ng-if="search.student.studentId || search.student.studentPhone" ng-repeat="chkoutEntry in chkoutEntries | filter: search | orderBy:'dates.returnDate':true">
+		<div ng-repeat="chkoutEntry in chkoutEntries | filter: search | orderBy:'dates.returnDate':true">
 			<div class="col-4 col-sm-9 entry" id="\{{chkoutEntry._id}}">
 				<div class="headerContainer row">
 					<div class="studentDiv col-12 col-md-6 float-md-left">
@@ -71,6 +71,8 @@
 								<ul>
 									<li><span class="label">Title:</span> \{{book.title}}</li>
 									<li><span class="label">Code:</span> <span class="codeid">\{{book.code}}<span></li>
+									<li><span class="label">Publish:</span> \{{book.publisher}}</li>
+									<li><span class="label">Level:</span> \{{book.level}}</li>
 								</ul>
 							</div>
 						</div>

@@ -68,14 +68,14 @@ module.exports.doAddUser = function(req, res) {
 		name: req.body.name,
 		idnumber: req.body.id,
 		phone: req.body.phone,
-		email: req.body.email
+		//email: req.body.email
 	};
 	requestOptions = {
 		url: apiOptions.server + path,
 		method:"POST",
 		json: postdata
 	};
-	if(!postdata.name || !postdata.idnumber || !postdata.phone || !postdata.email) {
+	if(!postdata.name || !postdata.idnumber || !postdata.phone /*|| !postdata.email */) {
 		req.session.flash = {
 			type: "failure",
 			message: "Data missing.  Please make sure to enter all information."

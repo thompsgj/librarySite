@@ -21,7 +21,7 @@ module.exports.userCreateOne = function(req,res) {
 				"name":  req.body.name,
 				"idnumber": req.body.idnumber,
 				"phone": req.body.phone,
-				"email": req.body.email
+				//"email": req.body.email
 			}).then(function(doc,err) {
 				if (err) {
 					res.send("Problem")

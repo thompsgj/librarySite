@@ -21,12 +21,9 @@ var sendJsonResponse = function(res, status, content) {
 
 
 module.exports.checkoutCreateOne = function(req,res) {
-	console.log("USER COLLECTION LOOKUP")
-	console.log(req.body)
 	usercoll.find({
 		"idnumber": req.body.studentId
 	}).then(function(userDoc, err){
-
 		bkcoll.find({
 			$or: [{
 				"numbers.book": parseInt(req.body.code[0]),
@@ -35,7 +32,7 @@ module.exports.checkoutCreateOne = function(req,res) {
 			}, {
 				"numbers.book": parseInt(req.body.code[2])
 			}]
-		}, ["title"]).then(function(doc, err) {
+		}, ["title","publisher","level.ILER"]).then(function(doc, err) {
 			if (doc.length === 0) {
 				res.send("No student with that id number is in the database.")
 			} else if (userDoc.length === 0) {
@@ -51,16 +48,22 @@ module.exports.checkoutCreateOne = function(req,res) {
 					bookQuery = {
 						book1: {
 							"title":doc[0].title, 
+							"publisher":doc[0].publisher,
+							"level":doc[0].level.ILER,
 							"code": book1Code, 
 							"id":1,
 						}, 
 						book2: {
 							"title":doc[1].title, 
+							"publisher":doc[1].publisher,
+							"level":doc[1].level.ILER,
 							"code": book2Code, 
 							"id":2,
 						}, 
 						book3: {
 							"title":doc[2].title, 
+							"publisher":doc[2].publisher,
+							"level":doc[2].level.ILER,
 							"code": book3Code, 
 							"id":3,
 						}
@@ -69,26 +72,30 @@ module.exports.checkoutCreateOne = function(req,res) {
 					bookQuery = {
 						book1: {
 							"title":doc[0].title, 
+							"publisher":doc[0].publisher,
+							"level":doc[0].level.ILER,
 							"code": book1Code, 
 							"id":1,
 						}, 
 						book2: {
 							"title":doc[1].title, 
+							"publisher":doc[1].publisher,
+							"level":doc[1].level.ILER,
 							"code": book2Code, 
 							"id":2,
 						}
 					}
 				} else {
-					////////////////////ADD HERE IF DOC IS UNDEFINED AND DO ERROR HANDLING
 					bookQuery = {
 						book1: {
-							"title":doc[0].title, 
+							"title":doc[0].title,
+							"publisher":doc[0].publisher,
+							"level":doc[0].level.ILER, 
 							"code": book1Code, 
 							"id":1,
 						}
 					}
 				}
-
 				fullQuery = {
 					books: bookQuery,
 					"student": {
@@ -103,6 +110,7 @@ module.exports.checkoutCreateOne = function(req,res) {
 					},
 					"status": "active"
 				}
+				console.log("FULL QUERY", fullQuery)
 				chkcoll.insert(fullQuery).then(function(doc2, err2) {
 					console.log("EXECUTE BOOK UPDATE QUERY")
 					console.log(doc2)
@@ -110,6 +118,7 @@ module.exports.checkoutCreateOne = function(req,res) {
 						updateQuery = {
 							$or: [{"numbers.book": doc2.books.book1.code}, {"numbers.book": doc2.books.book2.code}, {"numbers.book": doc2.books.book3.code}]
 						}
+						console.log("UPDATE QUERY", updateQuery)
 					} else if ( doc2.books.book1 && doc2.books.book2) {
 						console.log("CONDITIONAL FIRED")
 						updateQuery = {
