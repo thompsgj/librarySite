@@ -1,0 +1,53 @@
+<h1>Update User</h1>
+<form class="form-horizontal" role="form" action="/process-update?form=updateinv" method="POST">
+	<input type="hidden" name="_csrf">
+	{{!Book code}}
+</form>
+
+{{#each userentry}}
+
+<form class="form-horizontal" role="form" action="/user/edit/update" method="POST">
+
+		<input type="hidden" name="_id" value="{{_id}}">
+		{{! Name Entry }}
+		<div class="form-group row">
+			<label for="fieldName" class="col-2 col-form-label">Name</label>
+			<div class="col-5 col-sm-10">
+				<input type="text" class="form-control" required id="fieldName" name="name" value="{{name}}">
+			</div>
+		</div>
+		{{! ID Entry }}
+		<div class="form-group row">
+			<label for="fieldID" class="col-2 col-form-label">ID Number</label>
+			<div class="col-5 col-sm-10">
+				<input type="text" class="form-control" required id="fieldID" name="id" value="{{idnumber}}">
+			</div>
+		</div>
+
+		{{! Phone Entry }}
+		<div class="form-group row">
+			<label for="fieldPhone" class="col-2 col-form-label">Phone</label>
+			<div class="col-5 col-sm-10">
+				<input type="phone" class="form-control" required id="fieldPhone" name="phone" value="{{phone}}">
+			</div>
+		</div>
+
+		{{! Email Entry }}
+		<div class="form-group row">
+			<label for="fieldEmail" class="col-2 col-form-label">ID Number</label>
+			<div class="col-5 col-sm-10">
+				<input type="text" class="form-control" required id="fieldEmail" name="email" value="{{email}}">
+			</div>
+		</div>
+		{{! Submission Button }}
+		<div class="form-group">
+			<div>
+				<button type="submit">Update</button>
+			</div>
+		</div>
+</form>
+{{/each}}
+
+{{#section 'jcode'}}
+
+{{/section}}

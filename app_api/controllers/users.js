@@ -36,7 +36,17 @@ module.exports.userCreateOne = function(req,res) {
 }
 
 module.exports.userRetrieveOne = function(req,res) {
-	console.log("Test");
+	console.log("REQUEST REACHED API", req.body)
+	collection.find({
+		"_id" : req.body.entryId
+	},{}).then(function(doc,err) {
+		console.log("USER RETRIEVE BODY RESPONSE", doc)
+		if (doc.length === 0 || err) {
+			res.send("Problem");//NEED TO FIX THIS- send a message that there was nothing found
+		} else {
+			sendJsonResponse(res, 201, doc)
+		}
+	})
 }
 
 module.exports.userRetrieveList = function(req,res) {
@@ -50,7 +60,20 @@ module.exports.userRetrieveList = function(req,res) {
 }
 
 module.exports.userUpdateOne = function(req,res) {
-	console.log("Test");
+	console.log("USER API UPDATE FIRED", req.body)
+	collection.update({"_id":req.body.entryId},{
+		"_id":req.body.entryId,
+		"name": req.body.name,
+		"idnumber": req.body.studentId,
+		"phone": req.body.phone,
+		"email": req.body.email
+	}).then(function(doc, err) {
+		if (err) {
+			res.send("Problem");
+		} else {
+			sendJsonResponse(res, 201, doc)
+		}
+	}) 
 }
 
 module.exports.userDeleteOne = function(req,res) {

@@ -9,7 +9,6 @@
 			font-weight: bold;
 		}
 
-
 		.entry ul {
 			list-style: none;
 			margin-left: 10px;
@@ -19,7 +18,7 @@
 			padding: 0px;
 			margin: 0px;
 		}
-		.headerContainer {
+		.headerContainer, .dateContainer {
 			background-color: #011a2b;
 		}
 		.infoContainer, .buttonContainer {
@@ -50,13 +49,17 @@
 			<div class="col-4 col-sm-9 entry" id="\{{chkoutEntry._id}}">
 				<div class="headerContainer row">
 					<div class="studentDiv col-12 col-md-6 float-md-left">
-						<span class="student">\{{chkoutEntry.student.studentId}}</span>
+						<span class="student">\{{chkoutEntry.student.name}} / \{{chkoutEntry.student.studentId}}</span>
 					</div>
-					<div class="dueDiv col-12 col-md-6 float-md-right">
+				</div>
+				<div class="dateContainer row">
+					<div class="checkoutDiv col-12 col-md-7 float-md-left">
+						<span class="label">Checkout Date:</span> \{{chkoutEntry.dates.checkoutDate}}
+					</div>
+					<div class="dueDiv col-12 col-md-5 float-md-right">
 						<span class="label">Due Date:</span> \{{chkoutEntry.dates.returnDate}}
 					</div>
 				</div>
-
 				<div class="infoContainer row">
 					<div class="contactInformation col-12 col-sm-6 float-md-left">
 						<ul>
@@ -107,9 +110,10 @@
 
 
 
-
+<!--
 		<div ng-if="search.student.studentId || search.student.studentPhone" ng-repeat="chkoutEntry in chkoutEntries | filter: search | orderBy:'dates.returnDate':true">
 			<div class="checkouts" id="\{{chkoutEntry._id}}">
+			\{{chkoutEntry}}
 				<div class="entry">
 					<div class="headerContainer">
 						<div class="studentDiv">
@@ -158,6 +162,8 @@
 		</div>
 	</div>
 </div>
+-->
+
 
 {{#section 'jcode'}}
 

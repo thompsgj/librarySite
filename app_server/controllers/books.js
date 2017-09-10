@@ -312,7 +312,7 @@ module.exports.doCheckoutBook = function(req, res) {
 						type: "success",
 						message: "The checkout entry was created successfully."
 					}
-					res.redirect('/book/checkout/list')
+					res.redirect('/book/checkout')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
 					req.session.flash = {
 						type: "failure",
@@ -351,6 +351,7 @@ var renderCheckoutListPage = function(req, res, responseBody) {
 	*/
 	res.render('checkouts');
 }
+
 ///////////////////////////////////////////HERE
 module.exports.checkoutList = function(req, res) {
 	/*
@@ -663,7 +664,6 @@ var renderCheckoutArchiveListPage = function(req, res, responseBody) {
 }
 
 module.exports.checkoutArchiveList = function(req, res) {
-	console.log("RENDER PAGE")
 	renderCheckoutArchiveListPage(req, res);
 }
 

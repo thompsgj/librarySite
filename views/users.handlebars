@@ -2,15 +2,18 @@
 	ul {
 		list-style: none;
 	}
-	.users li {
+	.entry li {
 		padding: 0px;
 		margin: 0px;
 	}
 	.label {
 		font-weight: bold;
 	}
-	.users {
-		margin-bottom: 10px;
+	.name {
+		font-size: 20px;
+	}
+	.entry {
+		margin-bottom: 15px;
 	}
 	.headerContainer {
 		/* Good Dull shade of Brown background-color: #8a604f; */
@@ -23,6 +26,9 @@
 	}
 	.filtersContainer {
 		height: 280px;
+	}
+	.update {
+		text-align: right;
 	}
 {{/section}}
 
@@ -45,21 +51,32 @@
 		</div>
 	</div>
 
+
 	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="userListCtrl">
 		<div ng-if="search.name || search.idnumber || search.phone || search.email" ng-repeat="userEntry in userEntries | filter: search | orderBy: 'idnumber'">
-			<div class="col-4 col-sm-9 entry">
-				<div class="headerContainer">
-					<ul>
-						<li><span class="label">Name:</span> \{{userEntry.name}}</li>
-					</ul>
+			<div class="col-4 col-sm-7 entry">
+				<div class="headerContainer row">
+					<div class="nameContainer col-12 col-sm-6  float-md-left">
+						<ul>
+							<li><span class="name">\{{userEntry.name}}</span></li>
+						</ul>
+					</div>
+					<div class="update col-12 col-sm-6  float-md-right">
+						<form class="form-horizontal" role="form" action="/user/edit" method="POST">
+							<input type="hidden" name="_id" value=\{{userEntry._id}}>
+							<button class="updatebtn" type="submit">Update</button>
+						</form>
+					</div>
 				</div>
-				<div class="infoContainer">
+
+				<div class="infoContainer row">
 					<ul>
 						<li><span class="label">Id Number:</span> \{{userEntry.idnumber}}</li>
 						<li><span class="label">Phone:</span> \{{userEntry.phone}}</li>
 						<li><span class="label">Email:</span> \{{userEntry.email}}</li>
 					</ul>
 				</div>
+
 			</div>
 		</div>
 	</div>

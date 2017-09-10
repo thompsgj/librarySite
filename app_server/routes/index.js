@@ -102,6 +102,10 @@ router.post('/user/staff/registration', ctrlOthers.doAddStaff);
 router.get('/user/add', ensureAuthentication, groupVerification('admin'), ctrlOthers.addUser);//DONE
 router.post('/user/entry/new', ensureAuthentication, ctrlOthers.doAddUser);//DONE
 
+router.post('/user/edit', ensureAuthentication, groupVerification('admin'), ctrlOthers.editUser)
+//Do the Action of Updating a Book
+router.post('/user/edit/update', ensureAuthentication, ctrlOthers.doUpdateUser);//DONE
+
 router.get('/analytics', ensureAuthentication, ctrlOthers.analytics);
 router.get('/thanks', ensureAuthentication, ctrlOthers.thanks)//DONE
 

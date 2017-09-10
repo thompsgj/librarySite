@@ -34,7 +34,7 @@ module.exports.checkoutCreateOne = function(req,res) {
 			}]
 		}, ["title","publisher","level.ILER"]).then(function(doc, err) {
 			if (doc.length === 0) {
-				res.send("No student with that id number is in the database.")
+				res.send("No book with that code is in the database.")
 			} else if (userDoc.length === 0) {
 				res.send("No student with that id number is in the database.")
 			} else {
@@ -99,6 +99,7 @@ module.exports.checkoutCreateOne = function(req,res) {
 				fullQuery = {
 					books: bookQuery,
 					"student": {
+						"name": userDoc[0].name,
 						"studentId": userDoc[0].idnumber, 
 						"studentPhone": userDoc[0].phone,
 						"studentEmail": userDoc[0].email,
@@ -290,7 +291,6 @@ module.exports.checkoutRetrieveOne = function(req,res) {
 }
 
 module.exports.checkoutRetrieveList = function(req,res) {
-	console.log("RETRIEVE LIST")
 	chkcoll.find({"status": "active"}).then(function(doc,err) {
 		if(err) {
 			res.send("Problem");

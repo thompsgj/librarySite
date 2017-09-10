@@ -14,7 +14,7 @@
 			background-color: grey;
 		}
 		.lev5 {
-			background-color: pink;
+			background-color: #E81376;
 		}
 		.lev4 {
 			background-color: green;
@@ -23,7 +23,7 @@
 			background-color: blue;
 		}
 		.lev2 {
-			background-color: yellow;
+			background-color: #FFB918;
 		}
 		.lev1 {
 			background-color: brown;
@@ -65,7 +65,7 @@
 
 /* FILTERS Container */
 	.filtersContainer {
-		height: 740px;
+		height: 810px;
 	}
 {{/section}}
 
@@ -106,12 +106,15 @@
 
 			<label for="availableFilter" class="col-12 col-form-label">Available Copies</label>
 			<input type="text" class="col-12 col-form" id="availableFilter" ng-model="search.availability.total"><br>
+
+			<label for="codeFilter" class="col-12 col-form-label">Book Code</label>
+			<input type="text" class="col-12 col-form" id="codeFilter" ng-model="search.numbers.book"><br>
 		</div>
 	</div>
 
 <!-- ng-if="search.title || search.author || search.publisher || search.series || search.numbers.ISBN || search.level.ILER || search.attributes.headwords || search.attributes.type || search.attributes.genre || search.attributes.CD || search.availability.total" -->
 	<div class="pageContent col-12 col-sm-6 col-md-9 float-sm-right float-md-right" ng-controller="bookListCtrl">
-		<div   ng-if="search.title || search.author || search.publisher || search.series || search.numbers.ISBN || search.level.ILER || search.attributes.headwords || search.attributes.type || search.attributes.genre || search.attributes.CD || search.availability.total" ng-repeat="bookEntry in bookEntries | filter:search | orderBy:'level.ILER'">
+		<div ng-if="search.title || search.author || search.publisher || search.series || search.numbers.ISBN || search.level.ILER || search.attributes.headwords || search.attributes.type || search.attributes.genre || search.attributes.CD || search.availability.total || search.numbers.book" ng-repeat="bookEntry in bookEntries | filter:search | orderBy:'level.ILER'">
 			<div class="col-4 col-sm-9 entry ">
 				<div class="headerContainer row lev\{{bookEntry.level.ILER}}">
 					<div class="bookHead">
@@ -125,13 +128,13 @@
 						<form class="form-horizontal" role="form" action="/book/entry" method="POST">
 							<input type="hidden" name="_id" value=\{{bookEntry._id}}>
 							<button class="updatebtn" type="submit">Update</button>
-							</form>
+						</form>
 					</div>
 					<div class="delete col-12 col-sm-6  float-md-right">
 						<form class="form-horizontal" role="form" action="/book/delete" method="POST" onsubmit="return confirm('Do you really want to delete this book')">
 							<input type="hidden" name="_id" value=\{{bookEntry._id}}>
 							<button class="deletebtn" type="submit">Delete</button>
-							</form>
+						</form>
 					</div>
 				</div>
 				{{/if}}
@@ -156,7 +159,7 @@
 				<div class="copiesContainer row">
 					<div class="section3 col-12 col-md-6  float-md-left">
 						<ul>
-							<li><span class="label">Copies: </span>\{{bookEntry.numbers.book}}</li>
+							<li><span class="label">Book Codes: </span>\{{bookEntry.numbers.book}}</li>
 						</ul>
 					</div>
 					<div class="section4 col-12 col-md-6  float-md-right">

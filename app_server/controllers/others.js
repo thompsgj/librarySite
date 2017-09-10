@@ -111,6 +111,95 @@ module.exports.doAddUser = function(req, res) {
 	}
 }
 
+module.exports.editUser = function(req, res) {
+	var requestOptions, path, studentid, postdata
+	entryid = req.body._id;
+	path = '/api/users/:studentid'
+	postdata = {
+		entryId: entryid
+	};
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: "GET",
+		json: postdata
+	};
+	console.log("POSTDATA", postdata)
+	console.log("REQUESTIONOPTIONS", requestOptions)
+	if (!postdata.entryId) {
+		req.session.flash = {
+			type: "failure",
+			message: "No user id was input."
+		}
+		res.redirect('back')
+	} else {
+		request(
+			requestOptions,
+			function(err, response, body) {
+				console.log("SUCCESSFUL API BODY RESPONSE", body)
+				if(response.statusCode === 201) {
+					res.render('edituser', {
+						"userentry": body
+					})
+				} else if (response.statusCode === 400 & body.name === "ValidationError") {
+					req.session.flash = {
+						type: "failure",
+						message: "The data could not be validated."
+					}
+					res.redirect('back')			
+				} else {
+					_showError(req, res, response.statusCode)
+				}
+			}
+		)
+	}
+}
+
+module.exports.doUpdateUser = function(req, res) {
+	var requestOptions, path, studentid, updatedata;
+	studentid = req.body.id;
+	path = '/api/users/:studentid'
+	updatedata = {
+		entryId: req.body._id,
+		name: req.body.name,
+		studentId: req.body.id,
+		phone: req.body.phone,
+		email: req.body.email
+	};
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: "PUT",
+		json: updatedata
+	}
+	if(!updatedata.entryId || !updatedata.name || !updatedata.studentId || !updatedata.phone || !updatedata.email) {
+		req.session.flash = {
+			type: "failure",
+			message: "Data missing.  Please make sure to enter all information."
+		}
+		res.redirect('back');
+	} else {
+		request(
+			requestOptions,
+			function(err, response, body) {
+				if (response.statusCode === 201) {
+					req.session.flash = {
+						type: "success",
+						message: "The book entry was updated successfully."
+					}
+					res.redirect('/user/list')
+				} else if (response.statusCode === 400 && body.name === "ValidationError") {
+					req.session.flash = {
+						type: "failure",
+						message: "The data could not be validated."
+					}
+					res.redirect('back')
+				} else {
+					_showError(req, res, response.statusCode)
+				}
+			}
+		)
+	}
+}
+
 module.exports.analytics = function(req, res) {
 		res.render('analytics', {
 		title: 'Analytics',
