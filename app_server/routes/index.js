@@ -95,7 +95,7 @@ router.get('/user/list', ensureAuthentication, groupVerification('admin'), ctrlO
 
 router.get('/user/login', ctrlOthers.staffLogin);
 //router.get('/user/staff/registration', ensureAuthentication, groupVerification('admin'), ctrlOthers.addStaff);
-router.get('/user/staff/registration', ctrlOthers.addStaff);
+router.get('/user/staff/registration', ensureAuthentication, groupVerification('admin'), ctrlOthers.addStaff);
 //router.post('/user/staff/registration', ensureAuthentication, ctrlOthers.doAddStaff);
 router.post('/user/staff/registration', ctrlOthers.doAddStaff);
 
