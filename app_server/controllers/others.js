@@ -123,8 +123,7 @@ module.exports.editUser = function(req, res) {
 		method: "GET",
 		json: postdata
 	};
-	console.log("POSTDATA", postdata)
-	console.log("REQUESTIONOPTIONS", requestOptions)
+
 	if (!postdata.entryId) {
 		req.session.flash = {
 			type: "failure",
@@ -135,7 +134,6 @@ module.exports.editUser = function(req, res) {
 		request(
 			requestOptions,
 			function(err, response, body) {
-				console.log("SUCCESSFUL API BODY RESPONSE", body)
 				if(response.statusCode === 201) {
 					res.render('edituser', {
 						"userentry": body

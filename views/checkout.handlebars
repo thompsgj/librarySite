@@ -29,6 +29,16 @@
 			<input type="text" class="form-control" required id="bookCode" name="code">
 		</div>
 	</div>
+	{{! Borrow w/ CD }}
+	<div class="form-group row">
+		<label for="borrowCD" class="col-2 col-form-label" id="cddvdLab">Borrowed CD</label>
+		<div class="col-5 col-sm-10">
+			<select class="form-control" id="borrowCD" aria-describedby="cddvdLab" name ="borrowCD">
+				<option value="yes">Yes</option>
+				<option selected="selected" value="no">No</optiion>
+			</select>
+		</div>
+	</div>
 	{{!Student number}}
 	<div class="form-group row">
 		<label for="idNumber" class="col-2 col-form-label">ID Number</label>

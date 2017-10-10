@@ -131,20 +131,23 @@
 			</div>
 		</div>
 
+<h2>CD Attributes</h2>
 		{{! CD/No CD }}
-		{{!<div class="form-group">
-			<label for="CDInclude" class="control-label">CD/No CD</label>
-			<div>
-				<input type="text" class="form-control" required id="CDInclude" name="cd">
-			</div>
-		</div>}}
 		<div class="form-group row">
 			<label for="CDInclude" class="col-2 col-form-label" id="cddvdLab">CD/DVD Available</label>
 			<div class="col-5 col-sm-10">
-				<select class="form-control" aria-describedby="cddvdLab" name ="cd">
+				<select class="form-control" id="CDInclude" aria-describedby="cddvdLab" name ="cd">
 					<option value="yes">Yes</option>
-					<option value="no">No</optiion>
+					<option selected="selected" value="no">No</optiion>
 				</select>
+			</div>
+		</div>
+
+		{{! Total Number of CDs}}
+		<div class="form-group row">
+			<label for="cdTotal" class="col-2 col-form-label" id="cdTotalLab">Number of CDs</label>
+			<div class="col-5 col-sm-10">
+				<input type="text" class="form-control" required id="cdTotal" aria-describedby="cdTotalLab" name="cdTotal" value=0>
 			</div>
 		</div>
 

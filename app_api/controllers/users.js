@@ -36,11 +36,10 @@ module.exports.userCreateOne = function(req,res) {
 }
 
 module.exports.userRetrieveOne = function(req,res) {
-	console.log("REQUEST REACHED API", req.body)
+
 	collection.find({
 		"_id" : req.body.entryId
 	},{}).then(function(doc,err) {
-		console.log("USER RETRIEVE BODY RESPONSE", doc)
 		if (doc.length === 0 || err) {
 			res.send("Problem");//NEED TO FIX THIS- send a message that there was nothing found
 		} else {
@@ -60,7 +59,6 @@ module.exports.userRetrieveList = function(req,res) {
 }
 
 module.exports.userUpdateOne = function(req,res) {
-	console.log("USER API UPDATE FIRED", req.body)
 	collection.update({"_id":req.body.entryId},{
 		"_id":req.body.entryId,
 		"name": req.body.name,
@@ -82,7 +80,7 @@ module.exports.userDeleteOne = function(req,res) {
 
 
 module.exports.staffCreateOne = function(req, res) {
-	console.log("STAFF CREATE ONE FUNCTION")
+
 	bcrypt.genSalt(10, function(err, salt) {
 		bcrypt.hash(req.body.password, salt, function(err, hash) {
 			req.body.password = hash;

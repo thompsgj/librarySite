@@ -44,7 +44,7 @@ module.exports.doAddBook = function(req, res) {
 		series: req.body.pubSeries,
 		level: {"ILER": parseInt(req.body.level), "Former": req.body.old},
 		numbers: {"book": bkNumArr, "ISBN": req.body.isbn},
-		attributes: {"headwords": req.body.head, "type": req.body.type, "genre": req.body.genre, "CD": req.body.cd},
+		attributes: {"headwords": req.body.head, "type": req.body.type, "genre": req.body.genre, "CD": req.body.cd, "CDTotal": parseInt(req.body.cdTotal), "CDCheckouts": 0},
 		availability: {"total": parseInt(req.body.total), "checkouts": 0}
 	};
 	requestOptions = {
@@ -52,7 +52,19 @@ module.exports.doAddBook = function(req, res) {
 		method: "POST",
 		json: postdata
 	};
-	if (!postdata.title || !postdata.author || !postdata.publisher || !postdata.series || !postdata.level.ILER || !postdata.numbers.book || !postdata.numbers.ISBN || !postdata.attributes.headwords || !postdata.attributes.type || !postdata.attributes.genre || !postdata.attributes.CD || !postdata.availability.total) {
+	if (!postdata.title ||
+	    !postdata.author ||
+	    !postdata.publisher ||
+	    !postdata.series ||
+	    !postdata.level.ILER ||
+	    !postdata.numbers.book ||
+	    !postdata.numbers.ISBN ||
+	    !postdata.attributes.headwords ||
+	    !postdata.attributes.type ||
+	    !postdata.attributes.genre ||
+	    !postdata.attributes.CD ||
+	    !postdata.attributes.CDTotal ||
+	    !postdata.availability.total) {
 		req.session.flash = {
 			type: "failure",
 			message: "Data missing.  Please make sure to enter all information."
@@ -75,7 +87,6 @@ module.exports.doAddBook = function(req, res) {
 					}
 					res.redirect('back')
 				} else if (response.statusCode === 409) {
-					console.log("409 REQUEST SENT")
 					req.session.flash = {
 						type: "failure",
 						message: "A book with that ISBN already exists."
@@ -97,7 +108,6 @@ module.exports.doDeleteBook = function(req, res) {
 	deletedata = {
 		_id : req.body._id,
 	};
-	console.log(deletedata)
 	requestOptions = {
 		url: apiOptions.server + path,
 		method: "DELETE",
@@ -174,6 +184,7 @@ module.exports.searchBookForUpdate = function(req, res) {
 
 module.exports.updateBook = function(req, res) {
 	var requestOptions, path, bookid, postdata;
+	console.log("UPDATE BOOK FUNCTION REQ BODY", req.body)
 	bookid = req.body._id
 	path = '/api/books/:bookid';
 	postdata = {
@@ -215,6 +226,7 @@ module.exports.updateBook = function(req, res) {
 }
 
 module.exports.doUpdateBook = function(req, res) {
+	console.log("DO UPDATE BOOK FUNCTION", req.body)
 	var requestOptions, path, updatedata;
 	var bkNumber = req.body.number;
 	var bkNumArr = [];
@@ -228,15 +240,27 @@ module.exports.doUpdateBook = function(req, res) {
 		series: req.body.pubSeries,
 		level: {"ILER": parseInt(req.body.level), "Former": req.body.old},
 		numbers: {"book": bkNumArr, "ISBN": req.body.isbn},
-		attributes: {"headwords": req.body.head, "type": req.body.type, "genre": req.body.genre, "CD": req.body.cd},
-		availability: {"total": parseInt(req.body.total), "checkouts": 0}
+		attributes: {"headwords": req.body.head, "type": req.body.type, "genre": req.body.genre, "CD": req.body.cd,"CDTotal": parseInt(req.body.cdTotal), "CDCheckouts": parseInt(req.body.CDCheckouts)},
+		availability: {"total": parseInt(req.body.total), "checkouts": parseInt(req.body.checkouts)}
 	};
 	requestOptions = {
 		url: apiOptions.server + path,
 		method: "PUT",
 		json: updatedata
 	};
-	if (!updatedata.title || !updatedata.author || !updatedata.publisher || !updatedata.series || !updatedata.level.ILER || !updatedata.numbers.book || !updatedata.numbers.ISBN || !updatedata.attributes.headwords || !updatedata.attributes.type || !updatedata.attributes.genre || !updatedata.attributes.CD || !updatedata.availability.total) {
+	if (!updatedata.title ||
+	    !updatedata.author ||
+	    !updatedata.publisher ||
+	    !updatedata.series ||
+	    !updatedata.level.ILER ||
+	    !updatedata.numbers.book ||
+	    !updatedata.numbers.ISBN ||
+	    !updatedata.attributes.headwords ||
+	    !updatedata.attributes.type ||
+	    !updatedata.attributes.genre ||
+	    !updatedata.attributes.CD ||
+	    !updatedata.attributes.CDTotal ||
+	    !updatedata.availability.total) {
 		req.session.flash = {
 			type: "failure",
 			message: "Data missing.  Please make sure to enter all information."
@@ -277,18 +301,18 @@ module.exports.doCheckoutBook = function(req, res) {
 	var checkoutDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 
 	var due = new Date();
-	due.setDate(due.getDate() + 15)
+	due.setDate(due.getDate() + 21)
 	var returnDate = due.getFullYear() + '-' + (due.getMonth()+1) + '-' + due.getDate()
 
 	var bkNumber = req.body.code;
 	var bkNumArr = [];
 		bkNumArr = bkNumber.split(',').map(Number);
 
-	console.log("CHECKOUT BOOK ENTRY")
-	console.log(req.body)
+
 	path = '/api/checkouts/';
 	postdata = {
 		code: bkNumArr,
+		borrowCD: req.body.borrowCD,
 		studentId: req.body.id,
 		teacher: req.body.teacher,
 		checkoutDate: checkoutDate,
@@ -299,7 +323,7 @@ module.exports.doCheckoutBook = function(req, res) {
 		method: "POST",
 		json: postdata
 	};
-	if (!postdata.code || !postdata.studentId || !postdata.teacher) {
+	if (!postdata.code || !postdata.borrowCD || !postdata.studentId || !postdata.teacher) {
 		res.render('checkout', {
 			message: "Data is missing or incomplete.  Please fill out all fields with appropriate data."
 		})
@@ -321,8 +345,6 @@ module.exports.doCheckoutBook = function(req, res) {
 					res.redirect('back')
 				} else {
 					//_showError(req, res, response.statusCode)
-					console.log(body)
-
 					res.render('checkout', {
 					    message : body
 					 });
@@ -383,10 +405,10 @@ module.exports.returnBook = function(req, res) {
 
 
 	var json = JSON.parse(req.body.books)
-	console.log("RETURN BOOK FIRST FUNCTION")
-	console.log(json)
+
+	console.log("RETURN BOOK FUNCTION", json)
+
 	for(i = 1; i < Object.keys(json.books).length +1; i++) {
-		console.log("RUN")
 		if (i == 1) {
 			bookCodes.push(json.books.book1.code)
 		} else if (i == 2) {
@@ -436,17 +458,18 @@ module.exports.returnBook = function(req, res) {
 			}
 		}
 	}
-	console.log("BOOK QUERY RETURN BOOK FUNCTION")
-	console.log(bookQuery)
+
 	deletedata = {
 		_id : req.body._id,
 		codes: bookCodes,
 		bookInfo: bookQuery,
+		borrowed: json.borrowed,
 		teacher: json.student.teacher,
 		idnumber: json.student.studentId,
 		returnDate: json.dates.returnDate,
 		today: todayDate
 	};
+	console.log("DELETE DATA", deletedata)
 	requestOptions = {
 		url: apiOptions.server + path,
 		method: "DELETE",
@@ -489,15 +512,12 @@ module.exports.returnBook = function(req, res) {
 
 
 module.exports.extendBook = function(req, res) {
-	console.log("EXTEND BOOK FIRST FUNCTION")
-	console.log("REQ BODY")
-	console.log(req.body)
+
 	var requestOptions, updatedata, path;
 	path = '/api/checkouts/';
 
 	var today = new Date();
 	var todayDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
-
 
 	var json = JSON.parse(req.body.books)
 
@@ -547,9 +567,11 @@ module.exports.extendBook = function(req, res) {
 		bookInfo: bookQuery,
 		teacher: json.student.teacher,
 		idnumber: json.student.studentId,
-		returnDate: json.dates.returnDate,
+		returnDate: json.student.returnDate,
 		today: todayDate
 	};
+
+
 	requestOptions = {
 		url: apiOptions.server + path,
 		method: "PUT",
@@ -591,7 +613,6 @@ module.exports.extendBook = function(req, res) {
 
 module.exports.doCheckoutDelete = function(req, res) {
 	var requestOptions, deletedata, path;
-	console.log("CHECKOUT DELETE")
 	path = '/api/checkouts';
 	deletedata = {
 		title: req.body.title,
@@ -630,7 +651,7 @@ module.exports.downloadOverdue = function(req, res) {
 		use file name to download the file
 
 	*/
-	console.log("DOWNLOAD BOOK SERVER FUNCTION")
+
 	var requestOptions, postdata, path, today, fileDate
 	today = new Date();
 	fileDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
@@ -646,8 +667,6 @@ module.exports.downloadOverdue = function(req, res) {
 	request(
 		requestOptions,
 		function(err, response, body) {
-				console.log("RESPONSE RECEIVED- READY TO DOWNLOAD")
-				console.log(response.responseContent)
 				var filePath = require('path');
 				var file = 'backup.csv'
 				path = filePath.resolve(".") + '/files/' + file;
@@ -679,8 +698,7 @@ module.exports.downloadBookList = function(req, res) {
 	request(
 		requestOptions,
 		function(err, response, body) {
-				console.log("BOOK LIST RESPONSE RECEIVED- READY TO DOWNLOAD")
-				console.log(response.responseContent)
+
 				var filePath = require('path');
 				var file = 'bkcolbackup.csv'
 				path = filePath.resolve(".") + '/files/' + file;

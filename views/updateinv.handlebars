@@ -111,13 +111,8 @@
 			</div>
 		</div>
 
+<h2>CD Attributes</h2>
 		{{! CD/No CD }}
-		{{!<div class="form-group">
-			<label for="CDInclude" class="control-label">CD/No CD</label>
-			<div>
-				<input type="text" class="form-control" required id="CDInclude" name="cd">
-			</div>
-		</div>}}
 		<div class="form-group">
 			<label for="CDInclude" class="control-label">CD/DVD Available</label>
 			<div>
@@ -125,6 +120,21 @@
 					<option value="yes">Yes</option>
 					<option value="no">No</optiion>
 				</select>
+			</div>
+		</div>
+
+		{{! Total Number of CDs}}
+		<div class="form-group">
+			<label for="cdTotal" class="control-label">Number of CDs</label>
+			<div>
+				<input type="text" class="form-control" required id="cdTotal" name="cdTotal" value="{{attributes.CDTotal}}">
+			</div>
+		</div>
+
+		{{! Total CD Checkouts}}
+		<div class="form-group">
+			<div>
+				<input type="hidden" class="form-control" required id="cdCheckouts" name="CDCheckouts" value="{{attributes.CDCheckouts}}">
 			</div>
 		</div>
 
@@ -138,6 +148,15 @@
 				<input type="text" class="form-control" required id="totalBooks" name="total" value="{{availability.total}}">
 			</div>
 		</div>
+
+		{{! Total Availability Checkouts}}
+		<div class="form-group">
+			<div>
+				<input type="hidden" class="form-control" required id="totalCheckouts" name="checkouts" value="{{availability.checkouts}}">
+			</div>
+		</div>
+
+
 
 		{{! Submission Button }}
 		<div class="form-group">

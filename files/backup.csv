@@ -1,2 +1,9 @@
-student.studentId,student.studentPhone
-1234567,010-0101-0101
+student.name,student.studentId,student.studentPhone,books.book1.title,books.book1.code,books.book2.title,books.book2.code,books.book3.title,books.book3.code,dates.checkoutDate,dates.returnDate
+,1234567,010-0101-0101,The Stars My Destination,5,Derrida,50,Cinderella,57,2017-9-20,2017-10-11
+,1234567,010-0101-0101,IQ842,60,,,,,2017-9-20,2017-10-5
+,1234567,010-0101-0101,IQ842,60,,,,,2017-9-20,2017-10-11
+,1234567,010-0101-0101,IQ842,60,,,,,2017-9-20,2017-10-11
+Greg,1234567,010-0101-0101,IQ842,60,,,,,2017-9-20,2017-10-5
+Greg,1234567,010-0101-01013333,The Stars My Destination,5,Derrida,50,Cinderella,57,2017-9-20,2017-10-5
+Greg,1234567,010-0101-01013333,The Stars My Destination,5,Derrida,50,Cinderella,57,2017-9-20,2017-10-11
+Greg,1234567,010-0101-01013333,The Stars My Destination,5,Derrida,50,Cinderella,57,2017-9-20,2017-10-11
