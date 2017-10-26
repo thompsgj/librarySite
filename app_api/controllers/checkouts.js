@@ -325,7 +325,7 @@ module.exports.checkoutRetrieveOverdueList = function(req, res) {
 		'--db', 'bookdb', 
 		'--collection', 'checkoutcollection',
 		'--type','csv',
-		'--query','{"dates.returnDate": {$lt:'+req.body.date+'}}',
+		'--query','{$and: [{"dates.returnDate": {$lt:'+ '"' + req.body.date +'"'+'}}, {"status": "active"}]}',
 		'--fields', 'student.name,student.studentId,student.studentPhone,books.book1.title,books.book1.code,books.book2.title,books.book2.code,books.book3.title,books.book3.code,dates.checkoutDate,dates.returnDate',
 		'--out', path.resolve(".") + '/files/' + 'backup.csv'
 	]);
