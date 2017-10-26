@@ -318,13 +318,14 @@ module.exports.checkoutDeleteOne = function(req,res) {
 }
 
 module.exports.checkoutRetrieveOverdueList = function(req, res) {
+	console.log("REQ BODY OVERDUE", req.body)
 	var path = require('path');
 	var spawn = require('child_process').spawn;
 	var mongoExport = spawn('mongoexport', [
 		'--db', 'bookdb', 
 		'--collection', 'checkoutcollection',
 		'--type','csv',
-		'--query','{"dates.returnDate": {$lt:"2017-8-29"}}',
+		'--query','{"dates.returnDate": {$lt:'+req.body.date+'}}',
 		'--fields', 'student.name,student.studentId,student.studentPhone,books.book1.title,books.book1.code,books.book2.title,books.book2.code,books.book3.title,books.book3.code,dates.checkoutDate,dates.returnDate',
 		'--out', path.resolve(".") + '/files/' + 'backup.csv'
 	]);
