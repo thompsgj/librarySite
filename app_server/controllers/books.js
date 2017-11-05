@@ -58,13 +58,13 @@ module.exports.doAddBook = function(req, res) {
 	    !postdata.series ||
 	    !postdata.level.ILER ||
 	    !postdata.numbers.book ||
-	    !postdata.numbers.ISBN ||
-	    !postdata.attributes.headwords ||
+	    postdata.numbers.ISBN == "undefined" ||
+	    postdata.attributes.headwords == "undefined" ||
 	    !postdata.attributes.type ||
 	    !postdata.attributes.genre ||
 	    !postdata.attributes.CD ||
-	    !postdata.attributes.CDTotal ||
-	    !postdata.availability.total) {
+	    postdata.attributes.CDTotal == "undefined" ||
+	    postdata.availability.total == "undefined") {
 		req.session.flash = {
 			type: "failure",
 			message: "Data missing.  Please make sure to enter all information."
@@ -243,6 +243,7 @@ module.exports.doUpdateBook = function(req, res) {
 		attributes: {"headwords": req.body.head, "type": req.body.type, "genre": req.body.genre, "CD": req.body.cd,"CDTotal": parseInt(req.body.cdTotal), "CDCheckouts": parseInt(req.body.CDCheckouts)},
 		availability: {"total": parseInt(req.body.total), "checkouts": parseInt(req.body.checkouts)}
 	};
+	console.log("UPDATEDATA ENTRY", updatedata)
 	requestOptions = {
 		url: apiOptions.server + path,
 		method: "PUT",
@@ -253,14 +254,14 @@ module.exports.doUpdateBook = function(req, res) {
 	    !updatedata.publisher ||
 	    !updatedata.series ||
 	    !updatedata.level.ILER ||
-	    !updatedata.numbers.book ||
+	    updatedata.numbers.book == "undefined" ||
 	    !updatedata.numbers.ISBN ||
-	    !updatedata.attributes.headwords ||
+	    updatedata.attributes.headwords == "undefined" ||
 	    !updatedata.attributes.type ||
 	    !updatedata.attributes.genre ||
 	    !updatedata.attributes.CD ||
-	    !updatedata.attributes.CDTotal ||
-	    !updatedata.availability.total) {
+	    updatedata.attributes.CDTotal == "undefined" ||
+	    updatedata.availability.total == "undefined") {
 		req.session.flash = {
 			type: "failure",
 			message: "Data missing.  Please make sure to enter all information."
