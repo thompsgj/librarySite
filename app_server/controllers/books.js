@@ -57,8 +57,8 @@ module.exports.doAddBook = function(req, res) {
 	    !postdata.publisher ||
 	    !postdata.series ||
 	    !postdata.level.ILER ||
-	    !postdata.numbers.book ||
-	    postdata.numbers.ISBN == "undefined" ||
+	    postdata.numbers.book == "undefined" ||
+	    !postdata.numbers.ISBN ||
 	    postdata.attributes.headwords == "undefined" ||
 	    !postdata.attributes.type ||
 	    !postdata.attributes.genre ||
