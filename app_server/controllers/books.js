@@ -218,6 +218,7 @@ module.exports.updateBook = function(req, res) {
 					}
 					res.redirect('back')
 				} else {
+					res.redirect('back')
 					_showError(req, res, response.statusCode)
 				}
 			}

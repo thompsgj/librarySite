@@ -1,1 +1,29 @@
 <h1>Analytics</h1>
+
+
+<div ng-controller="distinctBookCountCtrl">
+	<span>Distinct Books: \{{distinctBookTotal}}</span>
+</div>
+
+<div ng-controller="bookCountCtrl">
+	<span>Total Number of Books: \{{bookTotal[0].total}}</span>
+</div>
+
+<div ng-controller="levelDistributionCtrl">
+	<span>Distribution of Books by Level</span><br>
+	<span>Level 1: \{{levelDistribution[0].count}}</span><br>
+	<span>Level 2: \{{levelDistribution[1].count}}</span><br>
+	<span>Level 3: \{{levelDistribution[2].count}}</span><br>
+	<span>Level 4: \{{levelDistribution[3].count}}</span><br>
+	<span>Level 5: \{{levelDistribution[4].count}}</span><br>
+	<span>Level 6: \{{levelDistribution[5].count}}</span><br>
+	<span>Unleveled: \{{levelDistribution[6].count}}</span>
+</div>
+
+<div ng-controller="currentCheckoutCountCtrl">
+	<span>Number of Current Checkouts: \{{currentCheckoutTotal}}</span>
+</div>
+
+<div ng-controller="checkoutCountCtrl">
+	<span>Total Number of Checkouts: \{{checkoutTotal}}</span>
+</div>

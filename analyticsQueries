@@ -1,0 +1,63 @@
+//Total Number of Checkouts
+db.bookcollection.aggregate([
+	{$group:{
+		_id:0,
+		checkoutSum: {
+			$sum:"$availability.checkouts"
+		}
+	}}
+])
+
+//Total Number of Books Available
+db.bookcollection.aggregate([
+	{$group:{
+		_id:0,
+		totalSum: {
+			$sum:"$availability.total"
+		}
+	}}
+])
+
+//Total Number of Books
+db.bookcollection.aggregate([
+	{$group:{
+		_id:0,
+		totalSum: {
+			$sum:"$availability.total"
+		},
+		checkoutSum: {
+			$sum:"$availability.checkouts"
+		}
+	}},
+	{$project:{
+		total: {
+			$add: [
+				"$totalSum",
+				"$checkoutSum"
+			]
+		}
+	}}
+
+])
+
+//Number of Books by Level
+db.bookcollection.aggregate([
+	{$group:{
+		_id: '$level.ILER',
+		count: {
+			$sum:1
+		}
+	}}
+])
+
+
+//Number of Checkoust by Students
+db.checkoutcollection.aggregate([
+	{$group:{
+		_id: '$student.name',
+		count: {
+			$sum:1
+		}
+	}}
+])
+
