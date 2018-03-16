@@ -1,29 +1,53 @@
+{{#section 'css'}}
+	<style>
+	.metric {
+		height: 1000px;
+	}
+	.card-text {
+		font-size: 50px;
+	}
+	</style>
+{{/section}}
+
 <h1>Analytics</h1>
 
+<div class="card-deck">
+	<div class="card bg-dark col-sm-4 mb-3" ng-controller="distinctBookCountCtrl">
+		<div class="card-body">
+			<h4 class="card-title">Distinct Books<h4>
+			<p class="card-text">\{{distinctBookTotal}}</p>
+		</div>
+	</div>
 
-<div ng-controller="distinctBookCountCtrl">
-	<span>Distinct Books: \{{distinctBookTotal}}</span>
+	<div class="card mb-3" style="width: 10rem" ng-controller="bookCountCtrl">
+		<div class="card-header bg-dark">Total Books:</div>
+		<div class="card-body bg-secondary"> \{{bookTotal[0].total}}</div>
+	</div>
 </div>
 
-<div ng-controller="bookCountCtrl">
-	<span>Total Number of Books: \{{bookTotal[0].total}}</span>
+<div class="card mb-3" style="width: 10rem">
+	<div class="card-header bg-dark">
+		Books by Level
+	</div>
+	<div class="card-body bg-secondary" ng-controller="levelDistributionCtrl">
+		<span>Level 1: \{{levelDistribution[0].count}}</span><br>
+		<span>Level 2: \{{levelDistribution[1].count}}</span><br>
+		<span>Level 3: \{{levelDistribution[2].count}}</span><br>
+		<span>Level 4: \{{levelDistribution[3].count}}</span><br>
+		<span>Level 5: \{{levelDistribution[4].count}}</span><br>
+		<span>Level 6: \{{levelDistribution[5].count}}</span><br>
+		<span>Unleveled: \{{levelDistribution[6].count}}</span>
+	</div>
 </div>
 
-<div ng-controller="levelDistributionCtrl">
-	<span>Distribution of Books by Level</span><br>
-	<span>Level 1: \{{levelDistribution[0].count}}</span><br>
-	<span>Level 2: \{{levelDistribution[1].count}}</span><br>
-	<span>Level 3: \{{levelDistribution[2].count}}</span><br>
-	<span>Level 4: \{{levelDistribution[3].count}}</span><br>
-	<span>Level 5: \{{levelDistribution[4].count}}</span><br>
-	<span>Level 6: \{{levelDistribution[5].count}}</span><br>
-	<span>Unleveled: \{{levelDistribution[6].count}}</span>
+<div class="card bg-dark col-sm-4 metric" ng-controller="currentCheckoutCountCtrl">
+	<div class="card-body">
+		<h4 class="card-title">Current Checkouts:</h4>
+		<p class="card-text">\{{currentCheckoutTotal}}</p>
+	</div>
 </div>
 
-<div ng-controller="currentCheckoutCountCtrl">
-	<span>Number of Current Checkouts: \{{currentCheckoutTotal}}</span>
-</div>
-
-<div ng-controller="checkoutCountCtrl">
-	<span>Total Number of Checkouts: \{{checkoutTotal}}</span>
+<div class="card mb-3" style="width:10rem" ng-controller="checkoutCountCtrl">
+	<div class="card-header bg-dark">Total Checkouts:</div>
+	<div class="card-body bg-secondary">\{{checkoutTotal}}</div>
 </div>

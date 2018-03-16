@@ -318,9 +318,13 @@ module.exports.checkoutDeleteOne = function(req,res) {
 }
 
 module.exports.checkoutRetrieveOverdueList = function(req, res) {
-	console.log("REQ BODY OVERDUE", req.body)
+	console.log("REQ BODY OVERDUE ENTRY", req.body)
+	console.log("REQ BODY OVERDUE DATE", req.body.date)
+	var date = "2017-10-23"
+	console.log("VARIABLE OVERDUE DATE", date)
 	var path = require('path');
 	var spawn = require('child_process').spawn;
+
 	var mongoExport = spawn('mongoexport', [
 		'--db', 'bookdb', 
 		'--collection', 'checkoutcollection',
