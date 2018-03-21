@@ -117,3 +117,17 @@ module.exports.analyticsCheckoutDistribution = function(req,res) {
 		}
 	})
 }
+
+
+//Distribution of Checkouts by Students
+/*
+module.exports.analyticsReturns = function(req,res) {
+	chkcoll.count({}).then(function(queryResponse, err){
+		if(queryResponse == 0) {
+			sendJsonResponse(res, 400, queryResponse)			
+		} else {
+			sendJsonResponse(res, 201, queryResponse)
+		}
+	})
+}
+*/

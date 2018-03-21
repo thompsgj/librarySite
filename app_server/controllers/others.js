@@ -90,7 +90,7 @@ module.exports.doAddUser = function(req, res) {
 						type: "success",
 						message: "The user has been added."
 					}
-					res.redirect('/user')
+					res.redirect('/user/add')
 				} else if (response.statusCode === 400 && body.name === "ValidationError") {
 					req.session.flash = {
 						type: "failure",

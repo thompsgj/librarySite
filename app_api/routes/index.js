@@ -35,6 +35,6 @@ router.get('/analytics/book/total', ctrlAnalytics.analyticsBookCount)
 router.get('/analytics/book/leveldistribution', ctrlAnalytics.analyticsLevelDistribution)
 router.get('/analytics/checkout/total', ctrlAnalytics.analyticsBookCheckoutCount)
 router.get('/analytics/checkout/current', ctrlAnalytics.analyticsBookCurrentCheckoutCount)
-
+//router.get('/analytics/checkout/current', ctrlAnalytics.analyticsReturns)
 
 module.exports = router;

@@ -11,25 +11,26 @@
 
 <h1>Analytics</h1>
 
+<h3>Library Statistics</h3>
 <div class="card-deck">
-	<div class="card bg-dark col-sm-4 mb-3" ng-controller="distinctBookCountCtrl">
+	<div class="card bg-dark col-sm-4 metric" ng-controller="distinctBookCountCtrl">
 		<div class="card-body">
 			<h4 class="card-title">Distinct Books<h4>
 			<p class="card-text">\{{distinctBookTotal}}</p>
 		</div>
 	</div>
 
-	<div class="card mb-3" style="width: 10rem" ng-controller="bookCountCtrl">
-		<div class="card-header bg-dark">Total Books:</div>
-		<div class="card-body bg-secondary"> \{{bookTotal[0].total}}</div>
+	<div class="card bg-dark col-sm-4 metric" ng-controller="bookCountCtrl">
+		<div class="card-body">
+			<h4 class="card-header">Total Books</h4>
+			<p class="card-text">\{{bookTotal[0].total}}</p>
+		</div>
 	</div>
 </div>
 
-<div class="card mb-3" style="width: 10rem">
-	<div class="card-header bg-dark">
-		Books by Level
-	</div>
-	<div class="card-body bg-secondary" ng-controller="levelDistributionCtrl">
+<div class="card bg-dark col-sm-4 metric">
+	<div class="card-body" ng-controller="levelDistributionCtrl">
+		<h4 class="card-title">Books by Level</h4>
 		<span>Level 1: \{{levelDistribution[0].count}}</span><br>
 		<span>Level 2: \{{levelDistribution[1].count}}</span><br>
 		<span>Level 3: \{{levelDistribution[2].count}}</span><br>
@@ -40,14 +41,61 @@
 	</div>
 </div>
 
+<h3>Current Statistics</h3>
 <div class="card bg-dark col-sm-4 metric" ng-controller="currentCheckoutCountCtrl">
 	<div class="card-body">
-		<h4 class="card-title">Current Checkouts:</h4>
+		<h4 class="card-title">Current Checkouts</h4>
 		<p class="card-text">\{{currentCheckoutTotal}}</p>
 	</div>
 </div>
 
-<div class="card mb-3" style="width:10rem" ng-controller="checkoutCountCtrl">
-	<div class="card-header bg-dark">Total Checkouts:</div>
-	<div class="card-body bg-secondary">\{{checkoutTotal}}</div>
+<div class="card bg-dark col-sm-4 metric" >
+	<div class="card-body">
+		<h4 class="card-title">Current Returns</h4>
+		<p class="card-text">{{currentReturnTotal}}</p>
+	</div>
 </div>
+
+<h3>Lifetime Statistics</h3>
+<div class="card bg-dark col-sm-4 metric" ng-controller="checkoutCountCtrl">
+	<div class="card-body">
+		<h4 class="card-title">Total Checkouts</h4>
+		<p class="card-text">\{{checkoutTotal}}</p>
+	</div>
+</div>
+
+<div class="card bg-dark col-sm-4 metric" >
+	<div class="card-body">
+		<h4 class="card-title">Total Returns</h4>
+		<p class="card-text">{{returnTotal}}</p>
+	</div>
+</div>
+
+
+<h3> ADD </h3>
+Library StatsDONE
+- Distinct BooksDONE
+- Total BooksDONE
+- Books by LevelDONE
+
+Current StatsDONE
+- CheckoutsDONE
+- ReturnsTEMPLATED
+- Popular checkouts
+
+Lifetime StatsDONE
+- CheckoutsDONE
+- ReturnsTEMPLATED
+- Popular checkouts
+
+
+
+Other
+Percent of Actual Patrons to Potential Patrons
+Percent of Patrons by Type (student number year)
+Average number of checkouts per student (median, mean)
+Average duration of checkouts
+
+
+
+
