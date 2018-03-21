@@ -230,6 +230,14 @@ module.exports.addStaff = function(req, res) {
 module.exports.doAddStaff = function(req, res) {
 	var requestOptions, path, postdata;
 	path = '/api/users/staff';
+	if(req.body.password != req.body.password2) {
+		req.session.flash = {
+			type: "failure",
+			message: "Please make sure the passwords match."
+		}
+		res.redirect('back')
+		return;
+	}
 	postdata = {
 		name: req.body.name,
 		email: req.body.email,

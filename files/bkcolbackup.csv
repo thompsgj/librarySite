@@ -1,0 +1,28 @@
+title,author,publisher,series,level.ILER,numbers.book,numbers.ISBN,attributes.headwords,attributes.type,attributes.genre,attributes.CD,availability.total,availability.checkouts
+IQ842,Haruki Murakami,Vintage,NA,6,60,978-0-88784-972-5,105,non-graded,Fiction,no,-13,10
+IQ842,Haruki Murakami,Vintage,NA,6,61,978-0-88784-972-5,105,non-graded,Fiction,no,-13,10
+IQ842,Haruki Murakami,Vintage,NA,6,62,978-0-88784-972-5,105,non-graded,Fiction,no,-13,10
+IQ842,Haruki Murakami,Vintage,NA,6,63,978-0-88784-972-5,105,non-graded,Fiction,no,-13,10
+Great Expectations,Mark Twain2,Holt,Holt Classics,3,53,978-0-88784-972-5,105,graded,Fiction,yes,-5,0
+Great Expectations,Mark Twain2,Holt,Holt Classics,3,54,978-0-88784-972-5,105,graded,Fiction,yes,-5,0
+Great Expectations,Mark Twain2,Holt,Holt Classics,3,55,978-0-88784-972-5,105,graded,Fiction,yes,-5,0
+The Stars My Destination,Alfred Bester,Vintage,NA,6,5,978-0-88784-972-5,105,graded,Fiction,yes,-1,11
+Derrida,Derrida,Vintage,Holt Classics,1,50,978-0-88784-972-5,105,graded,llllllllllllllllllllllllll,yes,7,3
+Derrida,Derrida,Vintage,Holt Classics,1,51,978-0-88784-972-5,105,graded,llllllllllllllllllllllllll,yes,7,3
+Derrida,Derrida,Vintage,Holt Classics,1,52,978-0-88784-972-5,105,graded,llllllllllllllllllllllllll,yes,7,3
+Game of Thrones,George R. R. Martin,Bantam Spectra,NA,4,20,0-553-10354-7,2000,non-graded,Fantasy,no,3,0
+Game of Thrones,George R. R. Martin,Bantam Spectra,NA,4,21,0-553-10354-7,2000,non-graded,Fantasy,no,3,0
+Game of Thrones,George R. R. Martin,Bantam Spectra,NA,4,22,0-553-10354-7,2000,non-graded,Fantasy,no,3,0
+dafadsfa,dadafa,dagadsga,dadgagda,7,55555,55555,21535,graded,ddsagadga,yes,2,0
+dafadsfa,dadafa,dagadsga,dadgagda,7,2,55555,21535,graded,ddsagadga,yes,2,0
+Cinderella,George R. R. Martin,hello,llllllllllllllllllllll,7,57,666666,105,graded,llllllllllllllllllllllllll,yes,-6,8
+Cinderella,George R. R. Martin,hello,llllllllllllllllllllll,7,58,666666,105,graded,llllllllllllllllllllllllll,yes,-6,8
+Fish,Seuss,Houghton-Mifflin,The Seuss Series,2,27,23982305820,100,graded,Children's,yes,5,0
+I Am Happy,Mr. Happy,Good Vibes,Joy Series,5,31,389530580,100,graded,Children's,yes,5,0
+Python Programming,Zelle,"Franklin, Beedle, and Associates",NA,7,504,978-1440367619,21535,graded,Programming,yes,9,0
+Python Programming,Zelle,"Franklin, Beedle, and Associates",NA,7,505,978-1440367619,21535,graded,Programming,yes,9,0
+Python Programming,Zelle,"Franklin, Beedle, and Associates",NA,7,506,978-1440367619,21535,graded,Programming,yes,9,0
+Game of Thrones,George R. R. Martin,Vintage2,llllllllllllllllllllll,6,808,64326262462462,1500,graded,Fantasy,yes,900,0
+Native Speaker,Chang Rae Lee,Routhine,NA,7,343,129032890320,52,non-graded,Fiction,yes,5,0
+Happy Book,H,H,H,1,16,12345,201,graded,Sci-Fi,no,10,0
+Happy Book 2,H,H,H,1,16,12345,201,graded,Sci-fi,no,5,0
